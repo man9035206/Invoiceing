@@ -63,6 +63,36 @@ class Clients extends Admin_Controller
      */
     public function form($id = null)
     {
+
+        if ($this->input->post('shipping_address')) {   
+            foreach ($this->input->post('shipping_address') as $key) {
+                if ($key[0] == "") {
+                    if ($key[1] !== "") {
+                        $this->db->insert('ip_shipping_address',array('address' => $key[1],'client_id' => $id,'gst_no' => $key[2], 'sac_code' => $key[3] ));     
+                    }                       
+                }  else {
+                    if ($key[1] !== "") {
+                        $this->db->where('id', $key[0]);
+                        $this->db->update('ip_shipping_address',array('address' => $key[1],'client_id' => $id,'gst_no' => $key[2], 'sac_code' => $key[3] ));     
+                    }                    
+                }      
+             }
+        }
+        if ($this->input->post('billing_address')) {   
+            foreach ($this->input->post('billing_address') as $key) {
+                if ($key[0] == "") {
+                    if ($key[1] !== "") {
+                        $this->db->insert('ip_shipping_address',array('address' => $key[1],'client_id' => $id,'gst_no' => $key[2], 'sac_code' => $key[3],'billing_address' => 1 ));     
+                    }                       
+                }  else {
+                    if ($key[1] !== "") {
+                        $this->db->where('id', $key[0]);
+                        $this->db->update('ip_shipping_address',array('address' => $key[1],'client_id' => $id,'gst_no' => $key[2], 'sac_code' => $key[3] ));     
+                    }                    
+                }      
+             }
+        }
+
         if ($this->input->post('btn_cancel')) {
             redirect('clients');
         }
@@ -93,6 +123,7 @@ class Clients extends Admin_Controller
                 return;
             } else {
                 redirect('clients/view/' . $id);
+                return;
             }
         }
 

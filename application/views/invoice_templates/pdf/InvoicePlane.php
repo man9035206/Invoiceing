@@ -103,34 +103,9 @@
                     echo '<div>' . trans('phone_abbr') . ': ' . htmlsc($invoice->client_phone) . '</div>';
                 } ?>
             </td>
-<?php
-    $custom_field = $this->db->query('SELECT * FROM `ip_invoice_custom` where invoice_id ='.$invoice->invoice_id);
 
-    foreach ($custom_field->result() as $row)
-        {
-            if ($row->invoice_custom_fieldid == 5) {
-                $sheader = $row->invoice_custom_fieldvalue;
-            }
-            if ($row->invoice_custom_fieldid == 4) {
-                $saddress = $row->invoice_custom_fieldvalue;
-            }
-            if ($row->invoice_custom_fieldid == 10) {
-                $spo = $row->invoice_custom_fieldvalue;
-            }
-            if ($row->invoice_custom_fieldid == 11) {
-                $spod = $row->invoice_custom_fieldvalue;
-            }
-        }
-    ?>
-            <td style="padding-right:30px; width:30%;">                        
-            <?php if(isset($sheader)) { ?>
-                <div>
-                    <b>Ship to :  <?php echo $sheader; ?></b>
-                </div>
-                <?php 
-                    echo '<div>'. $saddress. '</div>';      
-                }       
-                ?>
+            <td style="padding-right:30px; width:30%;">     
+            
             </td>
 <?php
     $user_field = $this->db->query('SELECT * FROM `ip_user_custom` where user_id ='.$invoice->user_id);

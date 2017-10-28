@@ -72,6 +72,33 @@ class Ajax extends Admin_Controller
                 }
             }
 
+// For shipping address
+        if ($this->input->post('iship')) {
+            $iship = $this->input->post('iship');
+            $iship = json_decode($iship);
+            if (count($iship) != 0) {
+            $this->db->where('invoice_id', $invoice_id)->where('ibill', 0);
+            $this->db->delete('invoice_shipping');
+                foreach ($iship as $value) {
+                    $this->db->insert('invoice_shipping',array('shipping_id' => $value,'invoice_id' => $invoice_id ));
+                }
+            }
+        }
+//  End
+
+// For Billing address
+        if ($this->input->post('ibill')) {
+            $ibill = $this->input->post('ibill');
+            $ibill = json_decode($ibill);
+            if (count($ibill) != 0) {
+            $this->db->where('invoice_id', $invoice_id)->where('ibill', 1);
+            $this->db->delete('invoice_shipping');
+                foreach ($ibill as $value) {
+                    $this->db->insert('invoice_shipping',array('shipping_id' => $value,'invoice_id' => $invoice_id,'ibill' => 1 ));
+                }
+            }
+        }
+//  End
             $invoice_status = $this->input->post('invoice_status_id');
 
             if ($this->input->post('invoice_discount_amount') === '') {

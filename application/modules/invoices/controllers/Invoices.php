@@ -117,6 +117,11 @@ class Invoices extends Admin_Controller
      */
     public function view($invoice_id)
     {
+        foreach ($_POST as $key => $value) {
+            echo "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value)."<br>";
+        }
+
+        // die($this->input->post('for_invoice[0]')."y");
         $this->load->model(
             array(
                 'mdl_items',
