@@ -49,7 +49,7 @@
                     <input type="text" name="item_price" class="input-sm form-control amount" value="">
                 </div>
             </td>
-            <td class="td-amount">
+            <td class="td-amount hidden">
                 <div class="input-group">
                     <span class="input-group-addon"><?php _trans('item_discount'); ?></span>
                     <input type="text" name="item_discount_amount" class="input-sm form-control amount"

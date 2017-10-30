@@ -67,47 +67,48 @@
                 <div>
                 <b>To :     <?php _htmlsc(format_client($invoice)); ?></b>
                 </div>
-                <?php 
-                // if ($invoice->client_vat_id) {
-                //     echo '<div>' . trans('vat_id_short') . ': ' . $invoice->client_vat_id . '</div>';
-                // }
-                // if ($invoice->client_tax_code) {
-                //     echo '<div>' . trans('tax_code_short') . ': ' . $invoice->client_tax_code . '</div>';
-                // }
-                if ($invoice->client_address_1) {
-                    echo '<div>' . htmlsc($invoice->client_address_1) . '</div>';
-                }
-                if ($invoice->client_address_2) {
-                    echo '<div>' . htmlsc($invoice->client_address_2) . '</div>';
-                }
-                if ($invoice->client_city || $invoice->client_state || $invoice->client_zip) {
-                    echo '<div>';
-                    if ($invoice->client_city) {
-                        echo htmlsc($invoice->client_city) . ' ';
+<?php $ibills = $this->db->query('SELECT * FROM `invoice_shipping` where invoice_id ='.$invoice->invoice_id.' and ibill = 1 limit 1'); 
+ foreach ($ibills->result() as $ibill)
+        {
+            $saddress = $this->db->query('SELECT * FROM ip_shipping_address where id = '.$ibill->shipping_id);
+                foreach ($saddress->result() as $row) {
+                    echo $row->address."<br>";
+                    if ($row->gst_no != "") {
+                        echo "<b>GSTIN :</b>".$row->gst_no."<br>";
                     }
-                    if ($invoice->client_state) {
-                        echo htmlsc($invoice->client_state) . ' ';
+                    if ($row->sac_code != "") {
+                        echo "<b>SAC Code :</b>".$row->sac_code;
                     }
-                    if ($invoice->client_zip) {
-                        echo htmlsc($invoice->client_zip);
-                    }
-                    echo '</div>';
                 }
-                if ($invoice->client_country) {
-                    echo '<div>' . get_country_name(trans('cldr'), $invoice->client_country) . '</div>';
-                }
-
-                echo '<br/>';
-
-                if ($invoice->client_phone) {
-                    echo '<div>' . trans('phone_abbr') . ': ' . htmlsc($invoice->client_phone) . '</div>';
-                } ?>
+        }
+?>
             </td>
-
-            <td style="padding-right:30px; width:30%;">     
+<?php  $iships = $this->db->query('SELECT * FROM `invoice_shipping` where invoice_id ='.$invoice->invoice_id.' and ibill = 0 limit 1'); 
+if ($iships) {
+?>
+            <td style="padding-right:30px; width:30%;">
+                <div>
+                <b>Ship To :     <?php _htmlsc(format_client($invoice)); ?></b>
+                </div>
+<?php 
+ foreach ($iships->result() as $iship)
+        {
+            $saddress = $this->db->query('SELECT * FROM ip_shipping_address where id = '.$iship->shipping_id);
+                foreach ($saddress->result() as $row) {
+                    echo $row->address."<br>";
+                    if ($row->gst_no != "") {
+                        echo "<b>GSTIN :</b>".$row->gst_no."<br>";
+                    }
+                    if ($row->sac_code != "") {
+                        echo "<b>SAC Code :</b>".$row->sac_code;
+                    }
+                }
+        }
+?>
             
             </td>
 <?php
+}
     $user_field = $this->db->query('SELECT * FROM `ip_user_custom` where user_id ='.$invoice->user_id);
 
     foreach ($user_field->result() as $row)
