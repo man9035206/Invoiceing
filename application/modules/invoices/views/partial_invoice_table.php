@@ -1,9 +1,10 @@
+<?php $su_type = $this->session->userdata('user_type') ?>
 <div class="table-responsive">
     <table class="table table-striped">
 
         <thead>
         <tr>
-            <th><?php _trans('status'); ?></th>
+            <th><?php _trans('status'); echo $su_type; ?></th>
             <th><?php _trans('invoice'); ?></th>
             <th><?php _trans('created'); ?></th>
             <th><?php _trans('due_date'); ?></th>
@@ -88,7 +89,14 @@
                                         <i class="fa fa-edit fa-margin"></i> <?php _trans('edit'); ?>
                                     </a>
                                 </li>
+                            <?php } else { ?>
+                                <li>
+                                    <a href="<?php echo site_url('invoices/view/' . $invoice->invoice_id); ?>">
+                                        <i class="fa fa-eye fa-margin"></i> <?php _trans('view'); ?>
+                                    </a>
+                                </li>                                
                             <?php } ?>
+                            <?php if ( $su_type == 4) { ?>
                             <li>
                                 <a href="<?php echo site_url('invoices/generate_pdf/' . $invoice->invoice_id); ?>"
                                    target="_blank">
@@ -100,6 +108,8 @@
                                     <i class="fa fa-send fa-margin"></i> <?php _trans('send_email'); ?>
                                 </a>
                             </li>
+                             <?php } ?>
+                            <?php if ( $su_type == 5) { ?>
                             <li>
                                 <a href="#" class="invoice-add-payment"
                                    data-invoice-id="<?php echo $invoice->invoice_id; ?>"
@@ -109,6 +119,7 @@
                                     <?php _trans('enter_payment'); ?>
                                 </a>
                             </li>
+                            <?php } ?>
                             <?php if ($invoice->invoice_status_id == 1 || ($this->config->item('enable_invoice_deletion') === true && $invoice->is_read_only != 1)) { ?>
                                 <li>
                                     <a href="<?php echo site_url('invoices/delete/' . $invoice->invoice_id); ?>"

@@ -17,6 +17,15 @@ class Dashboard extends Admin_Controller
 {
     public function index()
     {
+        if ($this->session->userdata('user_type') == 3) {
+            redirect("products/index");
+        } elseif ($this->session->userdata('user_type') == 2) {            
+            redirect("guest");
+        } elseif ($this->session->userdata('user_type') == 4) {            
+            redirect("invoices/status/all");
+        } elseif ($this->session->userdata('user_type') == 5) {            
+            redirect("payments/index");
+        }
         $this->load->model('invoices/mdl_invoice_amounts');
         $this->load->model('quotes/mdl_quote_amounts');
         $this->load->model('invoices/mdl_invoices');

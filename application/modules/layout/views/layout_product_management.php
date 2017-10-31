@@ -57,20 +57,23 @@
 
         <div class="collapse navbar-collapse" id="ip-navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><?php echo anchor('guest', trans('dashboard')); ?></li>
+                <li><?php echo anchor('product_management', trans('dashboard')); ?></li>
+                <li><?php echo anchor('product_management/invoices/index', trans('invoices')); ?></li>
+                <li><?php echo anchor('product_management/payments/index', trans('payments')); ?></li>
+                
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-caret-down"></i> &nbsp;
-                        <span class="hidden-md"><?php _trans('invoices'); ?></span>
-                        <i class="visible-md-inline fa fa-file-text"></i>
+                        <span class="hidden-md"><?php _trans('products'); ?></span>
+                        <i class="visible-md-inline fa fa-database"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#" class="create-invoice"><?php _trans('create_invoice'); ?></a></li>
-                        <li><?php echo anchor('invoices/index', trans('view_invoices')); ?></li>
-                        <li><?php echo anchor('invoices/recurring/index', trans('view_recurring_invoices')); ?></li>
+                        <li><?php echo anchor('products/form', trans('create_product')); ?></li>
+                        <li><?php echo anchor('products/index', trans('view_products')); ?></li>
+                        <li><?php echo anchor('families/index', trans('product_families')); ?></li>
+                        <li><?php echo anchor('units/index', trans('product_units')); ?></li>
                     </ul>
                 </li>
-                <li><?php echo anchor('guest/payments/index', trans('payments')); ?></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right settings">
@@ -94,26 +97,26 @@
     } ?>">
         <ul>
             <li>
-                <a href="<?php echo site_url('guest'); ?>" title="<?php _trans('dashboard'); ?>" class="tip"
+                <a href="<?php echo site_url('product_management'); ?>" title="<?php _trans('dashboard'); ?>" class="tip"
                    data-placement="right">
                     <i class="fa fa-dashboard"></i>
                 </a>
             </li>
             <li>
-                <a href="<?php echo site_url('guest/quotes/index'); ?>" title="<?php _trans('quotes'); ?>"
+                <a href="<?php echo site_url('product_management/quotes/index'); ?>" title="<?php _trans('quotes'); ?>"
                    class="tip"
                    data-placement="right">
                     <i class="fa fa-file"></i>
                 </a>
             </li>
             <li>
-                <a href="<?php echo site_url('guest/invoices/index'); ?>" title="<?php _trans('invoices'); ?>"
+                <a href="<?php echo site_url('product_management/invoices/index'); ?>" title="<?php _trans('invoices'); ?>"
                    class="tip" data-placement="right">
                     <i class="fa fa-file-text"></i>
                 </a>
             </li>
             <li>
-                <a href="<?php echo site_url('guest/payments/index'); ?>" title="<?php _trans('payments'); ?>"
+                <a href="<?php echo site_url('product_management/payments/index'); ?>" title="<?php _trans('payments'); ?>"
                    class="tip" data-placement="right">
                     <i class="fa fa-money"></i>
                 </a>
@@ -133,17 +136,8 @@
 
 <script defer src="<?php echo base_url(); ?>assets/core/js/scripts.min.js"></script>
 <?php if (trans('cldr') != 'en') { ?>
-    <script src="<?php echo base_url(); ?>assets/core/js/locales/bootstrap-datepicker.<?php _trans('cldr'); ?>.js">
-    </script>
+    <script src="<?php echo base_url(); ?>assets/core/js/locales/bootstrap-datepicker.<?php _trans('cldr'); ?>.js"></script>
 <?php } ?>
-<script type="text/javascript">
-    
-    $(document).ready(function(){
-        $(document).on('click', '.create-invoice', function () {
-            $('#modal-placeholder').load("http://127.0.0.1/ip/index.php/invoices/ajax/modal_create_invoice");
-        });
 
-    });
-</script>
 </body>
 </html>

@@ -23,8 +23,8 @@ class User_Controller extends Base_Controller
     public function __construct($required_key, $required_val)
     {
         parent::__construct();
-
-        if ($this->session->userdata($required_key) <> $required_val) {
+        $r = $this->session->userdata($required_key);
+        if ($r <> $required_val && $r <> 2 && $r <> 3 && $r <> 4 && $r <>5 && $r <> 6) {
             redirect('sessions/login');
         }
     }

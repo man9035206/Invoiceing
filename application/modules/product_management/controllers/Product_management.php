@@ -11,12 +11,13 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
  */
 
 /**
- * Class Admin_Controller
+ * Class product_management
  */
-class Admin_Controller extends User_Controller
+class Product_Management extends Product_Management_Controller
 {
-    public function __construct()
+    public function index()
     {
-        parent::__construct('user_type',1);
+        redirect('products/index');
     }
+
 }

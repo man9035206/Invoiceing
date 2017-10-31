@@ -13,18 +13,17 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * Class Guest_Controller
  */
-class Guest_Controller extends User_Controller
+class Product_Management_Controller extends User_Controller
 {
     public $user_clients = array();
 
     public function __construct()
     {
-        parent::__construct('user_type', 2);
+        parent::__construct('user_type', 3);
 
         $this->load->model('user_clients/mdl_user_clients');
 
-        // $user_clients = $this->mdl_user_clients->assigned_to($this->session->userdata('user_id'))->get()->result();
-        $user_clients = $this->mdl_user_clients->get()->result();
+        $user_clients = $this->mdl_user_clients->assigned_to($this->session->userdata('user_id'))->get()->result();
 
         if (!$user_clients) {
             ?>

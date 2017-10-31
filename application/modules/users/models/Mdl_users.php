@@ -27,7 +27,10 @@ class Mdl_Users extends Response_Model
     {
         return array(
             '1' => trans('administrator'),
-            '2' => trans('guest_read_only')
+            '2' => trans('Invoice management'),
+            '3' => trans('Product management'),
+            '4' => trans('Approver'),
+            '5' => trans('Payment')
         );
     }
 

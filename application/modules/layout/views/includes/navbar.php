@@ -8,6 +8,86 @@
         </div>
 
         <div class="collapse navbar-collapse" id="ip-navbar-collapse">
+        <?php if ($this->session->userdata('user_type') == 4) { ?>
+            <ul class="nav navbar-nav">
+            <li><a href="#" class="create-invoice"><?php _trans('create_invoice'); ?></a></li>
+            <li><?php echo anchor('invoices/index', trans('view_invoices')); ?></li>
+            <li><?php echo anchor('invoices/recurring/index', trans('view_recurring_invoices')); ?></li>
+            </ul>
+
+            <?php if (isset($filter_display) and $filter_display == true) { ?>
+                <?php $this->layout->load_view('filter/jquery_filter'); ?>
+                <form class="navbar-form navbar-left" role="search" onsubmit="return false;">
+                    <div class="form-group">
+                        <input id="filter" type="text" class="search-query form-control input-sm"
+                               placeholder="<?php echo $filter_placeholder; ?>">
+                    </div>
+                </form>
+            <?php } ?>
+        <?php } elseif ($this->session->userdata('user_type') == 3) { ?>
+            <ul class="nav navbar-nav">
+                <li><?php echo anchor('products/form', trans('create_product')); ?></li>
+                <li><?php echo anchor('products/index', trans('view_products')); ?></li>
+                <li><?php echo anchor('families/index', trans('product_families')); ?></li>
+                <li><?php echo anchor('units/index', trans('product_units')); ?></li>
+            </ul>
+
+            <?php if (isset($filter_display) and $filter_display == true) { ?>
+                <?php $this->layout->load_view('filter/jquery_filter'); ?>
+                <form class="navbar-form navbar-left" role="search" onsubmit="return false;">
+                    <div class="form-group">
+                        <input id="filter" type="text" class="search-query form-control input-sm"
+                               placeholder="<?php echo $filter_placeholder; ?>">
+                    </div>
+                </form>
+            <?php } ?>
+        <?php } elseif ($this->session->userdata('user_type') == 5) { ?>
+            <ul class="nav navbar-nav">
+                
+                        <li><?php echo anchor('invoices/index', trans('view_invoices')); ?></li>
+                        <li><?php echo anchor('payments/form', trans('enter_payment')); ?></li>
+                        <li><?php echo anchor('payments/index', trans('view_payments')); ?></li>
+            </ul>
+
+            <?php if (isset($filter_display) and $filter_display == true) { ?>
+                <?php $this->layout->load_view('filter/jquery_filter'); ?>
+                <form class="navbar-form navbar-left" role="search" onsubmit="return false;">
+                    <div class="form-group">
+                        <input id="filter" type="text" class="search-query form-control input-sm"
+                               placeholder="<?php echo $filter_placeholder; ?>">
+                    </div>
+                </form>
+            <?php } ?>
+        <?php } elseif($this->session->userdata('user_type') == 2) { ?>
+            <ul class="nav navbar-nav">
+                <li><?php echo anchor('guest', trans('dashboard')); ?></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-caret-down"></i> &nbsp;
+                        <span class="hidden-md"><?php _trans('invoices'); ?></span>
+                        <i class="visible-md-inline fa fa-file-text"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" class="create-invoice"><?php _trans('create_invoice'); ?></a></li>
+                        <li><?php echo anchor('invoices/index', trans('view_invoices')); ?></li>
+                        <li><?php echo anchor('invoices/recurring/index', trans('view_recurring_invoices')); ?></li>
+                    </ul>
+                </li>
+                <li><?php echo anchor('guest/payments/index', trans('payments')); ?></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right settings">
+                <li>
+                    <a href="<?php echo site_url('sessions/logout'); ?>"
+                       class="tip icon logout" data-placement="bottom"
+                       title="<?php _trans('logout'); ?>">
+                        <span class="visible-xs">&nbsp;<?php _trans('logout'); ?></span>
+                        <i class="fa fa-power-off"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <?php } else { ?>
             <ul class="nav navbar-nav">
                 <li><?php echo anchor('dashboard', trans('dashboard'), 'class="hidden-md"') ?>
                     <?php echo anchor('dashboard', '<i class="fa fa-dashboard"></i>', 'class="visible-md-inline-block"') ?>
@@ -176,6 +256,24 @@
                     </a>
                 </li>
             </ul>
+
+            <?php } ?>
+
+
+
+        <?php if ($this->session->userdata('user_type') <> 1) { ?>
+            <ul class="nav navbar-nav navbar-right"><li>
+                    <a href="<?php echo site_url('sessions/logout'); ?>"
+                       class="tip icon logout" data-placement="bottom"
+                       title="<?php _trans('logout'); ?>">
+                        <i class="fa fa-power-off"></i>
+                        <span class="visible-xs">&nbsp;<?php _trans('logout'); ?></span>
+                    </a>
+                </li>
+            </ul>
+
+        <?php } ?>
+
         </div>
     </div>
 </nav>
