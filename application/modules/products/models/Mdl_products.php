@@ -115,7 +115,10 @@ class Mdl_Products extends Response_Model
     public function db_array()
     {
         $db_array = parent::db_array();
-
+        $db_array['product_no'] = $this->input->post('product_no');
+        $db_array['product_start'] = $this->input->post('product_start');
+        $db_array['product_end'] = $this->input->post('product_end');
+        $db_array['product_tax_two'] = $this->input->post('product_tax_two');
         $db_array['product_price'] = (empty($db_array['product_price']) ? null : standardize_amount($db_array['product_price']));
         $db_array['purchase_price'] = (empty($db_array['purchase_price']) ? null : standardize_amount($db_array['purchase_price']));
         $db_array['family_id'] = (empty($db_array['family_id']) ? null : $db_array['family_id']);
