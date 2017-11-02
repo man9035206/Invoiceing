@@ -109,21 +109,21 @@ if ($iships) {
             </td>
 <?php
 }
-    $user_field = $this->db->query('SELECT * FROM `ip_user_custom` where user_id ='.$invoice->user_id);
+$user_field = $this->db->query('SELECT * FROM `ip_user_custom` where user_id ='.$invoice->user_id);
 
-    foreach ($user_field->result() as $row)
-        {
-            if ($row->user_custom_fieldid == 6) {
-                $upan = $row->user_custom_fieldvalue;
-            }
-            if ($row->user_custom_fieldid == 7) {
-                $ugst = $row->user_custom_fieldvalue;
-            }
-            if ($row->user_custom_fieldid == 8) {
-                $usac = $row->user_custom_fieldvalue;
-            }
+foreach ($user_field->result() as $row)
+    {
+        if ($row->user_custom_fieldid == 6) {
+            $upan = $row->user_custom_fieldvalue;
         }
-    ?>
+        if ($row->user_custom_fieldid == 7) {
+            $ugst = $row->user_custom_fieldvalue;
+        }
+        if ($row->user_custom_fieldid == 8) {
+            $usac = $row->user_custom_fieldvalue;
+        }
+    }
+?>
             <td id="invoice-details-style">                        
                 <div class="invoice-details clearfix" >
                     <table>
@@ -142,13 +142,13 @@ if ($iships) {
                         <?php if ($payment_method): ?>
                             <tr>
                                 <td><?php echo trans('Purchase Order No') . ': '; ?></td>
-                                <td><?php echo $spo ?></td>
+                                <td><?php echo $items[0]->product_no; ?></td>
                             </tr>
                         <?php endif; ?>
 
                         <tr>
                             <td><?php echo trans('Purchase Order Date') . ':'; ?></td>
-                            <td><?php echo $spod; ?></td>
+                            <td><?php echo $items[0]->product_start; ?></td>
                         </tr>
                         <?php if ($payment_method): ?>
                             <tr>
@@ -186,7 +186,7 @@ if ($iships) {
         <thead>
         <tr>
             <th class="item-name"><?php _trans('Sl.#'); ?></th>
-            <th class="item-desc"><?php _trans('description'); ?></th>
+            <th colspan="2" class="item-desc"><?php _trans('description'); ?></th>
             <th class="item-amount text-right"><?php _trans('qty'); ?></th>
             <th class="item-price text-right"><?php _trans('price'); ?></th>
             <?php if ($show_item_discounts) : ?>
@@ -202,7 +202,7 @@ if ($iships) {
         foreach ($items as $item) { ?>
             <tr class= "items-list">
                 <td><?php echo $i; $i++; ?></td>
-                <td><b><?php _htmlsc($item->item_name); ?></b><br>
+                <td colspan="2"><b><?php _htmlsc($item->item_name); ?></b><br>
                 <?php echo nl2br(htmlsc($item->item_description)); ?></td>
                 <td class="text-right">
                     <?php echo format_amount($item->item_quantity); ?>
@@ -229,7 +229,10 @@ if ($iships) {
         <tbody class="invoice-sums">
 
         <tr>
-            <td <?php echo($show_item_discounts ? 'colspan="5"' : 'colspan="4"'); ?> class="text-right">
+            <td class="empty-cell"></td>
+            <td colspan="2" class="empty-cell"></td>
+            <td class="empty-cell"></td>
+            <td class="text-right empty-cell">
                 <?php _trans('subtotal'); ?>
             </td>
             <td class="text-right"><?php echo format_currency($invoice->invoice_item_subtotal); ?></td>
@@ -237,7 +240,10 @@ if ($iships) {
 
         <?php if ($invoice->invoice_item_tax_total > 0) { ?>
             <tr>
-                <td <?php echo($show_item_discounts ? 'colspan="5"' : 'colspan="4"'); ?> class="text-right">
+            <td class="empty-cell"></td>
+            <td colspan="2" class="empty-cell"></td>
+            <td class="empty-cell"></td>
+            <td class="text-right empty-cell">
                     <?php _trans('item_tax'); ?>
                 </td>
                 <td class="text-right">
@@ -248,7 +254,7 @@ if ($iships) {
 
         <?php foreach ($invoice_tax_rates as $invoice_tax_rate) : ?>
             <tr>
-                <td <?php echo($show_item_discounts ? 'colspan="5"' : 'colspan="4"'); ?> class="text-right">
+                <td colspan="5" class="text-right">
                     <?php echo htmlsc($invoice_tax_rate->invoice_tax_rate_name) . ' (' . format_amount($invoice_tax_rate->invoice_tax_rate_percent) . '%)'; ?>
                 </td>
                 <td class="text-right">
@@ -259,7 +265,7 @@ if ($iships) {
 
         <?php if ($invoice->invoice_discount_percent != '0.00') : ?>
             <tr>
-                <td <?php echo($show_item_discounts ? 'colspan="5"' : 'colspan="4"'); ?> class="text-right">
+                <td colspan="5" class="text-right">
                     <?php _trans('discount'); ?>
                 </td>
                 <td class="text-right">
@@ -269,7 +275,7 @@ if ($iships) {
         <?php endif; ?>
         <?php if ($invoice->invoice_discount_amount != '0.00') : ?>
             <tr>
-                <td <?php echo($show_item_discounts ? 'colspan="5"' : 'colspan="4"'); ?> class="text-right">
+                    <td colspan="5" class="text-right">
                     <?php _trans('discount'); ?>
                 </td>
                 <td class="text-right">
@@ -279,15 +285,15 @@ if ($iships) {
         <?php endif; ?>
 
         <tr>
-            <td <?php echo($show_item_discounts ? 'colspan="5"' : 'colspan="4"'); ?> class="text-right">
+            <td colspan="5" class="text-right ta-cell">
                 <b><?php _trans('TOTAL AMOUNT'); ?></b>
             </td>
-            <td class="text-right">
+            <td class="text-right ta-cell">
                 <b><?php echo format_currency($invoice->invoice_total); ?></b>
             </td>
         </tr>
         <tr>
-            <td <?php echo($show_item_discounts ? 'colspan="5"' : 'colspan="4"'); ?> class="text-right">
+            <td colspan="5" class="text-right">
                 <?php _trans('paid'); ?>
             </td>
             <td class="text-right">
@@ -295,7 +301,9 @@ if ($iships) {
             </td>
         </tr>
         <tr>
-            <td <?php echo($show_item_discounts ? 'colspan="5"' : 'colspan="4"'); ?> class="text-right">
+            <td><b>TOTAL (IN WORDS)</b></td>
+            <td colspan="3">Rupees <?php echo $invoice->amt_in_words ; ?> Only.</td>
+            <td class="text-right">
                 <b><?php _trans('balance'); ?></b>
             </td>
             <td class="text-right">
@@ -303,7 +311,7 @@ if ($iships) {
             </td>
         </tr>
         <tr>
-            <td colspan="3" class="text-left footer" style="border-right:1px solid #003366; border-top:1px solid #003366;">
+            <td colspan="4" class="text-left footer" style="border-right:1px solid #003366; border-top:1px solid #003366;">
                 <b>Remarks :</b> 
 All disputes subject to Bangalore Jurisdiction.
             </td>
@@ -317,7 +325,7 @@ All disputes subject to Bangalore Jurisdiction.
              <td colspan="2" class="text-right footer">
                         <b>Bank A/c Name</b>
               </td>
-              <td class="footer" style="border-right:1px solid #003366;">
+              <td colspan="2" class="footer" style="border-right:1px solid #003366;">
                   JoulestoWatts Business Solutions Private Limited
               </td>
               <td class="footer" colspan="2"></td>
@@ -326,7 +334,7 @@ All disputes subject to Bangalore Jurisdiction.
              <td colspan="2" class="text-right footer">
                         <b>Bank Name</b>
               </td>
-              <td class="footer" style="border-right:1px solid #003366;">
+              <td colspan="2" class="footer" style="border-right:1px solid #003366;">
                   SBI Bank
               </td>
               <td class="footer" colspan="2"></td>
@@ -335,7 +343,7 @@ All disputes subject to Bangalore Jurisdiction.
              <td colspan="2" class="text-right footer">
                         <b>Bank A/c No.</b>
               </td>
-              <td class="footer" style="border-right:1px solid #003366;">
+              <td colspan="2" class="footer" style="border-right:1px solid #003366;">
                   35509831439
               </td>
               <td class="footer" colspan="2"></td>
@@ -344,7 +352,7 @@ All disputes subject to Bangalore Jurisdiction.
              <td colspan="2" class="text-right footer">
                         <b>Branch</b>
               </td>
-              <td class="footer" style="border-right:1px solid #003366;">
+              <td colspan="2" class="footer" style="border-right:1px solid #003366;">
                   SME Mahadevapura (03028)
               </td>
               <td class="footer" colspan="2"></td>
@@ -353,7 +361,7 @@ All disputes subject to Bangalore Jurisdiction.
              <td colspan="2" class="text-right footer">
                         <b>IFSC Code</b>
               </td>
-              <td class="footer" style="border-right:1px solid #003366;">
+              <td colspan="2" class="footer" style="border-right:1px solid #003366;">
                   SBIN0003028
               </td>
               <td colspan="2" class="footer"></td>
@@ -362,7 +370,7 @@ All disputes subject to Bangalore Jurisdiction.
              <td colspan="2" class="text-right footer">
                         <b>MICR Code</b>
               </td>
-              <td class="footer" style="border-right:1px solid #003366;">
+              <td colspan="2" class="footer" style="border-right:1px solid #003366;">
                   560002019
               </td>
               <td colspan="2" class="footer" style="text-align:center;"> <b>AUTHORISED SIGNATORY</b> </td>

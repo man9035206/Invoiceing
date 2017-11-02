@@ -34,6 +34,8 @@ class Ajax extends Admin_Controller
             foreach ($items as $item) {
                 // Check if an item has either a quantity + price or name or description
                 if (!empty($item->item_name)) {
+                    $item->worked_days = ($item->worked_days ? standardize_amount($item->worked_days) : floatval(0));
+                    $item->total_days = ($item->total_days ? standardize_amount($item->total_days) : floatval(0));
                     $item->item_quantity = ($item->item_quantity ? standardize_amount($item->item_quantity) : floatval(0));
                     $item->item_price = ($item->item_quantity ? standardize_amount($item->item_price) : floatval(0));
                     $item->item_discount_amount = ($item->item_discount_amount) ? standardize_amount($item->item_discount_amount) : null;
@@ -127,6 +129,7 @@ class Ajax extends Admin_Controller
                 'invoice_date_created' => date_to_mysql($this->input->post('invoice_date_created')),
                 'invoice_date_due' => date_to_mysql($this->input->post('invoice_date_due')),
                 'invoice_password' => $this->input->post('invoice_password'),
+                'amt_in_words' => $this->input->post('amt_in_words'),
                 'invoice_status_id' => $invoice_status,
                 'payment_method' => $this->input->post('payment_method'),
                 'invoice_discount_amount' => standardize_amount($invoice_discount_amount),

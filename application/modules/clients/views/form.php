@@ -175,6 +175,28 @@ $cv = $this->controller->view_data['custom_values'];
                 </div>
 
             </div>
+            <?php if ($custom_fields): ?>
+                <div class="col-xs-12 col-md-6">
+
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading">
+                            <?php _trans('custom_fields'); ?>
+                        </div>
+
+                        <div class="panel-body">
+                            <?php foreach ($custom_fields as $custom_field): ?>
+                                <?php if ($custom_field->custom_field_location != 0) {
+                                    continue;
+                                }
+                                print_field($this->mdl_clients, $custom_field, $cv);
+                                ?>
+                            <?php endforeach; ?>
+                        </div>
+
+                    </div>
+                </div>
+        <?php endif; ?>
         </div>
 
         <div class="row">
@@ -501,29 +523,6 @@ foreach ($billing_address as $row)
             <div class="col-xs-12 col-sm-6">
             </div>
         </div>
-        <?php if ($custom_fields): ?>
-            <div class="row">
-                <div class="col-xs-12 col-md-6">
-
-                    <div class="panel panel-default">
-
-                        <div class="panel-heading">
-                            <?php _trans('custom_fields'); ?>
-                        </div>
-
-                        <div class="panel-body">
-                            <?php foreach ($custom_fields as $custom_field): ?>
-                                <?php if ($custom_field->custom_field_location != 0) {
-                                    continue;
-                                }
-                                print_field($this->mdl_clients, $custom_field, $cv);
-                                ?>
-                            <?php endforeach; ?>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
+        
     </div>
 </form>

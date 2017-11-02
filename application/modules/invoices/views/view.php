@@ -66,6 +66,8 @@ $cv = $this->controller->view_data["custom_values"];
                         row[$(this).attr('name')] = $(this).val();
                     }
                 });
+                // console.log(row);
+                // alert();
                 row['item_order'] = item_order;
                 item_order++;
                 items.push(row);
@@ -77,6 +79,7 @@ $cv = $this->controller->view_data["custom_values"];
                     invoice_date_due: $('#invoice_date_due').val(),
                     invoice_status_id: $('#invoice_status_id').val(),
                     invoice_password: $('#invoice_password').val(),
+                    amt_in_words: $('#amt_in_words').val(),
                     iship: JSON.stringify(iship),
                     ibill: JSON.stringify(ibill),
                     items: JSON.stringify(items),

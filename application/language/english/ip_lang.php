@@ -508,7 +508,6 @@ $lang = array(
     'tax_code_short'                               => 'Tax Code',
     'tax_information'                              => 'Taxes Information',
     'tax_rate'                                     => 'Tax Rate',
-    'tax_rate_two'                                 => 'Tax Rate 2',
     'tax_rate_decimal_places'                      => 'Tax Rate Decimal Places',
     'tax_rate_form'                                => 'Tax Rate Form',
     'tax_rate_name'                                => 'Tax Rate Name',

@@ -51,7 +51,16 @@
                             <input type="text" name="product_no" id="product_no" class="form-control"
                                    value="<?php echo $this->mdl_products->form_value('product_no', true); ?>">
                         </div>
-
+<?php 
+$ps = $this->mdl_products->form_value('product_start', true);
+$pe = $this->mdl_products->form_value('product_end', true);
+if ($ps != "") {
+    $ps = date_from_mysql($ps);
+}
+if ($pe != "") {
+    $pe = date_from_mysql($pe);
+}
+?>
                         <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
@@ -60,7 +69,7 @@
                                 <div class="input-group">
                                     <input name="product_start" id="product_start"
                                            class="form-control input-sm datepicker"
-                                           value="">
+                                           value="<?php echo $ps; ?>">
                                     <span class="input-group-addon">
                                         <i class="fa fa-calendar fa-fw"></i>
                                     </span>
@@ -72,7 +81,7 @@
                                 <div class="input-group">
                                     <input name="product_end" id="product_end"
                                            class="form-control input-sm datepicker"
-                                           value="">
+                                           value="<?php echo $pe; ?>">
                                     <span class="input-group-addon">
                                         <i class="fa fa-calendar fa-fw"></i>
                                     </span>
@@ -146,23 +155,6 @@
                                 <?php foreach ($tax_rates as $tax_rate) { ?>
                                     <option value="<?php echo $tax_rate->tax_rate_id; ?>"
                                         <?php check_select($this->mdl_products->form_value('tax_rate_id'), $tax_rate->tax_rate_id); ?>>
-                                        <?php echo $tax_rate->tax_rate_name
-                                            . ' (' . format_amount($tax_rate->tax_rate_percent) . '%)'; ?>
-                                    </option>
-                                <?php } ?>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="tax_rate_id">
-                                <?php _trans('tax_rate_two'); ?>
-                            </label>
-
-                            <select name="tax_rate_two" id="tax_rate_two" class="form-control simple-select">
-                                <option value="0"><?php _trans('none'); ?></option>
-                                <?php foreach ($tax_rates as $tax_rate) { ?>
-                                    <option value="<?php echo $tax_rate->tax_rate_id; ?>"
-                                        <?php check_select($this->mdl_products->form_value('tax_rate_two'), $tax_rate->tax_rate_id); ?>>
                                         <?php echo $tax_rate->tax_rate_name
                                             . ' (' . format_amount($tax_rate->tax_rate_percent) . '%)'; ?>
                                     </option>

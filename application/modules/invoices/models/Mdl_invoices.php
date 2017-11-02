@@ -169,6 +169,10 @@ class Mdl_Invoices extends Response_Model
             'invoice_password' => array(
                 'field' => 'invoice_password',
                 'label' => trans('invoice_password')
+            ),
+            'amt_in_words' => array(
+                'field' => 'amt_in_words',
+                'label' => trans('amt_in_words')
             )
         );
     }

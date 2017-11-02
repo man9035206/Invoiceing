@@ -168,16 +168,48 @@
                             } ?>>
                     </div>
                 </td>
+                
                 <td class="td-amount td-quantity">
                     <div class="input-group">
+                        <span class="input-group-addon"><?php _trans('Days Worked'); ?></span>
+                        <input type="text" name="worked_days" class="worked_days input-sm form-control"
+                               value="<?php echo format_amount($item->worked_days); ?>"
+                            <?php if ($invoice->is_read_only == 1) {
+                                echo 'disabled="disabled"';
+                            } ?>>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"><?php _trans('Total Working Days'); ?></span>
+                        <input type="text" name="total_days" class="total_days input-sm form-control"
+                               value="<?php echo format_amount($item->total_days); ?>"
+                            <?php if ($invoice->is_read_only == 1) {
+                                echo 'disabled="disabled"';
+                            } ?>>
+                    </div>
+                    <div class="input-group">
                         <span class="input-group-addon"><?php _trans('quantity'); ?></span>
-                        <input type="text" name="item_quantity" class="input-sm form-control amount"
+                        <input type="text" id="item_quantity" name="item_quantity" class="input-sm form-control amount"
                                value="<?php echo format_amount($item->item_quantity); ?>"
                             <?php if ($invoice->is_read_only == 1) {
                                 echo 'disabled="disabled"';
                             } ?>>
                     </div>
                 </td>
+                <script>
+                    $(document).ready(function(){
+                       $(".worked_days").keyup(function(){
+                         var total = $(this).val()/$(".total_days").val();
+                         $("#item_quantity").val(total.toFixed(3));
+                       });
+
+                       $(".total_days").keyup(function(){
+                         var total = $(".worked_days").val()/$(this).val();
+                         $("#item_quantity").val(total.toFixed(3));
+                       });
+                    });
+                </script>
+
+
                 <td class="td-amount">
                     <div class="input-group">
                         <span class="input-group-addon"><?php _trans('price'); ?></span>
@@ -328,9 +360,11 @@
             </tr>
             <tr>
                 <td><?php _trans('item_tax'); ?></td>
-                <td class="amount"><?php echo format_currency($invoice->invoice_item_tax_total); ?></td>
+                <td class="amount">
+                    <?php echo format_currency($invoice->invoice_item_tax_total); ?>
+                </td>
             </tr>
-            <tr>
+            <tr class="hidden">
                 <td><?php _trans('invoice_tax'); ?></td>
                 <td>
                     <?php if ($invoice_tax_rates) {
@@ -386,6 +420,18 @@
             <tr>
                 <td><b><?php _trans('balance'); ?></b></td>
                 <td class="amount"><b><?php echo format_currency($invoice->invoice_balance); ?></b></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                   <div class="input-group">
+                        <span class="input-group-addon">Amount In Words</span>
+                        <input type="text" id="amt_in_words" name="amt_in_words" class="input-sm form-control"
+                               value="<?php _htmlsc($invoice->amt_in_words); ?>"
+                            <?php if ($invoice->is_read_only == 1) {
+                                echo 'disabled="disabled"';
+                            } ?>>
+                    </div>
+                </td>
             </tr>
         </table>
     </div>
