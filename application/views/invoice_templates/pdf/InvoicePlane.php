@@ -65,7 +65,7 @@
         <tr>
             <td style="padding-right:30px;">
                 <div>
-                <b>To :     <?php _htmlsc(format_client($invoice)); ?></b>
+                <b>To :     <?php echo $invoice->client_name; ?></b>
                 </div>
 <?php $ibills = $this->db->query('SELECT * FROM `invoice_shipping` where invoice_id ='.$invoice->invoice_id.' and ibill = 1 limit 1'); 
  foreach ($ibills->result() as $ibill)
@@ -88,7 +88,7 @@ if ($iships) {
 ?>
             <td style="padding-right:30px; width:30%;">
                 <div>
-                <b>Ship To :     <?php _htmlsc(format_client($invoice)); ?></b>
+                <b>Ship To :     <?php echo $invoice->client_name;  ?></b>
                 </div>
 <?php 
  foreach ($iships->result() as $iship)
@@ -148,7 +148,7 @@ foreach ($user_field->result() as $row)
 
                         <tr>
                             <td><?php echo trans('Purchase Order Date') . ':'; ?></td>
-                            <td><?php echo $items[0]->product_start; ?></td>
+                            <td><?php echo date_from_mysql($items[0]->product_start)." to ".date_from_mysql($items[0]->product_end); ?></td>
                         </tr>
                         <?php if ($payment_method): ?>
                             <tr>
@@ -202,14 +202,22 @@ foreach ($user_field->result() as $row)
         foreach ($items as $item) { ?>
             <tr class= "items-list">
                 <td><?php echo $i; $i++; ?></td>
-                <td colspan="2"><b><?php _htmlsc($item->item_name); ?></b><br>
-                <?php echo nl2br(htmlsc($item->item_description)); ?></td>
+                <td colspan="2">
+
+                <b><u>Consultant Name : <?php _htmlsc($item->item_name); ?></u></b><br>
+
+                <?php 
+                echo "(".date_from_mysql($custom_fields['invoice']['Invoice start date'])." to "
+                .date_from_mysql($custom_fields['invoice']['Invoice end date']).")";
+                echo "<br>Applicable Working Days – ".$items[0]->total_days;
+                echo "<br>Charged Working Days  – ".$items[0]->worked_days;
+                echo "<br><br>".nl2br(htmlsc($item->item_description)); 
+                ?>
+
+
+                </td>
                 <td class="text-right">
                     <?php echo format_amount($item->item_quantity); ?>
-                    <?php if ($item->item_product_unit) : ?>
-                        <br>
-                        <small><?php _htmlsc($item->item_product_unit); ?></small>
-                    <?php endif; ?>
                 </td>
                 <td class="text-right">
                     <?php echo format_currency($item->item_price); ?>

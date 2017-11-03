@@ -27,7 +27,7 @@
 <script src="<?php echo base_url(); ?>assets/core/js/legacy.min.js"></script>
 <![endif]-->
 
-<script src="<?php echo base_url(); ?>assets/core/js/dependencies.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/core/js/dependencies.js"></script>
 
 <script>
     Dropzone.autoDiscover = false;

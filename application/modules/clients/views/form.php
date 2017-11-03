@@ -66,13 +66,39 @@ $cv = $this->controller->view_data['custom_values'];
 
                         <div class="form-group">
                             <label for="client_surname">
-                                <?php _trans('client_surname_optional'); ?>
+                                Contact Person Name
                             </label>
                             <input id="client_surname" name="client_surname" type="text" class="form-control"
                                    value="<?php echo $this->mdl_clients->form_value('client_surname', true); ?>">
                         </div>
 
-                        <div class="form-group no-margin">
+                        <div class="form-group">
+                            <label for="client_vat_id"><?php _trans('vat_id'); ?></label>
+
+                            <div class="controls">
+                                <input type="text" name="client_vat_id" id="client_vat_id" class="form-control"
+                                       value="<?php echo $this->mdl_clients->form_value('client_vat_id', true); ?>">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="client_tax_code"><?php _trans('tax_code'); ?></label>
+
+                            <div class="controls">
+                                <input type="text" name="client_tax_code" id="client_tax_code" class="form-control"
+                                       value="<?php echo $this->mdl_clients->form_value('client_tax_code', true); ?>">
+                            </div>
+                        </div>
+
+                        <!-- Custom fields -->
+                        <?php foreach ($custom_fields as $custom_field): ?>
+                            <?php if ($custom_field->custom_field_location != 4) {
+                                continue;
+                            } ?>
+                            <?php print_field($this->mdl_clients, $custom_field, $cv); ?>
+                        <?php endforeach; ?>
+
+                        <div class="form-group no-margin hidden">
                             <label for="client_language">
                                 <?php _trans('language'); ?>
                             </label>
@@ -91,7 +117,7 @@ $cv = $this->controller->view_data['custom_values'];
                             </select>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="client_gender"><?php _trans('gender'); ?></label>
 
                             <div class="controls">
@@ -111,7 +137,7 @@ $cv = $this->controller->view_data['custom_values'];
                             </div>
                         </div>
 
-                        <div class="form-group has-feedback">
+                        <div class="form-group has-feedback hidden">
                             <label for="client_birthdate"><?php _trans('birthdate'); ?></label>
                             <?php
                             $bdate = $this->mdl_clients->form_value('client_birthdate');
@@ -208,7 +234,7 @@ $cv = $this->controller->view_data['custom_values'];
                     </div>
 
                     <div class="panel-body">
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="client_address_1"><?php _trans('street_address'); ?></label>
 
                             <div class="controls">
@@ -217,7 +243,7 @@ $cv = $this->controller->view_data['custom_values'];
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="client_address_2"><?php _trans('street_address_2'); ?></label>
 
                             <div class="controls">
@@ -226,7 +252,7 @@ $cv = $this->controller->view_data['custom_values'];
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="client_city"><?php _trans('city'); ?></label>
 
                             <div class="controls">
@@ -235,7 +261,7 @@ $cv = $this->controller->view_data['custom_values'];
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="client_state"><?php _trans('state'); ?></label>
 
                             <div class="controls">
@@ -244,7 +270,7 @@ $cv = $this->controller->view_data['custom_values'];
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="client_zip"><?php _trans('zip_code'); ?></label>
 
                             <div class="controls">
@@ -253,7 +279,7 @@ $cv = $this->controller->view_data['custom_values'];
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="client_country"><?php _trans('country'); ?></label>
 
                             <div class="controls">
@@ -431,7 +457,7 @@ foreach ($billing_address as $row)
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="client_fax"><?php _trans('fax_number'); ?></label>
 
                             <div class="controls">
@@ -490,31 +516,7 @@ foreach ($billing_address as $row)
                     </div>
 
                     <div class="panel-body">
-                        <div class="form-group">
-                            <label for="client_vat_id"><?php _trans('vat_id'); ?></label>
-
-                            <div class="controls">
-                                <input type="text" name="client_vat_id" id="client_vat_id" class="form-control"
-                                       value="<?php echo $this->mdl_clients->form_value('client_vat_id', true); ?>">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="client_tax_code"><?php _trans('tax_code'); ?></label>
-
-                            <div class="controls">
-                                <input type="text" name="client_tax_code" id="client_tax_code" class="form-control"
-                                       value="<?php echo $this->mdl_clients->form_value('client_tax_code', true); ?>">
-                            </div>
-                        </div>
-
-                        <!-- Custom fields -->
-                        <?php foreach ($custom_fields as $custom_field): ?>
-                            <?php if ($custom_field->custom_field_location != 4) {
-                                continue;
-                            } ?>
-                            <?php print_field($this->mdl_clients, $custom_field, $cv); ?>
-                        <?php endforeach; ?>
+                        
                     </div>
 
                 </div>

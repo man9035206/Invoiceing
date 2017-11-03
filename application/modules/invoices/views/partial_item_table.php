@@ -433,6 +433,15 @@
                     </div>
                 </td>
             </tr>
+            <tr>
+                <td></td>
+                <td>
+                    
+            <button class="btn btn-sm btn-success ajax-loader" id="btn_save_inv" onclick="save_inv()">
+                <i class="fa fa-check"></i> <?php _trans('save'); ?>
+            </button>
+                </td>
+            </tr>
         </table>
     </div>
 

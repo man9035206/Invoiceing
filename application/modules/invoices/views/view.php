@@ -1,9 +1,13 @@
 <?php
 $cv = $this->controller->view_data["custom_values"];
 ?>
-
 <script>
+        function save_inv(){
+                    $( "#btn_save_invoice" ).trigger( "click" );            
+        }
     $(function () {
+
+
         $('.item-task-id').each(function () {
             // Disable client chaning if at least one item already has a task id assigned
             if ($(this).val().length > 0) {
