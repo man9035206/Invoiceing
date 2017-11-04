@@ -184,7 +184,7 @@ class Invoices extends Admin_Controller
             }
         }
 
-        $custom_fields = array(
+        $all_custom_fields = array(
         'invoice' => $this->mdl_custom_fields->get_values_for_fields('mdl_invoice_custom', $invoice->invoice_id),
         'client' => $this->mdl_custom_fields->get_values_for_fields('mdl_client_custom', $invoice->client_id),
         'user' => $this->mdl_custom_fields->get_values_for_fields('mdl_user_custom', $invoice->user_id),
@@ -201,6 +201,7 @@ class Invoices extends Admin_Controller
                 'payment_methods' => $this->mdl_payment_methods->get()->result(),
                 'custom_fields' => $custom_fields,
                 'custom_values' => $custom_values,
+                'all_custom_fields' => $all_custom_fields,
                 'custom_js_vars' => array(
                     'currency_symbol' => get_setting('currency_symbol'),
                     'currency_symbol_placement' => get_setting('currency_symbol_placement'),

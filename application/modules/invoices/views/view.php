@@ -464,10 +464,10 @@ if ($this->config->item('disable_read_only') == true) {
 
                         </div>
 </br></br>
-                            <b>Client Payment Terms:</b> <?php echo $custom_fields['client']['Payment Terms (In days)']; ?></br>
-                            <b>J2W PAN No:</b> <?php echo $custom_fields['user']['PAN']; ?> <br>
-                           <b> J2W GSTIN No:</b> <?php echo $custom_fields['user']['GSTIN No.']; ?><br>
-                           <b> J2W SAC No:</b> <?php echo $custom_fields['user']['SAC CODE.']; ?><br>
+                            <b>Client Payment Terms:</b> <?php echo $all_custom_fields['client']['Payment Terms (In days)']; ?></br>
+                            <b>J2W PAN No:</b> <?php echo $all_custom_fields['user']['PAN']; ?> <br>
+                           <b> J2W GSTIN No:</b> <?php echo $all_custom_fields['user']['GSTIN No.']; ?><br>
+                           <b> J2W SAC No:</b> <?php echo $all_custom_fields['user']['SAC CODE.']; ?><br>
                     </div>
                 </div>
 
