@@ -30,17 +30,42 @@
 
                         <div class="form-group">
                             <label for="family_id">
-                                <?php _trans('family'); ?>
+                                <?php _trans('Category'); ?>
                             </label>
 
                             <select name="family_id" id="family_id" class="form-control simple-select">
-                                <option value="0"><?php _trans('select_family'); ?></option>
+                                <option value="0"><?php _trans('Select Category'); ?></option>
                                 <?php foreach ($families as $family) { ?>
                                     <option value="<?php echo $family->family_id; ?>"
                                         <?php check_select($this->mdl_products->form_value('family_id'), $family->family_id) ?>
                                     ><?php echo $family->family_name; ?></option>
                                 <?php } ?>
                             </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="po_client_id">
+                                <?php _trans('Client'); 
+
+                                ?>
+                            </label>
+
+                            <select name="po_client_id" id="po_client_id" class="form-control simple-select">
+                                <option value="0"><?php _trans('Select Client'); ?></option>
+                                <?php foreach ($clients as $client) { ?>
+                                    <option value="<?php echo $client->client_id; ?>"
+                                    ><?php echo $client->client_name; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="empid">
+                                <?php _trans('Employee Id'); ?>
+                            </label>
+
+                            <input type="text" name="empid" id="empid" class="form-control"
+                                   value="<?php echo $this->mdl_products->form_value('empid', true); ?>">
                         </div>
 
                         <div class="form-group">

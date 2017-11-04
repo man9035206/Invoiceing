@@ -100,6 +100,11 @@ class Mdl_Products extends Response_Model
                 'label' => trans('tax_rate'),
                 'rules' => 'numeric'
             ),
+            'po_client_id' => array(
+                'field' => 'po_client_id',
+                'label' => trans('po_client_id'),
+                'rules' => 'numeric'
+            ),
             'product_no' => array(
                 'field' => 'product_no',
                 'label' => trans('product_no'),
@@ -121,6 +126,12 @@ class Mdl_Products extends Response_Model
                 'label' => trans('product_tariff'),
                 'rules' => ''
             ),
+            // Sumex
+            'empid' => array(
+                'field' => 'empid',
+                'label' => trans('empid'),
+                'rules' => 'required'
+            ),
         );
     }
 
@@ -135,6 +146,8 @@ class Mdl_Products extends Response_Model
         $db_array['family_id'] = (empty($db_array['family_id']) ? null : $db_array['family_id']);
         $db_array['unit_id'] = (empty($db_array['unit_id']) ? null : $db_array['unit_id']);
         $db_array['tax_rate_id'] = (empty($db_array['tax_rate_id']) ? null : $db_array['tax_rate_id']);
+        $db_array['empid'] = (empty($db_array['empid']) ? null : $db_array['empid']);
+        $db_array['po_client_id'] = (empty($db_array['po_client_id']) ? null : $db_array['po_client_id']);
 
         $db_array['product_no'] = (empty($db_array['product_no']) ? null : $db_array['product_no']);
         $db_array['product_start'] = $this->date_string(empty($db_array['product_start']) ? null : $db_array['product_start']);

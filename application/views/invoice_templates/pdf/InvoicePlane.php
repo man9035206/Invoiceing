@@ -150,9 +150,21 @@ foreach ($user_field->result() as $row)
                             <td><?php echo trans('Purchase Order Date') . ':'; ?></td>
                             <td><?php echo date_from_mysql($items[0]->product_start)." to ".date_from_mysql($items[0]->product_end); ?></td>
                         </tr>
+                        <tr>
+                            <td><?php echo trans('Payment Terms') . ': '; ?></td>
+                            <td>
+                            <?php
+                            if ($custom_fields['clients']['Payment Terms (In days)']) {
+                                echo $custom_fields['clients']['Payment Terms (In days)']." days"; 
+                            } else {
+                                echo "30 Days";
+                            }
+                             ?>                                 
+                             </td>
+                        </tr>
                         <?php if ($payment_method): ?>
                             <tr>
-                                <td><?php echo trans('Payment Terms') . ': '; ?></td>
+                                <td><?php echo trans('Mode of Payment') . ': '; ?></td>
                                 <td><?php _htmlsc($payment_method->payment_method_name); ?></td>
                             </tr>
                         <?php endif; ?>
@@ -185,7 +197,7 @@ foreach ($user_field->result() as $row)
     <table class="item-table">
         <thead>
         <tr>
-            <th class="item-name"><?php _trans('Sl.#'); ?></th>
+            <th class="item-name"><?php _trans('Employee Id'); ?></th>
             <th colspan="2" class="item-desc"><?php _trans('description'); ?></th>
             <th class="item-amount text-right"><?php _trans('qty'); ?></th>
             <th class="item-price text-right"><?php _trans('price'); ?></th>
@@ -201,7 +213,7 @@ foreach ($user_field->result() as $row)
         $i = 1;
         foreach ($items as $item) { ?>
             <tr class= "items-list">
-                <td><?php echo $i; $i++; ?></td>
+                <td><?php echo $item->empid; ?></td>
                 <td colspan="2">
 
                 <b><u>Consultant Name : <?php _htmlsc($item->item_name); ?></u></b><br>

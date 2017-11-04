@@ -60,6 +60,7 @@ class Products extends Admin_Controller
             }
         }
 
+        $this->load->model('clients/mdl_clients');
         $this->load->model('families/mdl_families');
         $this->load->model('units/mdl_units');
         $this->load->model('tax_rates/mdl_tax_rates');
@@ -69,6 +70,7 @@ class Products extends Admin_Controller
                 'families' => $this->mdl_families->get()->result(),
                 'units' => $this->mdl_units->get()->result(),
                 'tax_rates' => $this->mdl_tax_rates->get()->result(),
+                'clients' => $this->mdl_clients->get()->result()
             )
         );
 

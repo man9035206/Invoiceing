@@ -167,6 +167,12 @@
                                 echo 'disabled="disabled"';
                             } ?>>
                     </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"><?php _trans('Employee Id'); ?></span>
+                        <input type="text" class="input-sm form-control"
+                               value="<?php _htmlsc($item->empid); ?>"
+                            <?php  echo 'disabled="disabled"';?>>
+                    </div>
                 </td>
                 
                 <td class="td-amount td-quantity">
