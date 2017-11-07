@@ -29,6 +29,8 @@
 
 <script src="<?php echo base_url(); ?>assets/core/js/dependencies.js"></script>
 
+<script src="<?php echo base_url(); ?>assets/core/js/jquery.num2words.js"></script>
+
 <script>
     Dropzone.autoDiscover = false;
 

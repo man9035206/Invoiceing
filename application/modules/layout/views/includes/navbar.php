@@ -105,7 +105,7 @@
                     </ul>
                 </li>
 
-                <li class="dropdown">
+                <li class="dropdown hidden">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-caret-down"></i> &nbsp;
                         <span class="hidden-md"><?php _trans('quotes'); ?></span>

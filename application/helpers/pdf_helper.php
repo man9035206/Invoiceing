@@ -25,6 +25,7 @@ function generate_invoice_pdf($invoice_id, $stream = true, $invoice_template = n
 
     $CI->load->model('invoices/mdl_items');
     $CI->load->model('invoices/mdl_invoices');
+    $CI->load->model('products/mdl_products');
     $CI->load->model('invoices/mdl_invoice_tax_rates');
     $CI->load->model('custom_fields/mdl_custom_fields');
     $CI->load->model('payment_methods/mdl_payment_methods');
@@ -50,6 +51,7 @@ function generate_invoice_pdf($invoice_id, $stream = true, $invoice_template = n
 
     // Determine if discounts should be displayed
     $items = $CI->mdl_items->where('invoice_id', $invoice_id)->get()->result();
+    $po_desc =$CI->mdl_products->po_desc();
 
     // Discount settings
     $show_item_discounts = false;
@@ -88,11 +90,11 @@ function generate_invoice_pdf($invoice_id, $stream = true, $invoice_template = n
     } else {
         $associatedFiles = null;
     }
-
     $data = array(
         'invoice' => $invoice,
         'invoice_tax_rates' => $CI->mdl_invoice_tax_rates->where('invoice_id', $invoice_id)->get()->result(),
         'items' => $items,
+        'po_desc' => $po_desc,
         'payment_method' => $payment_method,
         'output_type' => 'pdf',
         'show_item_discounts' => $show_item_discounts,

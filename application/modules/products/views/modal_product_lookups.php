@@ -115,7 +115,6 @@
             <div class="form-inline">
                 <div class="form-group filter-form">
                     <select name="filter_family" id="filter_family" class="form-control simple-select">
-                        <option value=""><?php _trans('any_family'); ?></option>
                         <?php foreach ($families as $family) { ?>
                             <option value="<?php echo $family->family_id; ?>"
                                 <?php if (isset($filter_family) && $family->family_id == $filter_family) {

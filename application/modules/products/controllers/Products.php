@@ -50,8 +50,14 @@ class Products extends Admin_Controller
         if ($this->mdl_products->run_validation()) {
             // Get the db array
             $db_array = $this->mdl_products->db_array();
-            $this->mdl_products->save($id, $db_array);
-            redirect('products');
+            $this->mdl_products->save($id, $db_array);            
+            if ($id) {
+                redirect($_SERVER['HTTP_REFERER']);
+            } else {
+                $this->db->select_max('product_id');
+                $result = $this->db->get('ip_products');  
+                redirect("/products/form/".$result->row()->product_id);
+            }
         }
 
         if ($id and !$this->input->post('btn_submit')) {
@@ -70,7 +76,8 @@ class Products extends Admin_Controller
                 'families' => $this->mdl_families->get()->result(),
                 'units' => $this->mdl_units->get()->result(),
                 'tax_rates' => $this->mdl_tax_rates->get()->result(),
-                'clients' => $this->mdl_clients->get()->result()
+                'clients' => $this->mdl_clients->get()->result(),
+                'po_desc' => $this->mdl_products->po_desc(),
             )
         );
 

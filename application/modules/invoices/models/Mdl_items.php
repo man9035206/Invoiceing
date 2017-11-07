@@ -73,6 +73,30 @@ class Mdl_Items extends Response_Model
                 'label' => trans('price'),
                 'rules' => 'required'
             ),
+            'invoice_start' => array(
+                'field' => 'invoice_start',
+                'rules' => ''
+            ),
+            'invoice_end' => array(
+                'field' => 'invoice_end',
+                'rules' => ''
+            ),
+            'worked_days' => array(
+                'field' => 'worked_days',
+                'rules' => ''
+            ),
+            'total_days' => array(
+                'field' => 'total_days',
+                'rules' => ''
+            ),
+            'invoice_end' => array(
+                'field' => 'invoice_end',
+                'rules' => ''
+            ),
+            'invoice_end' => array(
+                'field' => 'invoice_end',
+                'rules' => ''
+            ),
             'item_tax_rate_id' => array(
                 'field' => 'item_tax_rate_id',
                 'label' => trans('item_tax_rate')

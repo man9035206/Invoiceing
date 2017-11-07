@@ -30,11 +30,11 @@
 
                         <div class="form-group">
                             <label for="family_id">
-                                <?php _trans('Category'); ?>
+                                <?php _trans('family'); ?>
                             </label>
 
                             <select name="family_id" id="family_id" class="form-control simple-select">
-                                <option value="0"><?php _trans('Select Category'); ?></option>
+                                <option value="0">Select Category</option>
                                 <?php foreach ($families as $family) { ?>
                                     <option value="<?php echo $family->family_id; ?>"
                                         <?php check_select($this->mdl_products->form_value('family_id'), $family->family_id) ?>
@@ -44,24 +44,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="po_client_id">
-                                <?php _trans('Client'); 
-
-                                ?>
-                            </label>
-
-                            <select name="po_client_id" id="po_client_id" class="form-control simple-select">
-                                <option value="0"><?php _trans('Select Client'); ?></option>
-                                <?php foreach ($clients as $client) { ?>
-                                    <option value="<?php echo $client->client_id; ?>"
-                                    ><?php echo $client->client_name; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
                             <label for="empid">
-                                <?php _trans('Employee Id'); ?>
+                                Employee Id
                             </label>
 
                             <input type="text" name="empid" id="empid" class="form-control"
@@ -139,8 +123,16 @@ if ($pe != "") {
                                 <?php _trans('product_description'); ?>
                             </label>
 
-                            <textarea name="product_description" id="product_description" class="form-control"
-                                      rows="3"><?php echo $this->mdl_products->form_value('product_description', true); ?></textarea>
+                            <select name="product_description" id="product_description" class="form-control simple-select">
+                                <option value="0">Select Description</option>
+
+                                    <?php foreach ($po_desc as $key => $desc) { ?>
+                                        <option value="<?php echo $key; ?>"
+                                            <?php check_select($this->mdl_products->form_value('product_description'), $key); ?>>
+                                            <?php echo $desc; ?>
+                                        </option>
+                                    <?php } ?>
+                            </select>
                         </div>
 
                         <div class="form-group">
@@ -156,6 +148,17 @@ if ($pe != "") {
                         </div>
 
                         <div class="form-group">
+                            <label for="po_quantity">PO Quantity
+                            </label>
+
+                            <div class="input-group has-feedback">
+                                <input type="text" name="po_quantity" id="po_quantity" class="form-control"
+                                       value="<?php echo format_amount($this->mdl_products->form_value('po_quantity')); ?>">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
                             <label for="unit_id">
                                 <?php _trans('product_unit'); ?>
                             </label>
@@ -165,7 +168,7 @@ if ($pe != "") {
                                 <?php foreach ($units as $unit) { ?>
                                     <option value="<?php echo $unit->unit_id; ?>"
                                         <?php check_select($this->mdl_products->form_value('unit_id'), $unit->unit_id); ?>
-                                    ><?php echo $unit->unit_name . '/' . $unit->unit_name_plrl; ?></option>
+                                    ><?php echo $unit->unit_name; ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -193,7 +196,7 @@ if ($pe != "") {
 
             <div class="col-xs-12 col-md-6">
 
-                <div class="panel panel-default">
+                <div class="panel panel-default hidden">
                     <div class="panel-heading">
                         <?php _trans('extra_information'); ?>
                     </div>
@@ -223,7 +226,7 @@ if ($pe != "") {
                     </div>
                 </div>
 
-                <div class="panel panel-default">
+                <div class="panel panel-default hidden">
                     <div class="panel-heading">
                         <?php _trans('invoice_sumex'); ?>
                     </div>
@@ -241,9 +244,108 @@ if ($pe != "") {
                     </div>
                 </div>
 
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Client
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="form-group">
+                            <label for="po_client_id">
+                                <?php echo 'Client Name'; 
+
+                                ?>
+                            </label>
+
+                            <select name="po_client_id" id="po_client_id" class="form-control simple-select">
+                                <option value="0">Select Client</option>
+                                <?php foreach ($clients as $client) { ?>
+                                     <option value="<?php echo $client->client_id; ?>"
+                                        <?php check_select($this->mdl_products->form_value('po_client_id'), $client->client_id); ?>>
+                                    <?php echo $client->client_name; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+
+                  <?php $billing_address = $this->db->get_where('ip_shipping_address', array(
+                            'client_id' => $this->mdl_products->form_value('po_client_id'), 'billing_address' => 1
+                        ))->result();
+                    if($billing_address) { 
+                    ?>
+
+                            <label for="po_billing_address">
+                                Billing Address
+                            </label>
+                                <?php
+                                foreach ($billing_address as $row)
+                                    {
+                                        
+
+                                    if($this->mdl_products->form_value('po_billing_address') == $row->id){                         
+                                        echo "<div class='po_billing_address'><div class='col-xs-1'>
+                                        <input type='radio' name='po_billing_address' value=".$row->id." checked></div>";
+
+                                    } else {                            
+                                        echo "<div class='po_billing_address'><div class='col-xs-1'>
+                                        <input type='radio' name='po_billing_address' value=".$row->id."></div>";
+
+                                    }
+                                               
+                                        echo "<div class='col-xs-11'><p>".$row->address."</p><p><b>GST No :</b>".$row->gst_no." <b>SAC code :</b>".$row->sac_code."</p></div></div>";
+                                    }
+                                ?>
+                    <?php
+                        }
+                    ?>
+
+                    <?php 
+                    $shipping_address = $this->db->get_where('ip_shipping_address', array(
+                            'client_id' => $this->mdl_products->form_value('po_client_id'), 'billing_address' => 0
+                        ))->result();
+                    if($shipping_address) { 
+                        ?>
+
+                            <label for="po_shipping_address">
+                                Shipping Address
+                            </label>
+                                <?php
+                                foreach ($shipping_address as $row)
+                                    {
+                                        
+
+                                    if($this->mdl_products->form_value('po_shipping_address') == $row->id){                         
+                                        echo "<div class='po_billing_address'><div class='col-xs-1'>
+                                        <input type='radio' name='po_shipping_address' value=".$row->id." checked></div>";
+
+                                    } else {                            
+                                        echo "<div class='po_billing_address'><div class='col-xs-1'>
+                                        <input type='radio' name='po_shipping_address' value=".$row->id."></div>";
+
+                                    }
+                                               
+                                        echo "<div class='col-xs-11'><p>".$row->address."</p><p><b>GST No :</b>".$row->gst_no.", <b>SAC code :</b>".$row->sac_code."</p></div></div>";
+                                    }
+                                ?>
+                    <?php
+                        }
+                    ?>
+
+                    </div>
+                </div>
+
+
+
             </div>
         </div>
 
     </div>
 
 </form>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#po_client_id").change(function(){
+            $("#btn-submit").trigger('click');
+        });
+    });
+</script>

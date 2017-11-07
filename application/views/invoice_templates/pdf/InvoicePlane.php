@@ -219,11 +219,9 @@ foreach ($user_field->result() as $row)
                 <b><u>Consultant Name : <?php _htmlsc($item->item_name); ?></u></b><br>
 
                 <?php 
-                echo "(".date_from_mysql($custom_fields['invoice']['Invoice start date'])." to "
-                .date_from_mysql($custom_fields['invoice']['Invoice end date']).")";
                 echo "<br>Applicable Working Days – ".$items[0]->total_days;
                 echo "<br>Charged Working Days  – ".$items[0]->worked_days;
-                echo "<br><br>".nl2br(htmlsc($item->item_description)); 
+                echo "<br><br>".nl2br(htmlsc($po_desc[$item->item_description])); 
                 ?>
 
 

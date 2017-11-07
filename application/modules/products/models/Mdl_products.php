@@ -132,6 +132,18 @@ class Mdl_Products extends Response_Model
                 'label' => trans('empid'),
                 'rules' => 'required'
             ),
+            // Sumex
+            'po_quantity' => array(
+                'rules' => ''
+            ),
+            // Sumex
+            'po_shipping_address' => array(
+                'rules' => ''
+            ),
+            // Sumex
+            'po_billing_address' => array(
+                'rules' => ''
+            )
         );
     }
 
@@ -153,7 +165,26 @@ class Mdl_Products extends Response_Model
         $db_array['product_start'] = $this->date_string(empty($db_array['product_start']) ? null : $db_array['product_start']);
         $db_array['product_end'] = $this->date_string(empty($db_array['product_end']) ? null : $db_array['product_end']);
 
+        $db_array['po_quantity'] = (empty($db_array['po_quantity']) ? null : $db_array['po_quantity']);
+        $db_array['po_billing_address'] = (empty($db_array['po_billing_address']) ? null : $db_array['po_billing_address']);
+        $db_array['po_shipping_address'] = (empty($db_array['po_shipping_address']) ? null : $db_array['po_shipping_address']);
+
         return $db_array;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function po_desc()
+    {
+        return array(
+            '1' => 'Manpower Recruitment Services',
+            '2' => 'Permanent Employee',
+            '3' => 'Conversion Fee',
+            '4' => 'Shift Allowances',
+            '5' => 'Expense Reimbursement'
+        );
     }
 
     public function date_string($date_string){

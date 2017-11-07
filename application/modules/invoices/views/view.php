@@ -1,5 +1,10 @@
 <?php
 $cv = $this->controller->view_data["custom_values"];
+if ($items) {
+    $po_id = $items[0]->product_id;
+} else {
+    $po_id = 0;
+}
 ?>
 <script>
         function save_inv(){
@@ -18,7 +23,7 @@ $cv = $this->controller->view_data["custom_values"];
 
         $('.btn_add_product').click(function () {
             $('#modal-placeholder').load(
-                "<?php echo site_url('products/ajax/modal_product_lookups'); ?>/" + Math.floor(Math.random() * 1000)
+                "<?php echo site_url('products/ajax/modal_product_lookups'); ?>/" + Math.floor(Math.random() * 1000) + "?po_id=<?php echo $po_id; ?>"
             );
         });
 
@@ -53,14 +58,7 @@ $cv = $this->controller->view_data["custom_values"];
         $('#btn_save_invoice').click(function () {
             var items = [];
             var item_order = 1;
-            var iship = [];
-            var ibill = []
-            $(".ship_a :checked").each(function() {
-              iship.push($(this).val());
-            });
-            $(".bill_a :checked").each(function() {
-              ibill.push($(this).val());
-            });
+
             $('table tbody.item').each(function () {
                 var row = {};
                 $(this).find('input,select,textarea').each(function () {
@@ -84,8 +82,6 @@ $cv = $this->controller->view_data["custom_values"];
                     invoice_status_id: $('#invoice_status_id').val(),
                     invoice_password: $('#invoice_password').val(),
                     amt_in_words: $('#amt_in_words').val(),
-                    iship: JSON.stringify(iship),
-                    ibill: JSON.stringify(ibill),
                     items: JSON.stringify(items),
                     invoice_discount_amount: $('#invoice_discount_amount').val(),
                     invoice_discount_percent: $('#invoice_discount_percent').val(),
@@ -472,100 +468,7 @@ if ($this->config->item('disable_read_only') == true) {
                 </div>
 
             </div>
-
-            <br>
-<style type="text/css">
-    .ship_a,.bill_a {
-        padding: 5px;
-        background-color: #eee;
-        border: 1px solid #ccc;
-        min-height:60px;
-        margin: 10px;
-
-    }
-
-    .ship_a input,.bill_a input{
-        margin: auto;
-        width: 100%;
-    }
-</style>
-                <?php 
-                    $billing_address = $this->db->get_where('ip_shipping_address', array(
-                            'client_id' => $invoice->client_id, 'billing_address' => 1
-                        ))->result();
-                    if($billing_address) { 
-                        ?>
-
-
-            <div class="container">
-                  <hr>
-                    <h4>Billing Address :</h4><br>
-                    <?php
-                    foreach ($billing_address as $row)
-                        {
-                            
-
-                        $iship = $this->db->get_where('invoice_shipping', array(
-                            'invoice_id' => $invoice->invoice_id, 'shipping_id' => $row->id,
-                            'ibill' => 1
-                        ))->result();
-                        if(count($iship) == 0){                         
-                            echo "<div class='bill_a'><div class='col-xs-1'>
-                            <input type='radio' name='bill_invoice[]' value=".$row->id."></div>";
-
-                        } else {                            
-                            echo "<div class='bill_a'><div class='col-xs-1'>
-                            <input type='radio' name='bill_invoice[]' value=".$row->id." checked></div>";
-
-                        }
-                                   
-                            echo "<div class='col-xs-11'><p>".$row->address."</p><p><b>GST No :</b>".$row->gst_no.", <b>SAC code :</b>".$row->sac_code."</p></div></div>";
-                        }
-                    ?>
-                    <hr>
-            </div>
-                <?php
-                    }
-                ?>
-
-                <?php 
-                    $shipping_address = $this->db->get_where('ip_shipping_address', array(
-                            'client_id' => $invoice->client_id, 'billing_address' => 0
-                        ))->result();
-                    if($shipping_address) { 
-                        ?>
-
-
-            <div class="container">
-                  <hr>
-                    <h4>Shipping Address :</h4><br>
-                    <?php
-                    foreach ($shipping_address as $row)
-                        {
-                            
-
-                        $iship = $this->db->get_where('invoice_shipping', array(
-                            'invoice_id' => $invoice->invoice_id, 'shipping_id' => $row->id,
-                            'ibill' => 0
-                        ))->result();
-                        if(count($iship) == 0){                         
-                            echo "<div class='ship_a'><div class='col-xs-1'>
-                            <input type='radio' name='for_invoice[]' value=".$row->id."></div>";
-
-                        } else {                            
-                            echo "<div class='ship_a'><div class='col-xs-1'>
-                            <input type='radio' name='for_invoice[]' value=".$row->id." checked></div>";
-
-                        }
-                                   
-                            echo "<div class='col-xs-11'><p>".$row->address."</p><p><b>GST No :</b>".$row->gst_no.", <b>SAC code :</b>".$row->sac_code."</p></div></div>";
-                        }
-                    ?>
-                    <hr>
-            </div>
-                <?php
-                    }
-                ?>
+            
 
             <?php $this->layout->load_view('invoices/partial_item_table'); ?>
 

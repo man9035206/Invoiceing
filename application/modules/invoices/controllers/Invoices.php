@@ -135,6 +135,7 @@ class Invoices extends Admin_Controller
         $this->load->helper("custom_values");
         $this->load->helper("client");
         $this->load->model('units/mdl_units');
+        $this->load->model('products/mdl_products');
         $this->load->module('payments');
 
         $this->load->model('custom_values/mdl_custom_values');
@@ -195,6 +196,7 @@ class Invoices extends Admin_Controller
                 'invoice' => $invoice,
                 'items' => $this->mdl_items->where('invoice_id', $invoice_id)->get()->result(),
                 'invoice_id' => $invoice_id,
+                'po_desc' => $this->mdl_products->po_desc(),
                 'tax_rates' => $this->mdl_tax_rates->get()->result(),
                 'invoice_tax_rates' => $this->mdl_invoice_tax_rates->where('invoice_id', $invoice_id)->get()->result(),
                 'units' => $this->mdl_units->get()->result(),

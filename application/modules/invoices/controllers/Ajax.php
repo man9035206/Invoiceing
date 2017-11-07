@@ -43,10 +43,17 @@ class Ajax extends Admin_Controller
                     if (property_exists($item, 'item_date')) {
                         $item->item_date = ($item->item_date ? date_to_mysql($item->item_date) : null);
                     }
+                    if (property_exists($item, 'invoice_start')) {
+                        $item->invoice_start = ($item->invoice_start ? date_to_mysql($item->invoice_start) : null);
+                    }
+                    if (property_exists($item, 'invoice_end')) {
+                        $item->invoice_end = ($item->invoice_end ? date_to_mysql($item->invoice_end) : null);
+                    }
                     $item->item_product_unit_id = ($item->item_product_unit_id ? $item->item_product_unit_id : null);
                     $item->item_product_unit = $this->mdl_units->get_name($item->item_product_unit_id, $item->item_quantity);
                     $item_id = ($item->item_id) ?: null;
                     unset($item->item_id);
+                    unset($item->empid);
 
                     if (!$item->item_task_id) {
                         unset($item->item_task_id);
@@ -74,33 +81,6 @@ class Ajax extends Admin_Controller
                 }
             }
 
-// For shipping address
-        if ($this->input->post('iship')) {
-            $iship = $this->input->post('iship');
-            $iship = json_decode($iship);
-            if (count($iship) != 0) {
-            $this->db->where('invoice_id', $invoice_id)->where('ibill', 0);
-            $this->db->delete('invoice_shipping');
-                foreach ($iship as $value) {
-                    $this->db->insert('invoice_shipping',array('shipping_id' => $value,'invoice_id' => $invoice_id ));
-                }
-            }
-        }
-//  End
-
-// For Billing address
-        if ($this->input->post('ibill')) {
-            $ibill = $this->input->post('ibill');
-            $ibill = json_decode($ibill);
-            if (count($ibill) != 0) {
-            $this->db->where('invoice_id', $invoice_id)->where('ibill', 1);
-            $this->db->delete('invoice_shipping');
-                foreach ($ibill as $value) {
-                    $this->db->insert('invoice_shipping',array('shipping_id' => $value,'invoice_id' => $invoice_id,'ibill' => 1 ));
-                }
-            }
-        }
-//  End
             $invoice_status = $this->input->post('invoice_status_id');
 
             if ($this->input->post('invoice_discount_amount') === '') {

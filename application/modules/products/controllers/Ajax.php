@@ -22,6 +22,7 @@ class Ajax extends Admin_Controller
         $filter_product = $this->input->get('filter_product');
         $filter_family = $this->input->get('filter_family');
         $reset_table = $this->input->get('reset_table');
+        $po_id = $this->input->get('po_id');
 
         $this->load->model('mdl_products');
         $this->load->model('families/mdl_families');
@@ -34,7 +35,16 @@ class Ajax extends Admin_Controller
             $this->mdl_products->by_product($filter_product);
         }
 
-        $products = $this->mdl_products->get()->result();
+        if ($po_id == 0) {
+            $products = $this->mdl_products->get()->result();
+        } else {
+            $item_po = $this->mdl_products->where('product_id',$po_id)->get()->result();
+            $products = $this->mdl_products
+            ->where('po_shipping_address',$item_po[0]->po_shipping_address)
+            ->where('po_billing_address',$item_po[0]->po_billing_address)
+            ->where('product_id<>',$po_id)
+            ->get()->result();
+        }
         $families = $this->mdl_families->get()->result();
 
         $data = array(
@@ -47,6 +57,7 @@ class Ajax extends Admin_Controller
         if ($filter_product || $filter_family || $reset_table) {
             $this->layout->load_view('products/partial_product_table_modal', $data);
         } else {
+            print_r($products);
             $this->layout->load_view('products/modal_product_lookups', $data);
         }
     }

@@ -168,8 +168,8 @@
                             } ?>>
                     </div>
                     <div class="input-group">
-                        <span class="input-group-addon"><?php _trans('Employee Id'); ?></span>
-                        <input type="text" class="input-sm form-control"
+                        <span class="input-group-addon">Employee Id</span>
+                        <input type="text" name="empid" class="input-sm form-control"
                                value="<?php _htmlsc($item->empid); ?>"
                             <?php  echo 'disabled="disabled"';?>>
                     </div>
@@ -177,16 +177,16 @@
                 
                 <td class="td-amount td-quantity">
                     <div class="input-group">
-                        <span class="input-group-addon"><?php _trans('Days Worked'); ?></span>
-                        <input type="text" name="worked_days" class="worked_days input-sm form-control"
+                        <span class="input-group-addon">Days Worked</span>
+                        <input type="text" name="worked_days" class="worked_days_<?php echo $item->item_id; ?> input-sm form-control"
                                value="<?php echo format_amount($item->worked_days); ?>"
                             <?php if ($invoice->is_read_only == 1) {
                                 echo 'disabled="disabled"';
                             } ?>>
                     </div>
                     <div class="input-group">
-                        <span class="input-group-addon"><?php _trans('Total Working Days'); ?></span>
-                        <input type="text" name="total_days" class="total_days input-sm form-control"
+                        <span class="input-group-addon">Total Working Days</span>
+                        <input type="text" name="total_days" class="total_days_<?php echo $item->item_id; ?> input-sm form-control"
                                value="<?php echo format_amount($item->total_days); ?>"
                             <?php if ($invoice->is_read_only == 1) {
                                 echo 'disabled="disabled"';
@@ -194,7 +194,7 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon"><?php _trans('quantity'); ?></span>
-                        <input type="text" id="item_quantity" name="item_quantity" class="input-sm form-control amount"
+                        <input type="text" id="item_quantity_<?php echo $item->item_id; ?>" name="item_quantity" class="input-sm form-control amount"
                                value="<?php echo format_amount($item->item_quantity); ?>"
                             <?php if ($invoice->is_read_only == 1) {
                                 echo 'disabled="disabled"';
@@ -203,14 +203,14 @@
                 </td>
                 <script>
                     $(document).ready(function(){
-                       $(".worked_days").keyup(function(){
-                         var total = $(this).val()/$(".total_days").val();
-                         $("#item_quantity").val(total.toFixed(3));
+                       $(".worked_days_<?php echo $item->item_id; ?>").keyup(function(){
+                         var total = $(this).val()/$(".total_days_<?php echo $item->item_id; ?>").val();
+                         $("#item_quantity_<?php echo $item->item_id; ?>").val(total);
                        });
 
-                       $(".total_days").keyup(function(){
-                         var total = $(".worked_days").val()/$(this).val();
-                         $("#item_quantity").val(total.toFixed(3));
+                       $(".total_days_<?php echo $item->item_id; ?>").keyup(function(){
+                         var total = $(".worked_days_<?php echo $item->item_id; ?>").val()/$(this).val();
+                         $("#item_quantity_<?php echo $item->item_id; ?>").val(total);
                        });
                     });
                 </script>
@@ -224,6 +224,40 @@
                             <?php if ($invoice->is_read_only == 1) {
                                 echo 'disabled="disabled"';
                             } ?>>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            Start Date
+                        </span>
+                        <input name="invoice_start"
+                               class="form-control input-sm datepicker"
+                               value="<?php 
+                               if ($item->invoice_start) {
+                                echo date_from_mysql($item->invoice_start);
+                               } ?>"
+                            <?php if ($invoice->is_read_only == 1) {
+                                echo 'disabled="disabled"';
+                            } ?>>
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar fa-fw"></i>
+                        </span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            End Date
+                        </span>
+                        <input name="invoice_end"
+                               class="form-control input-sm datepicker"
+                               value="<?php 
+                               if ($item->invoice_start) {
+                                echo date_from_mysql($item->invoice_end);
+                               } ?>"
+                            <?php if ($invoice->is_read_only == 1) {
+                                echo 'disabled="disabled"';
+                            } ?>>
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar fa-fw"></i>
+                        </span>
                     </div>
                 </td>
                 <td class="td-amount hidden">
@@ -268,14 +302,16 @@
             <tr>
                 <?php if ($invoice->sumex_id == ""): ?>
                     <td class="td-textarea">
-                        <div class="input-group">
-                            <span class="input-group-addon"><?php _trans('description'); ?></span>
-                            <textarea name="item_description"
-                                      class="input-sm form-control"
-                                <?php if ($invoice->is_read_only == 1) {
-                                    echo 'disabled="disabled"';
-                                } ?>><?php echo htmlsc($item->item_description); ?></textarea>
-                        </div>
+                            <select name="item_description" id="item_description" class="form-control simple-select">
+                                <option value="0">Select Description</option>
+
+                                    <?php foreach ($po_desc as $key => $desc) { ?>
+                                        <option value="<?php echo $key; ?>"
+                                            <?php check_select($item->product_description, $key); ?>>
+                                            <?php echo $desc; ?>
+                                        </option>
+                                    <?php } ?>
+                            </select>
                     </td>
                 <?php else: ?>
                     <td class="td-date">
@@ -298,7 +334,7 @@
                             <?php foreach ($units as $unit) { ?>
                                 <option value="<?php echo $unit->unit_id; ?>"
                                     <?php check_select($item->item_product_unit_id, $unit->unit_id); ?>>
-                                    <?php echo htmlsc($unit->unit_name) . "/" . htmlsc($unit->unit_name_plrl); ?>
+                                    <?php echo htmlsc($unit->unit_name) ; ?>
                                 </option>
                             <?php } ?>
                         </select>
