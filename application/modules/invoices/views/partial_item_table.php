@@ -300,9 +300,11 @@
             </tr>
 
             <tr>
-                <?php if ($invoice->sumex_id == ""): ?>
                     <td class="td-textarea">
-                            <select name="item_description" id="item_description" class="form-control simple-select">
+                            <select name="item_description" id="item_description" class="form-control simple-select"
+                            <?php if ($invoice->is_read_only == 1) {
+                                echo 'disabled="disabled"';
+                            } ?>>
                                 <option value="0">Select Description</option>
 
                                     <?php foreach ($po_desc as $key => $desc) { ?>
@@ -313,23 +315,14 @@
                                     <?php } ?>
                             </select>
                     </td>
-                <?php else: ?>
-                    <td class="td-date">
-                        <div class="input-group">
-                            <span class="input-group-addon"><?php _trans('date'); ?></span>
-                            <input type="text" name="item_date" class="input-sm form-control datepicker"
-                                   value="<?php echo format_date($item->item_date); ?>"
-                                <?php if ($invoice->is_read_only == 1) {
-                                    echo 'disabled="disabled"';
-                                } ?>>
-                        </div>
-                    </td>
-                <?php endif; ?>
 
                 <td class="td-amount">
                     <div class="input-group">
                         <span class="input-group-addon"><?php _trans('product_unit'); ?></span>
-                        <select name="item_product_unit_id" class="form-control input-sm">
+                        <select name="item_product_unit_id" class="form-control input-sm"
+                            <?php if ($invoice->is_read_only == 1) {
+                                echo 'disabled="disabled"';
+                            } ?>>
                             <option value="0"><?php _trans('none'); ?></option>
                             <?php foreach ($units as $unit) { ?>
                                 <option value="<?php echo $unit->unit_id; ?>"
@@ -468,23 +461,14 @@
                    <div class="input-group">
                         <span class="input-group-addon">Amount In Words</span>
                         <input type="text" id="amt_in_words" name="amt_in_words" class="input-sm form-control"
-                               value="<?php _htmlsc($invoice->amt_in_words); ?>"
+                               value="<?php _htmlsc(numTowords($invoice->invoice_total)); ?>"
                             <?php if ($invoice->is_read_only == 1) {
                                 echo 'disabled="disabled"';
                             } ?>>
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td></td>
-                <td>
-                    
-            <button class="btn btn-sm btn-success ajax-loader" id="btn_save_inv" onclick="save_inv()">
-                <i class="fa fa-check"></i> <?php _trans('save'); ?>
-            </button>
-                </td>
-            </tr>
         </table>
+        <span class="amt_in_word"><?php _htmlsc(numTowords($invoice->invoice_total)); ?></span>
     </div>
-
 </div>

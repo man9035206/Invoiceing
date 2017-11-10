@@ -552,3 +552,4 @@ if ($this->config->item('disable_read_only') == true) {
 </div>
 
 <?php $this->layout->load_view('upload/dropzone-invoice-scripts'); ?>
+<!-- https://stackoverflow.com/questions/25967530/convert-number-to-words-in-indian-currency-format-with-paise-value -->

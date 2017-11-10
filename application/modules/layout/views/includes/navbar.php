@@ -151,6 +151,7 @@
                     <ul class="dropdown-menu">
                         <li><?php echo anchor('products/form', trans('create_product')); ?></li>
                         <li><?php echo anchor('products/index', trans('view_products')); ?></li>
+                        <li><?php echo anchor('products/non_invoiced', 'Non Invoiced POs'); ?></li>
                         <li><?php echo anchor('families/index', trans('product_families')); ?></li>
                         <li><?php echo anchor('units/index', trans('product_units')); ?></li>
                     </ul>

@@ -227,7 +227,7 @@ foreach ($user_field->result() as $row)
 
                 </td>
                 <td class="text-right">
-                    <?php echo format_amount($item->item_quantity); ?>
+                    <?php echo $item->item_quantity; ?>
                 </td>
                 <td class="text-right">
                     <?php echo format_currency($item->item_price); ?>
@@ -320,7 +320,7 @@ foreach ($user_field->result() as $row)
         </tr>
         <tr>
             <td><b>TOTAL (IN WORDS)</b></td>
-            <td colspan="3">Rupees <?php echo $invoice->amt_in_words ; ?> Only.</td>
+            <td colspan="3"><?php echo numTowords($invoice->invoice_total) ; ?> ONLY.</td>
             <td class="text-right">
                 <b><?php _trans('balance'); ?></b>
             </td>

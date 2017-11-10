@@ -38,6 +38,20 @@ class Products extends Admin_Controller
         $this->layout->render();
     }
 
+    public function non_invoiced($page = 0)
+    {
+        $this->mdl_products->paginate(site_url('products/index'), $page);
+        $this->load->model('invoices/mdl_items');
+        $items = $this->mdl_items->get()->result();
+        die(var_dump($items));
+        $products = $this->mdl_products->result();
+
+        $this->layout->set('products', $products);
+        $this->layout->buffer('content', 'products/index');
+        $this->layout->render();
+    }
+
+
     /**
      * @param null $id
      */
