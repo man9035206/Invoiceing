@@ -143,7 +143,11 @@ function numTowords($amount) {
 
 
     if ($points == "") {
-        $word = $result . "Rupees  ";
+        if($result != "") {
+            $word = $result . "Rupees  ";
+        } else {
+            $word = $result;
+        }
     } else {
        $word = $result . "Rupees  ". $points . " Paise";
     }

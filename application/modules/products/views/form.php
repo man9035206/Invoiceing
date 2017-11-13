@@ -100,7 +100,7 @@ if ($pe != "") {
                         </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="product_sku">
                                 <?php _trans('product_sku'); ?>
                             </label>
@@ -258,7 +258,7 @@ if ($pe != "") {
                             </label>
 
                             <select name="po_client_id" id="po_client_id" class="form-control simple-select">
-                                <option value="0">Select Client</option>
+                                <option value="">Select Client</option>
                                 <?php foreach ($clients as $client) { ?>
                                      <option value="<?php echo $client->client_id; ?>"
                                         <?php check_select($this->mdl_products->form_value('po_client_id'), $client->client_id); ?>>
@@ -267,68 +267,73 @@ if ($pe != "") {
                             </select>
                         </div>
 
-                  <?php $billing_address = $this->db->get_where('ip_shipping_address', array(
+
+                        <div id="c_address">
+                        
+                        <?php 
+                        
+                        $billing_address = $this->db->get_where('ip_shipping_address', array(
                             'client_id' => $this->mdl_products->form_value('po_client_id'), 'billing_address' => 1
                         ))->result();
-                    if($billing_address) { 
-                    ?>
 
-                            <label for="po_billing_address">
-                                Billing Address
-                            </label>
-                                <?php
-                                foreach ($billing_address as $row)
-                                    {
-                                        
 
-                                    if($this->mdl_products->form_value('po_billing_address') == $row->id){                         
-                                        echo "<div class='po_billing_address'><div class='col-xs-1'>
-                                        <input type='radio' name='po_billing_address' value=".$row->id." checked></div>";
-
-                                    } else {                            
-                                        echo "<div class='po_billing_address'><div class='col-xs-1'>
-                                        <input type='radio' name='po_billing_address' value=".$row->id."></div>";
-
-                                    }
-                                               
-                                        echo "<div class='col-xs-11'><p>".$row->address."</p><p><b>GST No :</b>".$row->gst_no." <b>SAC code :</b>".$row->sac_code."</p></div></div>";
-                                    }
-                                ?>
-                    <?php
-                        }
-                    ?>
-
-                    <?php 
-                    $shipping_address = $this->db->get_where('ip_shipping_address', array(
+                        $shipping_address = $this->db->get_where('ip_shipping_address', array(
                             'client_id' => $this->mdl_products->form_value('po_client_id'), 'billing_address' => 0
                         ))->result();
-                    if($shipping_address) { 
-                        ?>
 
-                            <label for="po_shipping_address">
-                                Shipping Address
-                            </label>
-                                <?php
-                                foreach ($shipping_address as $row)
-                                    {
-                                        
+                        if($billing_address) { 
+                            ?>
 
-                                    if($this->mdl_products->form_value('po_shipping_address') == $row->id){                         
-                                        echo "<div class='po_billing_address'><div class='col-xs-1'>
-                                        <input type='radio' name='po_shipping_address' value=".$row->id." checked></div>";
+                                    <label for="po_billing_address">
+                                        Billing Address
+                                    </label>
+                                        <?php
+                                        foreach ($billing_address as $row)
+                                            {
+                                                
 
-                                    } else {                            
-                                        echo "<div class='po_billing_address'><div class='col-xs-1'>
-                                        <input type='radio' name='po_shipping_address' value=".$row->id."></div>";
+                                            if($this->mdl_products->form_value('po_billing_address') == $row->id){                         
+                                                echo "<div class='po_billing_address'><div class='col-xs-1'>
+                                                <input type='radio' name='po_billing_address' value=".$row->id." checked></div>";
 
-                                    }
-                                               
-                                        echo "<div class='col-xs-11'><p>".$row->address."</p><p><b>GST No :</b>".$row->gst_no.", <b>SAC code :</b>".$row->sac_code."</p></div></div>";
-                                    }
+                                            } else {                            
+                                                echo "<div class='po_billing_address'><div class='col-xs-1'>
+                                                <input type='radio' name='po_billing_address' value=".$row->id."></div>";
+
+                                            }
+                                                    
+                                                echo "<div class='col-xs-11'><p>".$row->address."</p><p><b>GST No :</b>".$row->gst_no." <b>SAC code :</b>".$row->sac_code."</p></div></div>";
+                                            }
+                                }
+
+                            if($shipping_address) { 
                                 ?>
-                    <?php
-                        }
-                    ?>
+
+                                    <label for="po_shipping_address">
+                                        Shipping Address
+                                    </label>
+                                        <?php
+                                        foreach ($shipping_address as $row)
+                                            {
+                                                
+
+                                            if($this->mdl_products->form_value('po_shipping_address') == $row->id){                         
+                                                echo "<div class='po_billing_address'><div class='col-xs-1'>
+                                                <input type='radio' name='po_shipping_address' value=".$row->id." checked></div>";
+
+                                            } else {                            
+                                                echo "<div class='po_billing_address'><div class='col-xs-1'>
+                                                <input type='radio' name='po_shipping_address' value=".$row->id."></div>";
+
+                                            }
+                                                    
+                                                echo "<div class='col-xs-11'><p>".$row->address."</p><p><b>GST No :</b>".$row->gst_no.", <b>SAC code :</b>".$row->sac_code."</p></div></div>";
+                                            }
+                                        ?>
+                            <?php
+                                }
+                            ?>
+                        </div>                                   
 
                     </div>
                 </div>
@@ -344,8 +349,16 @@ if ($pe != "") {
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#po_client_id").change(function(){
-            $("#btn-submit").trigger('click');
+        $("#po_client_id").change(function(){ 
+            var c_id = $(this).val();
+            var b_id = "<?php echo $this->mdl_products->form_value('po_billing_address', true); ?>";
+            var s_id = "<?php echo $this->mdl_products->form_value('po_shipping_address', true); ?>";
+            $.ajax({
+                url: "<?php echo site_url('products/ajax/client_address'); ?>?c_id=" +c_id
+                + "&b_id=" + b_id + "&s_id=" + s_id
+            }).done(function(data) {
+                $("#c_address").html(data);
+            });
         });
     });
 </script>

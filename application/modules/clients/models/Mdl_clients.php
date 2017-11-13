@@ -255,4 +255,16 @@ class Mdl_Clients extends Response_Model
         return $this;
     }
 
+
+    public function payment_term($cid)
+    {
+        $this->db->select('client_custom_fieldvalue');
+        $this->db->where('client_id', $cid);
+        $this->db->where('client_custom_fieldid', 13);
+        $this->db->from('ip_client_custom');
+        $data = $this->db->get();
+        $ret = $data->row();
+        return $ret->client_custom_fieldvalue;
+    }
+
 }

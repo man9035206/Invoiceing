@@ -9,7 +9,7 @@
 </head>
 <body>
 <div id="content">
-        <h2 style="text-align:center;">INVOICE</h2>
+        <h2 style="text-align:center;">TAX INVOICE</h2>
 <header class="clearfix">
 
     <div id="logo">
@@ -19,12 +19,6 @@
         <div><b>From:   <?php _htmlsc($invoice->user_company); ?></b></div>
         <?php 
 
-        // if ($invoice->user_vat_id) {
-        //     echo '<div>' . trans('vat_id_short') . ': ' . $invoice->user_vat_id . '</div>';
-        // }
-        // if ($invoice->user_tax_code) {
-        //     echo '<div>' . trans('tax_code_short') . ': ' . $invoice->user_tax_code . '</div>';
-        // }
         if ($invoice->user_address_1) {
             echo '<div>' . htmlsc($invoice->user_address_1) . '</div>';
         }
@@ -154,10 +148,10 @@ foreach ($user_field->result() as $row)
                             <td><?php echo trans('Payment Terms') . ': '; ?></td>
                             <td>
                             <?php
-                            if ($custom_fields['clients']['Payment Terms (In days)']) {
-                                echo $custom_fields['clients']['Payment Terms (In days)']." days"; 
+                            if ($custom_fields['client']['Payment Terms (In days)']) {
+                                echo $custom_fields['client']['Payment Terms (In days)']." days"; 
                             } else {
-                                echo "30 Days";
+                                echo get_setting('invoices_due_after')." days";
                             }
                              ?>                                 
                              </td>
@@ -214,13 +208,15 @@ foreach ($user_field->result() as $row)
         foreach ($items as $item) { ?>
             <tr class= "items-list">
                 <td><?php echo $item->empid; ?></td>
-                <td colspan="2">
+                <td colspan="2" style="width: 300px;">
 
-                <b><u>Consultant Name : <?php _htmlsc($item->item_name); ?></u></b><br>
+                <b><u>Consultant Name :</u> <?php _htmlsc($item->item_name); ?></b><br>
 
                 <?php 
-                echo "<br>Applicable Working Days – ".$items[0]->total_days;
-                echo "<br>Charged Working Days  – ".$items[0]->worked_days;
+                    $yrdata= strtotime($item->invoice_end);
+                echo "<br>".date('F Y', $yrdata)." (".date_from_mysql($item->invoice_start)." to ".date_from_mysql($item->invoice_end).")";
+                echo "<br>Applicable Working Days – ".$item->total_days;
+                echo "<br>Charged Working Days  – ".$item->worked_days;
                 echo "<br><br>".nl2br(htmlsc($po_desc[$item->item_description])); 
                 ?>
 

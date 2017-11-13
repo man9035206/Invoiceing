@@ -64,6 +64,33 @@ class Clients extends Admin_Controller
     public function form($id = null)
     {
 
+        if ($this->input->post('btn_cancel')) {
+            redirect('clients');
+        }
+
+        // Set validation rule based on is_update
+        if ($this->input->post('is_update') == 0 && $this->input->post('client_name') != '') {
+            $check = $this->db->get_where('ip_clients', array(
+                'client_name' => $this->input->post('client_name'),
+                'client_surname' => $this->input->post('client_surname')
+            ))->result();
+
+            if (!empty($check)) {
+                $this->session->set_flashdata('alert_error', trans('client_already_exists'));
+                redirect('clients/form');
+            }
+        }
+
+        if ($this->mdl_clients->run_validation()) {
+            $id = $this->mdl_clients->save($id);
+
+            $this->load->model('custom_fields/mdl_client_custom');
+            $result = $this->mdl_client_custom->save_custom($id, $this->input->post('custom'));
+
+
+
+
+
         if ($this->input->post('shipping_address')) {   
             foreach ($this->input->post('shipping_address') as $key) {
                 if ($key[0] == "") {
@@ -93,29 +120,7 @@ class Clients extends Admin_Controller
              }
         }
 
-        if ($this->input->post('btn_cancel')) {
-            redirect('clients');
-        }
-
-        // Set validation rule based on is_update
-        if ($this->input->post('is_update') == 0 && $this->input->post('client_name') != '') {
-            $check = $this->db->get_where('ip_clients', array(
-                'client_name' => $this->input->post('client_name'),
-                'client_surname' => $this->input->post('client_surname')
-            ))->result();
-
-            if (!empty($check)) {
-                $this->session->set_flashdata('alert_error', trans('client_already_exists'));
-                redirect('clients/form');
-            }
-        }
-
-        if ($this->mdl_clients->run_validation()) {
-            $id = $this->mdl_clients->save($id);
-
-            $this->load->model('custom_fields/mdl_client_custom');
-            $result = $this->mdl_client_custom->save_custom($id, $this->input->post('custom'));
-
+        
             if ($result !== true) {
                 $this->session->set_flashdata('alert_error', $result);
                 $this->session->set_flashdata('alert_success', null);

@@ -102,8 +102,8 @@ class Mdl_Products extends Response_Model
             ),
             'po_client_id' => array(
                 'field' => 'po_client_id',
-                'label' => trans('po_client_id'),
-                'rules' => 'numeric'
+                'label' => 'Client name',
+                'rules' => 'required'
             ),
             'product_no' => array(
                 'field' => 'product_no',
@@ -129,7 +129,7 @@ class Mdl_Products extends Response_Model
             // Sumex
             'empid' => array(
                 'field' => 'empid',
-                'label' => trans('empid'),
+                'label' => 'Employee Id',
                 'rules' => 'required'
             ),
             // Sumex
@@ -138,11 +138,15 @@ class Mdl_Products extends Response_Model
             ),
             // Sumex
             'po_shipping_address' => array(
-                'rules' => ''
+                'field' => 'po_shipping_address',
+                'label' => 'Shipping Address',
+                'rules' => 'required'
             ),
             // Sumex
             'po_billing_address' => array(
-                'rules' => ''
+                'field' => 'po_billing_address',
+                'label' => 'Billing Address',
+                'rules' => 'required'
             )
         );
     }

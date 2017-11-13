@@ -201,19 +201,30 @@
                             } ?>>
                     </div>
                 </td>
-                <script>
-                    $(document).ready(function(){
-                       $(".worked_days_<?php echo $item->item_id; ?>").keyup(function(){
-                         var total = $(this).val()/$(".total_days_<?php echo $item->item_id; ?>").val();
-                         $("#item_quantity_<?php echo $item->item_id; ?>").val(total);
-                       });
+<script>
+    $(document).ready(function(){
+        $(".worked_days_<?php echo $item->item_id; ?>").keyup(function(){
+            var total = $(this).val()/$(".total_days_<?php echo $item->item_id; ?>").val();
+            $("#item_quantity_<?php echo $item->item_id; ?>").val(total);
+            $(this).change(function() {
+                if(total != "Infinity") {
+                    save_inv();
+                }
+            });
+        });
 
-                       $(".total_days_<?php echo $item->item_id; ?>").keyup(function(){
-                         var total = $(".worked_days_<?php echo $item->item_id; ?>").val()/$(this).val();
-                         $("#item_quantity_<?php echo $item->item_id; ?>").val(total);
-                       });
-                    });
-                </script>
+        $(".total_days_<?php echo $item->item_id; ?>").keyup(function(){
+            var total = $(".worked_days_<?php echo $item->item_id; ?>").val()/$(this).val();
+            $("#item_quantity_<?php echo $item->item_id; ?>").val(total);
+            
+            $(this).change(function() {
+                if(total != "Infinity") {
+                    save_inv();
+                }
+            });
+        });
+    });
+</script>
 
 
                 <td class="td-amount">
@@ -275,7 +286,7 @@
                 <td class="td-amount">
                     <div class="input-group">
                         <span class="input-group-addon"><?php _trans('tax_rate'); ?></span>
-                        <select name="item_tax_rate_id" class="form-control input-sm"
+                        <select name="item_tax_rate_id" class="form-control input-sm tax_rate_item"
                             <?php if ($invoice->is_read_only == 1) {
                                 echo 'disabled="disabled"';
                             } ?>>
@@ -373,7 +384,7 @@
                 <a href="#" class="btn_add_row btn btn-sm btn-default hidden">
                     <i class="fa fa-plus"></i> <?php _trans('add_new_row'); ?>
                 </a>
-                <a href="#" class="btn_add_product btn btn-sm btn-default">
+                <a href="#" class="btn_add_product btn btn-sm btn-primary">
                     <i class="fa fa-database"></i>
                     <?php _trans('add_product'); ?>
                 </a>

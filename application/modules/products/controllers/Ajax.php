@@ -75,4 +75,13 @@ class Ajax extends Admin_Controller
         echo json_encode($products);
     }
 
+    public function client_address() {
+        $data = array(
+            'c_id' => $this->input->get('c_id'),
+            's_id' => $this->input->get('s_id'),
+            'b_id' => $this->input->get('b_id') 
+        );
+        $this->layout->load_view('products/client_address', $data);
+    }
+
 }

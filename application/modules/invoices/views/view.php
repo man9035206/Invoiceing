@@ -10,8 +10,17 @@ if ($items) {
         function save_inv(){
                     $( "#btn_save_invoice" ).trigger( "click" );            
         }
+
     $(function () {
 
+
+        $(".tax_rate_item").change(function(){
+            save_inv();
+        });
+
+        $("[name*='item_price']").change(function(){
+            save_inv();
+        });
 
         $('.item-task-id').each(function () {
             // Disable client chaning if at least one item already has a task id assigned
@@ -36,7 +45,7 @@ if ($items) {
         });
 
         <?php if (!$items) { ?>
-        $('#new_row').clone().appendTo('#item_table').removeAttr('id').addClass('item').show();
+        $('#new_row').clone().appendTo('#item_table').removeAttr('id').addClass('item hidden').show();
         <?php } ?>
 
         $('#btn_create_recurring').click(function () {
