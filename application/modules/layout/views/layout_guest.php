@@ -140,7 +140,7 @@
     
     $(document).ready(function(){
         $(document).on('click', '.create-invoice', function () {
-            $('#modal-placeholder').load("http://127.0.0.1/ip/index.php/invoices/ajax/modal_create_invoice");
+            $('#modal-placeholder').load("<?php echo site_url('invoices/ajax/modal_create_invoice'); ?>");
         });
 
     });

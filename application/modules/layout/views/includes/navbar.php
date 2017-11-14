@@ -26,10 +26,34 @@
             <?php } ?>
         <?php } elseif ($this->session->userdata('user_type') == 3) { ?>
             <ul class="nav navbar-nav">
-                <li><?php echo anchor('products/form', trans('create_product')); ?></li>
-                <li><?php echo anchor('products/index', trans('view_products')); ?></li>
-                <li><?php echo anchor('families/index', trans('product_families')); ?></li>
-                <li><?php echo anchor('units/index', trans('product_units')); ?></li>
+                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-caret-down"></i> &nbsp;
+                        <span class="hidden-md"><?php _trans('products'); ?></span>
+                        <i class="visible-md-inline fa fa-database"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><?php echo anchor('products/form', trans('create_product')); ?></li>
+                        <li><?php echo anchor('products/index', trans('view_products')); ?></li>
+                        <li><?php echo anchor('products/non_invoiced', 'Non Invoiced POs'); ?></li>
+                        <li><?php echo anchor('families/index', trans('product_families')); ?></li>
+                        <li><?php echo anchor('units/index', trans('product_units')); ?></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-caret-down"></i> &nbsp;
+                        <span class="hidden-md"><?php _trans('invoices'); ?></span>
+                        <i class="visible-md-inline fa fa-database"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" class="create-invoice"><?php _trans('create_invoice'); ?></a></li>
+                        <li><?php echo anchor('invoices/index', trans('view_invoices')); ?></li>
+                        <li><?php echo anchor('invoices/recurring/index', trans('view_recurring_invoices')); ?></li>
+                    </ul>
+                </li>
             </ul>
 
             <?php if (isset($filter_display) and $filter_display == true) { ?>
@@ -42,8 +66,7 @@
                 </form>
             <?php } ?>
         <?php } elseif ($this->session->userdata('user_type') == 5) { ?>
-            <ul class="nav navbar-nav">
-                
+            <ul class="nav navbar-nav">                
                         <li><?php echo anchor('invoices/index', trans('view_invoices')); ?></li>
                         <li><?php echo anchor('payments/form', trans('enter_payment')); ?></li>
                         <li><?php echo anchor('payments/index', trans('view_payments')); ?></li>
@@ -74,17 +97,6 @@
                     </ul>
                 </li>
                 <li><?php echo anchor('guest/payments/index', trans('payments')); ?></li>
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right settings">
-                <li>
-                    <a href="<?php echo site_url('sessions/logout'); ?>"
-                       class="tip icon logout" data-placement="bottom"
-                       title="<?php _trans('logout'); ?>">
-                        <span class="visible-xs">&nbsp;<?php _trans('logout'); ?></span>
-                        <i class="fa fa-power-off"></i>
-                    </a>
-                </li>
             </ul>
 
             <?php } else { ?>
@@ -248,21 +260,12 @@
                             ?></span>
                     </a>
                 </li>
-                <li>
-                    <a href="<?php echo site_url('sessions/logout'); ?>"
-                       class="tip icon logout" data-placement="bottom"
-                       title="<?php _trans('logout'); ?>">
-                        <i class="fa fa-power-off"></i>
-                        <span class="visible-xs">&nbsp;<?php _trans('logout'); ?></span>
-                    </a>
-                </li>
             </ul>
 
             <?php } ?>
 
 
 
-        <?php if ($this->session->userdata('user_type') <> 1) { ?>
             <ul class="nav navbar-nav navbar-right"><li>
                     <a href="<?php echo site_url('sessions/logout'); ?>"
                        class="tip icon logout" data-placement="bottom"
@@ -273,7 +276,6 @@
                 </li>
             </ul>
 
-        <?php } ?>
 
         </div>
     </div>
