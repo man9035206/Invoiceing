@@ -27,7 +27,7 @@ class Guest_Controller extends User_Controller
         $user_clients = $this->mdl_user_clients->assigned_to($this->session->userdata('user_id'))->get()->result();
 
         if (!$user_clients) {
-            $user_clients = $this->mdl_clients->get()->result();
+            $user_clients = $this->mdl_clients->get();
         }
 
         foreach ($user_clients as $user_client) {

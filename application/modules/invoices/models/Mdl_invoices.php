@@ -396,7 +396,12 @@ class Mdl_Invoices extends Response_Model
         $this->load->model('clients/mdl_clients');
         $cid = $this->input->post('client_id');
         $invoice_date_due = new DateTime($invoice_date_created);
-        $invoice_date_due->add(new DateInterval('P' . $this->mdl_clients->payment_term($cid) . 'D'));
+        if($this->mdl_clients->payment_term($cid) != ""){
+            $pt = $this->mdl_clients->payment_term($cid);
+        } else {
+            $pt = get_setting('invoices_due_after');
+        }
+        $invoice_date_due->add(new DateInterval('P' . $pt . 'D'));
         return $invoice_date_due->format('Y-m-d');
     }
 
