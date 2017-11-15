@@ -1,5 +1,9 @@
 <div id="headerbar">
     <h1 class="headerbar-title"> Non Invoiced POs</h1>
+
+    <div class="headerbar-item pull-right">
+        <?php echo pager(site_url('products/non_invoiced'), 'mdl_products'); ?>
+    </div>
 </div>
 
 <div id="content" class="table-content">

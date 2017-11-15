@@ -40,7 +40,6 @@ class Products extends Admin_Controller
 
     public function non_invoiced($page = 0)
     {
-        $this->mdl_products->paginate(site_url('products/index'), $page);
         $this->load->model('invoices/mdl_items');
         $query = "SELECT item_product_id from ip_invoice_items as it 
         LEFT JOIN ip_invoices as i ON it.invoice_id = i.invoice_id
@@ -55,10 +54,9 @@ class Products extends Admin_Controller
         $invoiced_pids = implode(",",$invoiced_pids);
         $invoiced_pids = explode(",", $invoiced_pids);
 
-        $products = $this->db->select("*")
-        ->from('ip_products')
-        ->where_not_in('product_id', $invoiced_pids)
-        ->get()->result();
+        $this->mdl_products->paginate(site_url('products/index'), $page);
+        $products = $this->mdl_products->where_not_in('product_id', $invoiced_pids)->get()->result();
+        
 
         $this->layout->set('products', $products);
         $this->layout->buffer('content', 'products/non_invoiced_po');
