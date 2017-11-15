@@ -39,3 +39,15 @@ function format_gender($gender)
 
     return trans('gender_other');
 }
+
+/**
+ * @param string $id
+ * @return string
+ */
+function client_name($id)
+{
+    $CI =& get_instance();
+    $query = "select client_name from ip_clients where client_id = ".$id;
+    $client = $CI->db->query($query)->result();
+    return $client[0]->client_name;
+}

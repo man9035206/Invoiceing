@@ -163,7 +163,6 @@
                     <ul class="dropdown-menu">
                         <li><?php echo anchor('products/form', trans('create_product')); ?></li>
                         <li><?php echo anchor('products/index', trans('view_products')); ?></li>
-                        <li><?php echo anchor('products/non_invoiced', 'Non Invoiced POs'); ?></li>
                         <li><?php echo anchor('families/index', trans('product_families')); ?></li>
                         <li><?php echo anchor('units/index', trans('product_units')); ?></li>
                     </ul>
@@ -207,8 +206,8 @@
                     </div>
                 </form>
             <?php } ?>
-
             <ul class="nav navbar-nav navbar-right">
+
                 <li>
                     <a href="http://docs.invoiceplane.com/" target="_blank"
                        class="tip icon" title="<?php _trans('documentation'); ?>"
@@ -262,11 +261,12 @@
                 </li>
             </ul>
 
+           
             <?php } ?>
+            <ul class="nav navbar-nav navbar-right">
 
-
-
-            <ul class="nav navbar-nav navbar-right"><li>
+                <li><?php echo anchor('products/non_invoiced', 'Non Invoiced POs'); ?></li>
+                <li>
                     <a href="<?php echo site_url('sessions/logout'); ?>"
                        class="tip icon logout" data-placement="bottom"
                        title="<?php _trans('logout'); ?>">

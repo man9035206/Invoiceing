@@ -42,7 +42,7 @@
                     <td><?php _htmlsc($product->family_name); ?></td>
                     <td><?php _htmlsc($product->product_sku); ?></td>
                     <td><?php _htmlsc($product->product_name); ?></td>
-                    <td><?php echo nl2br(htmlsc($product->product_description)); ?></td>
+                    <td><?php echo nl2br(htmlsc(po_desc($product->product_description))); ?></td>
                     <td class="amount"><?php echo format_currency($product->product_price); ?></td>
                     <td><?php _htmlsc($product->unit_name); ?></td>
                     <td><?php echo ($product->tax_rate_id) ? htmlsc($product->tax_rate_name) : trans('none'); ?></td>

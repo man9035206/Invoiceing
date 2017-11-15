@@ -42,12 +42,26 @@ class Products extends Admin_Controller
     {
         $this->mdl_products->paginate(site_url('products/index'), $page);
         $this->load->model('invoices/mdl_items');
-        $items = $this->mdl_items->get()->result();
-        die(var_dump($items));
-        $products = $this->mdl_products->result();
+        $query = "SELECT item_product_id from ip_invoice_items as it 
+        LEFT JOIN ip_invoices as i ON it.invoice_id = i.invoice_id
+        WHERE MONTH(invoice_date_created) = ".date('m');
+        $items = $this->db->query($query)->result();
+
+        $invoiced_pids= array();
+        foreach($items as $row){
+           $invoiced_pids[] = $row->item_product_id;
+        }
+
+        $invoiced_pids = implode(",",$invoiced_pids);
+        $invoiced_pids = explode(",", $invoiced_pids);
+
+        $products = $this->db->select("*")
+        ->from('ip_products')
+        ->where_not_in('product_id', $invoiced_pids)
+        ->get()->result();
 
         $this->layout->set('products', $products);
-        $this->layout->buffer('content', 'products/index');
+        $this->layout->buffer('content', 'products/non_invoiced_po');
         $this->layout->render();
     }
 

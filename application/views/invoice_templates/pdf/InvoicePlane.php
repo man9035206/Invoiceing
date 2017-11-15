@@ -57,14 +57,11 @@
     
     <table>
         <tr>
-            <td style="padding-right:30px;">
+            <td style="padding-right:30px;width:210px;">
                 <div>
                 <b>To :     <?php echo $invoice->client_name; ?></b>
                 </div>
-<?php $ibills = $this->db->query('SELECT * FROM `invoice_shipping` where invoice_id ='.$invoice->invoice_id.' and ibill = 1 limit 1'); 
- foreach ($ibills->result() as $ibill)
-        {
-            $saddress = $this->db->query('SELECT * FROM ip_shipping_address where id = '.$ibill->shipping_id);
+<?php  $saddress = $this->db->query('SELECT * FROM ip_shipping_address where id = '.$items[0]->po_billing_address);
                 foreach ($saddress->result() as $row) {
                     echo $row->address."<br>";
                     if ($row->gst_no != "") {
@@ -74,20 +71,14 @@
                         echo "<b>SAC Code :</b>".$row->sac_code;
                     }
                 }
-        }
 ?>
             </td>
-<?php  $iships = $this->db->query('SELECT * FROM `invoice_shipping` where invoice_id ='.$invoice->invoice_id.' and ibill = 0 limit 1'); 
-if ($iships) {
-?>
-            <td style="padding-right:30px; width:30%;">
+
+            <td style="padding-right:30px; width:250px;">
                 <div>
                 <b>Ship To :     <?php echo $invoice->client_name;  ?></b>
                 </div>
-<?php 
- foreach ($iships->result() as $iship)
-        {
-            $saddress = $this->db->query('SELECT * FROM ip_shipping_address where id = '.$iship->shipping_id);
+<?php   $saddress = $this->db->query('SELECT * FROM ip_shipping_address where id = '.$items[0]->po_shipping_address);
                 foreach ($saddress->result() as $row) {
                     echo $row->address."<br>";
                     if ($row->gst_no != "") {
@@ -97,12 +88,10 @@ if ($iships) {
                         echo "<b>SAC Code :</b>".$row->sac_code;
                     }
                 }
-        }
 ?>
             
             </td>
 <?php
-}
 $user_field = $this->db->query('SELECT * FROM `ip_user_custom` where user_id ='.$invoice->user_id);
 
 foreach ($user_field->result() as $row)
@@ -187,7 +176,9 @@ foreach ($user_field->result() as $row)
 </header>
 
 <main>
+    <?php if($invoice->client_surname) {?>
 <div style="text-align:center">Kind Attention <strong><?php echo $invoice->client_surname; ?></strong></div>
+    <?php } ?>
     <table class="item-table">
         <thead>
         <tr>
@@ -217,7 +208,7 @@ foreach ($user_field->result() as $row)
                 echo "<br>".date('F Y', $yrdata)." (".date_from_mysql($item->invoice_start)." to ".date_from_mysql($item->invoice_end).")";
                 echo "<br>Applicable Working Days – ".$item->total_days;
                 echo "<br>Charged Working Days  – ".$item->worked_days;
-                echo "<br><br>".nl2br(htmlsc($po_desc[$item->item_description])); 
+                echo "<br><br>".nl2br(htmlsc(po_desc($item->item_description))); 
                 ?>
 
 
