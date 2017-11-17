@@ -453,4 +453,47 @@ class Ajax extends Admin_Controller
         echo json_encode($response);
     }
 
+    public function create_po_invoice()
+    {
+        $this->load->model('products/mdl_products');
+        $po = $this->mdl_products->where('product_id',$this->input->post('po_id'))
+                ->get()->result();
+        
+        $this->load->model('invoices/mdl_invoices');
+                
+        if ($this->mdl_invoices->run_validation()) {
+            $invoice_id = $this->mdl_invoices->create();
+
+            $response = array(
+                'success' => 1,
+                'invoice_id' => $invoice_id
+            );
+        } else {
+            $this->load->helper('json_error');
+            $response = array(
+                'success' => 0,
+                'validation_errors' => json_errors()
+            );
+        }
+
+
+        $this->load->model('invoices/mdl_items');
+        $item = new stdClass();        
+        $item->invoice_id = $response["invoice_id"];      
+        $item->item_tax_rate_id = $po[0]->tax_rate_id;      
+        $item->item_product_id = $po[0]->product_id;      
+        $item->item_date_added = 1;     
+        $item->item_name = $po[0]->product_name;       
+        $item->item_description = $po[0]->product_description;      
+        $item->item_price = $po[0]->product_price;           
+        $item->item_quantity = $po[0]->po_quantity;   
+        $item->item_order = 1;
+        $item->item_product_unit = $po[0]->unit_name;
+        $item->item_product_unit_id = $po[0]->unit_id;
+        $item_id = "";
+        $this->mdl_items->save($item_id, $item);
+
+        echo json_encode($response);
+    }
+
 }

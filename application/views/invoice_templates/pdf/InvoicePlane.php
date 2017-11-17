@@ -204,10 +204,16 @@ foreach ($user_field->result() as $row)
                 <b><u>Consultant Name :</u> <?php _htmlsc($item->item_name); ?></b><br>
 
                 <?php 
+                if ($item->invoice_end) {
                     $yrdata= strtotime($item->invoice_end);
-                echo "<br>".date('F Y', $yrdata)." (".date_from_mysql($item->invoice_start)." to ".date_from_mysql($item->invoice_end).")";
-                echo "<br>Applicable Working Days – ".$item->total_days;
-                echo "<br>Charged Working Days  – ".$item->worked_days;
+                    echo "<br>".date('F Y', $yrdata)." (".date_from_mysql($item->invoice_start)." to ".date_from_mysql($item->invoice_end).")";
+                }
+                if($item->total_days) {
+                    echo "<br>Applicable Working Days – ".$item->total_days;
+                }
+                if($item->worked_days) {
+                    echo "<br>Charged Working Days  – ".$item->worked_days;                    
+                }
                 echo "<br><br>".nl2br(htmlsc(po_desc($item->item_description))); 
                 ?>
 
@@ -219,11 +225,6 @@ foreach ($user_field->result() as $row)
                 <td class="text-right">
                     <?php echo format_currency($item->item_price); ?>
                 </td>
-                <?php if ($show_item_discounts) : ?>
-                    <td class="text-right">
-                        <?php echo format_currency($item->item_discount); ?>
-                    </td>
-                <?php endif; ?>
                 <td class="text-right">
                     <?php echo format_currency($item->item_total); ?>
                 </td>
@@ -267,27 +268,6 @@ foreach ($user_field->result() as $row)
                 </td>
             </tr>
         <?php endforeach ?>
-
-        <?php if ($invoice->invoice_discount_percent != '0.00') : ?>
-            <tr>
-                <td colspan="5" class="text-right">
-                    <?php _trans('discount'); ?>
-                </td>
-                <td class="text-right">
-                    <?php echo format_amount($invoice->invoice_discount_percent); ?>%
-                </td>
-            </tr>
-        <?php endif; ?>
-        <?php if ($invoice->invoice_discount_amount != '0.00') : ?>
-            <tr>
-                    <td colspan="5" class="text-right">
-                    <?php _trans('discount'); ?>
-                </td>
-                <td class="text-right">
-                    <?php echo format_currency($invoice->invoice_discount_amount); ?>
-                </td>
-            </tr>
-        <?php endif; ?>
 
         <tr>
             <td colspan="5" class="text-right ta-cell">

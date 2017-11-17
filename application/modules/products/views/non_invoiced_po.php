@@ -44,9 +44,11 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="#" class="create-invoice">
+                                    <input type="hidden" class="po_id" value="<?php echo $product->product_id; ?>">
+                                    <a href="#" class="create-po-invoice">
                                         <i class="fa fa-edit fa-margin"></i> Create Invoice
                                     </a>
+                                    <input type="hidden" class="client_id" value="<?php echo $product->po_client_id; ?>">
                                 </li>
                             </ul>
                         </div>
@@ -59,3 +61,38 @@
     </div>
 
 </div>
+
+<script>
+$(document).ready(function(){
+    $(".create-po-invoice").click(function (e) { 
+        e.preventDefault();
+        var po_id = $(this).prev('.po_id').val();
+        var client_id = $(this).next('.client_id').val();
+        $.post("<?php echo site_url('invoices/ajax/create_po_invoice'); ?>", {
+            client_id: client_id, 
+            po_id: po_id,
+            invoice_date_created: '<?php echo date('d-M-Y') ?>',
+            invoice_group_id: 3,
+            invoice_time_created: '<?php echo date('H:i:s') ?>',
+            invoice_password: '',
+            user_id: '<?php echo $this->session->userdata('user_id'); ?>',
+            payment_method: 4
+        },
+        function (data) {
+            <?php   echo(IP_DEBUG ? 'console.log(data);' : ''); ?>
+            var response = JSON.parse(data);
+            if (response.success === 1) {
+                // The validation was successful and invoice was created
+                window.location = "<?php echo site_url('invoices/view'); ?>/" + response.invoice_id;
+            }
+            else {
+                // The validation was not successful
+                $('.control-group').removeClass('has-error');
+                for (var key in response.validation_errors) {
+                    $('#' + key).parent().parent().addClass('has-error');
+                }
+            }
+        });      
+    });
+});
+</script>
