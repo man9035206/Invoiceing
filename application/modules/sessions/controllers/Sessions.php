@@ -55,6 +55,8 @@ class Sessions extends Base_Controller
                             redirect('invoices/status/all');
                         } elseif ($this->session->userdata('user_type') == 5) {            
                             redirect("payments/index");
+                        } elseif ($this->session->userdata('user_type') == 6) {            
+                            redirect("payments/index");
                         }
                     } else {
                         $this->session->set_flashdata('alert_error', trans('loginalert_credentials_incorrect'));

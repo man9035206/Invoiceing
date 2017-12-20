@@ -28,9 +28,10 @@ class Mdl_Users extends Response_Model
         return array(
             '1' => trans('administrator'),
             '2' => 'Invoice management',
-            '3' => 'Invoice and Product management',
+            '3' => 'Invoice and PO management',
             '4' => 'Approver',
-            '5' => 'Payment'
+            '5' => 'Payment',
+            '6' => 'PO to Payment management'
         );
     }
 

@@ -11,13 +11,19 @@
                 </div>
 
                 <div class="btn-group btn-group-justified no-margin">
+                <?php if ($this->session->userdata('user_type') != 6) { ?>
                     <a href="<?php echo site_url('clients/form'); ?>" class="btn btn-default">
                         <i class="fa fa-user fa-margin"></i>
                         <span class="hidden-xs"><?php _trans('add_client'); ?></span>
                     </a>
-                    <a href="javascript:void(0)" class="create-quote btn btn-default">
+                <?php } ?>
+                    <a href="javascript:void(0)" class="create-quote btn btn-default hidden">
                         <i class="fa fa-file fa-margin"></i>
                         <span class="hidden-xs"><?php _trans('create_quote'); ?></span>
+                    </a>
+                    <a href="/ip/index.php/products/form" class="create-po btn btn-default">
+                        <i class="fa fa-file fa-margin"></i>
+                        <span class="hidden-xs"><?php _trans('create_product'); ?></span>
                     </a>
                     <a href="javascript:void(0)" class="create-invoice btn btn-default">
                         <i class="fa fa-file-text fa-margin"></i>

@@ -40,7 +40,7 @@ $shipping_address = $this->db->get_where(
                     ?>
 
                     <?php 
-                    if($shipping_address) { 
+                    if($shipping_address) {
                         ?>
 
                             <label for="po_shipping_address">
@@ -51,11 +51,11 @@ $shipping_address = $this->db->get_where(
                                     {
                                      
                                         if($s_id == $row->id){                         
-                                            echo "<div class='po_billing_address'><div class='col-xs-1'>
+                                            echo "<div class='po_shipping_address'><div class='col-xs-1'>
                                             <input type='radio' name='po_shipping_address' value=".$row->id." checked></div>";
 
                                         } else {                            
-                                            echo "<div class='po_billing_address'><div class='col-xs-1'>
+                                            echo "<div class='po_shipping_address'><div class='col-xs-1'>
                                             <input type='radio' name='po_shipping_address' value=".$row->id."></div>";
 
                                         }   
@@ -66,3 +66,27 @@ $shipping_address = $this->db->get_where(
                     <?php
                         }
                     ?>
+                    <div class="col-md-6">
+                            <strong>
+                                <input type='radio' name='po_billing_address' value="new">
+                                New Billing Address
+                            </strong>
+                            <div class="fieldwrapper" id="field<?php echo $i; ?>">
+                                <label>Address:</label><br>
+                                <textarea class="fieldname" name="billing_address_a"></textarea><br>
+                                <label>GST:</label><br><input value="" type="text" name="billing_address_gst"><br>
+                                <label>SAC Code:</label><br><input value="" type="text" name="billing_address_sac">
+                            </div>                        
+                    </div>
+                    <div class="col-md-6">
+                            <strong> 
+                                <input type='radio' name='po_shipping_address' value="new">
+                                New Shipping Address
+                            </strong>
+                            <div class="fieldwrapper" id="field<?php echo $i; ?>">
+                                <label>Address:</label><br>
+                                <textarea class="fieldname" name="shipping_address_a"></textarea><br>
+                                <label>GST:</label><br><input value="" type="text" name="shipping_address_gst"><br>
+                                <label>SAC Code:</label><br><input value="" type="text" name="shipping_address_sac">
+                            </div>                
+                    </div>

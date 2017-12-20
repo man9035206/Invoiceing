@@ -328,7 +328,7 @@ foreach ($shipping_address as $row)
                                        value="<?php echo $this->mdl_clients->form_value('client_web', true); ?>">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="client_vat_id"><?php _trans('vat_id'); ?></label>
 
                             <div class="controls">
@@ -337,7 +337,7 @@ foreach ($shipping_address as $row)
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="client_tax_code"><?php _trans('tax_code'); ?></label>
 
                             <div class="controls">

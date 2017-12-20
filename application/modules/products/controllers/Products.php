@@ -76,6 +76,15 @@ class Products extends Admin_Controller
         if ($this->mdl_products->run_validation()) {
             // Get the db array
             $db_array = $this->mdl_products->db_array();
+
+        if ($this->input->post('po_billing_address') == "new") {
+            $this->db->insert('ip_shipping_address',array('address' => $this->input->post('billing_address_a'),'client_id' => $this->input->post('po_client_id'),'gst_no' => $this->input->post('billing_address_gst'), 'sac_code' => $this->input->post('billing_address_sac'), 'billing_address' => 1 )); 
+            $db_array["po_billing_address"] = $this->db->insert_id();
+        } 
+        if ($this->input->post('po_shipping_address') == "new") {
+            $this->db->insert('ip_shipping_address',array('address' => $this->input->post('shipping_address_a'),'client_id' => $this->input->post('po_client_id'),'gst_no' => $this->input->post('shipping_address_gst'), 'sac_code' => $this->input->post('shipping_address_sac') )); 
+            $db_array["po_shipping_address"] = $this->db->insert_id();
+        } 
             $this->mdl_products->save($id, $db_array);            
             if ($id) {
                 redirect($_SERVER['HTTP_REFERER']);

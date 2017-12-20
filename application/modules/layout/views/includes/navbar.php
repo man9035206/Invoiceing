@@ -105,6 +105,7 @@
                     <?php echo anchor('dashboard', '<i class="fa fa-dashboard"></i>', 'class="visible-md-inline-block"') ?>
                 </li>
 
+                <?php if ($this->session->userdata('user_type') != 6) { ?>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-caret-down"></i> &nbsp;
@@ -116,6 +117,7 @@
                         <li><?php echo anchor('clients/index', trans('view_clients')); ?></li>
                     </ul>
                 </li>
+                <?php } ?>
 
                 <li class="dropdown hidden">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -181,6 +183,7 @@
                     </ul>
                 </li>
 
+                <?php if ($this->session->userdata('user_type') != 6) { ?>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-caret-down"></i> &nbsp;
@@ -194,6 +197,7 @@
                         <li><?php echo anchor('reports/sales_by_year', trans('sales_by_date')); ?></li>
                     </ul>
                 </li>
+                <?php } ?>
 
             </ul>
 
@@ -217,6 +221,7 @@
                     </a>
                 </li>
 
+                <?php if ($this->session->userdata('user_type') != 6) { ?>
                 <li class="dropdown">
                     <a href="#" class="tip icon dropdown-toggle" data-toggle="dropdown"
                        title="<?php _trans('settings'); ?>"
@@ -259,6 +264,7 @@
                             ?></span>
                     </a>
                 </li>
+                <?php } ?>
             </ul>
 
            
