@@ -66,6 +66,8 @@ $shipping_address = $this->db->get_where(
                     <?php
                         }
                     ?>
+
+                <?php if($c_id) { ?>
                     <div class="col-md-6">
                             <strong>
                                 <input type='radio' name='po_billing_address' value="new">
@@ -90,3 +92,4 @@ $shipping_address = $this->db->get_where(
                                 <label>SAC Code:</label><br><input value="" type="text" name="shipping_address_sac">
                             </div>                
                     </div>
+                <?php } ?>
