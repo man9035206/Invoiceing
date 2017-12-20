@@ -37,7 +37,7 @@
                     <td><?php echo $user->user_email; ?></td>
                     <td>
                         <div class="options btn-group btn-group-sm">
-                            <?php if ($user->user_type == 2) : ?>
+                            <?php if ($user->user_type == 2 || $user->user_type == 6) : ?>
                                 <a href="<?php echo site_url('user_clients/user/' . $user->user_id); ?>"
                                    class="btn btn-default">
                                     <i class="fa fa-list fa-margin"></i> <?php _trans('assigned_clients'); ?>

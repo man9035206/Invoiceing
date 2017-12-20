@@ -32,7 +32,7 @@ $shipping_address = $this->db->get_where(
 
                                         }
 
-                                        echo "<div class='col-xs-11'><p>".$row->address."</p><p><b>GST No :</b>".$row->gst_no." <b>SAC code :</b>".$row->sac_code."</p></div></div>";
+                                        echo "<div class='col-xs-11'><p>".$row->address."</p><p><b>GST No :</b>".$row->gst_no." <b>HSN/SAC Code :</b>".$row->sac_code."</p></div></div>";
                                     }
                                 ?>
                     <?php
@@ -60,7 +60,7 @@ $shipping_address = $this->db->get_where(
 
                                         }   
                                            
-                                        echo "<div class='col-xs-11'><p>".$row->address."</p><p><b>GST No :</b>".$row->gst_no.", <b>SAC code :</b>".$row->sac_code."</p></div></div>";
+                                        echo "<div class='col-xs-11'><p>".$row->address."</p><p><b>GST No :</b>".$row->gst_no.", <b>HSN/SAC Code :</b>".$row->sac_code."</p></div></div>";
                                     }
                                 ?>
                     <?php
@@ -77,7 +77,7 @@ $shipping_address = $this->db->get_where(
                                 <label>Address:</label><br>
                                 <textarea class="fieldname" name="billing_address_a"></textarea><br>
                                 <label>GST:</label><br><input value="" type="text" name="billing_address_gst"><br>
-                                <label>SAC Code:</label><br><input value="" type="text" name="billing_address_sac">
+                                <label>HSN/SAC Code:</label><br><input value="" type="text" name="billing_address_sac">
                             </div>                        
                     </div>
                     <div class="col-md-6">
@@ -89,7 +89,7 @@ $shipping_address = $this->db->get_where(
                                 <label>Address:</label><br>
                                 <textarea class="fieldname" name="shipping_address_a"></textarea><br>
                                 <label>GST:</label><br><input value="" type="text" name="shipping_address_gst"><br>
-                                <label>SAC Code:</label><br><input value="" type="text" name="shipping_address_sac">
+                                <label>HSN/SAC Code:</label><br><input value="" type="text" name="shipping_address_sac">
                             </div>                
                     </div>
                 <?php } ?>

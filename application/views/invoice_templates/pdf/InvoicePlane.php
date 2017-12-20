@@ -68,7 +68,7 @@
                         echo "<b>GSTIN :</b>".$row->gst_no."<br>";
                     }
                     if ($row->sac_code != "") {
-                        echo "<b>SAC Code :</b>".$row->sac_code;
+                        echo "<b>HSN/SAC Code :</b>".$row->sac_code;
                     }
                 }
 ?>
@@ -85,7 +85,7 @@
                         echo "<b>GSTIN :</b>".$row->gst_no."<br>";
                     }
                     if ($row->sac_code != "") {
-                        echo "<b>SAC Code :</b>".$row->sac_code;
+                        echo "<b>HSN/SAC Code :</b>".$row->sac_code;
                     }
                 }
 ?>

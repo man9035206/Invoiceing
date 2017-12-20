@@ -197,4 +197,22 @@ class Mdl_Products extends Response_Model
 
     }
 
+    /**
+     * @param $user_id
+     * @return $this
+     */
+    public function assigned_to($user_id)
+    {
+        $this->load->model('user_clients/mdl_user_clients');
+        $user_clients = $this->mdl_user_clients
+        ->get()->result();
+        $clents_ids = array();
+        foreach ($user_clients as $value) {
+            array_push($clents_ids,$value->client_id);
+        }
+
+        $this->filter_where_in('ip_products.po_client_id', $clents_ids);
+        return $this;
+    }
+
 }

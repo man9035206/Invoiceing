@@ -246,7 +246,7 @@ foreach ($billing_address as $row)
                                 <input value="<?php echo $row->id; ?>" type="hidden" name="billing_address[<?php echo $i-1; ?>][]">
                                 <label>Address:</label><textarea class="fieldname" name="billing_address[<?php echo $i-1; ?>][]"> <?php echo $row->address;?></textarea><br>
                                 <label>GST:</label><input value="<?php echo $row->gst_no;?>" type="text" name="billing_address[<?php echo $i-1; ?>][]"><br>
-                                <label>SAC Code:</label><input value="<?php echo $row->sac_code;?>" type="text" name="billing_address[<?php echo $i-1; ?>][]">
+                                <label>HSN/SAC Code:</label><input value="<?php echo $row->sac_code;?>" type="text" name="billing_address[<?php echo $i-1; ?>][]">
                             </div>
 <?php  $i++; }
     }
@@ -273,7 +273,7 @@ foreach ($shipping_address as $row)
                                 <input value="<?php echo $row->id; ?>" type="hidden" name="shipping_address[<?php echo $i-1; ?>][]">
                                 <label>Address:</label><textarea class="fieldname" name="shipping_address[<?php echo $i-1; ?>][]"> <?php echo $row->address;?></textarea><br>
                                 <label>GST:</label><input value="<?php echo $row->gst_no;?>" type="text" name="shipping_address[<?php echo $i-1; ?>][]"><br>
-                                <label>SAC Code:</label><input value="<?php echo $row->sac_code;?>" type="text" name="shipping_address[<?php echo $i-1; ?>][]">
+                                <label>HSN/SAC Code:</label><input value="<?php echo $row->sac_code;?>" type="text" name="shipping_address[<?php echo $i-1; ?>][]">
                             </div>
 <?php  $i++; }
     }
@@ -471,7 +471,7 @@ foreach ($shipping_address as $row)
             var fid = $("<input type=\"hidden\" name=\"shipping_address["+(intId-1)+"][]\" value=\"\" />");
             var fName = $("<label>Address:</label><textarea class=\"fieldname\" name=\"shipping_address["+(intId-1)+"][]\" /></textarea><br>");
             var fgst = $("<label>GST:</label><input type=\"text\" name=\"shipping_address["+(intId-1)+"][]\" value=\"\" /><br>");
-            var fsac = $("<label>SAC Code:</label><input type=\"text\" name=\"shipping_address["+(intId-1)+"][]\" value=\"\" />");
+            var fsac = $("<label>HSN/SAC Code:</label><input type=\"text\" name=\"shipping_address["+(intId-1)+"][]\" value=\"\" />");
             var removeButton = $("<input type=\"button\" class=\"remove\" value=\"remove\" />");
             removeButton.click(function() {
                 $(this).parent().remove();
@@ -490,7 +490,7 @@ foreach ($shipping_address as $row)
             var fid = $("<input type=\"hidden\" name=\"billing_address["+(intId-1)+"][]\" value=\"\" />");
             var fName = $("<label>Address:</label><textarea class=\"fieldname\" name=\"billing_address["+(intId-1)+"][]\" /></textarea><br>");
             var fgst = $("<label>GST:</label><input type=\"text\" name=\"billing_address["+(intId-1)+"][]\" value=\"\" /><br>");
-            var fsac = $("<label>SAC Code:</label><input type=\"text\" name=\"billing_address["+(intId-1)+"][]\" value=\"\" />");
+            var fsac = $("<label>HSN/SAC Code:</label><input type=\"text\" name=\"billing_address["+(intId-1)+"][]\" value=\"\" />");
             var removeButton = $("<input type=\"button\" class=\"remove\" value=\"remove\" />");
             removeButton.click(function() {
                 $(this).parent().remove();

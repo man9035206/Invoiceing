@@ -30,7 +30,9 @@ class Products extends Admin_Controller
      */
     public function index($page = 0)
     {
-        $this->mdl_products->paginate(site_url('products/index'), $page);
+
+
+        $this->mdl_products->assigned_to($this->session->userdata('user_id'))->paginate(site_url('products/index'), $page);
         $products = $this->mdl_products->result();
 
         $this->layout->set('products', $products);
@@ -105,13 +107,20 @@ class Products extends Admin_Controller
         $this->load->model('families/mdl_families');
         $this->load->model('units/mdl_units');
         $this->load->model('tax_rates/mdl_tax_rates');
+        $this->load->model('user_clients/mdl_user_clients');
+
+        $user_clients = $this->mdl_user_clients->assigned_to($this->session->userdata('user_id'))->get()->result();
+
+        if (!$user_clients) {
+            $user_clients = $this->mdl_clients->get()->result();
+        }
 
         $this->layout->set(
             array(
                 'families' => $this->mdl_families->get()->result(),
                 'units' => $this->mdl_units->get()->result(),
                 'tax_rates' => $this->mdl_tax_rates->get()->result(),
-                'clients' => $this->mdl_clients->get()->result(),
+                'clients' => $user_clients,
                 'po_desc' => $this->mdl_products->po_desc(),
             )
         );
