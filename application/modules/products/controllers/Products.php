@@ -32,7 +32,7 @@ class Products extends Admin_Controller
     {
 
 
-        $this->mdl_products->assigned_to($this->session->userdata('user_id'))->paginate(site_url('products/index'), $page);
+        $this->mdl_products->paginate(site_url('products/index'), $page);
         $products = $this->mdl_products->result();
 
         $this->layout->set('products', $products);
