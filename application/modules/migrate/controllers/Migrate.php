@@ -26,6 +26,15 @@ class Migrate extends CI_Controller
 		$this->load->dbforge();
 	}
 
+
+	public function index()
+	  {
+	    if(!$this->migration->latest()) 
+	    {
+	      show_error($this->migration->error_string());
+	    }
+	  }
+
 	public function latest() {
 		$this->migration->latest();
 		echo $this->migration->error_string() .PHP_EOL;

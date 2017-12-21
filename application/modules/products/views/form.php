@@ -250,6 +250,36 @@ if ($pe != "") {
                     </div>
                     <div class="panel-body">
 
+                        <div class="form-group col-md-6">
+                            <label for="po_pos">Place of Supply
+                            </label>
+
+                            <div class="input-group has-feedback">
+                                <input type="text" name="po_pos" id="po_pos" class="form-control"
+                                       value="<?php echo $this->mdl_products->form_value('po_pos'); ?>">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="po_state_code">State Code
+                            </label>
+
+                            <div class="input-group has-feedback">
+                                <input type="text" name="po_state_code" id="po_state_code" class="form-control"
+                                       value="<?php echo $this->mdl_products->form_value('po_state_code'); ?>">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="po_reverse_charge">Reverse Charge
+                            </label>
+
+                            <select name="po_reverse_charge" id="po_reverse_charge" class="form-control simple-select">
+                                <option value="yes"<?php check_select($this->mdl_products->form_value('po_reverse_charge'), "yes"); ?>>Yes</option>
+                                <option value="no"<?php check_select($this->mdl_products->form_value('po_reverse_charge'), "no"); ?>>No</option>
+                            </select>
+                        </div>
+
                         <div class="form-group">
                             <label for="po_client_id">
                                 <?php echo 'Client Name'; 

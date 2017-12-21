@@ -15,46 +15,13 @@
     <div id="logo">
         <?php echo invoice_logo_pdf(); ?>
     </div>
-    <div id="company">
-        <div><b>From:   <?php _htmlsc($invoice->user_company); ?></b></div>
-        <?php 
 
-        if ($invoice->user_address_1) {
-            echo '<div>' . htmlsc($invoice->user_address_1) . '</div>';
-        }
-        if ($invoice->user_address_2) {
-            echo '<div>' . htmlsc($invoice->user_address_2) . '</div>';
-        }
-        if ($invoice->user_city || $invoice->user_state || $invoice->user_zip) {
-            echo '<div>';
-            if ($invoice->user_city) {
-                echo htmlsc($invoice->user_city) . ' ';
-            }
-            if ($invoice->user_state) {
-                echo htmlsc($invoice->user_state) . ' ';
-            }
-            if ($invoice->user_zip) {
-                echo htmlsc($invoice->user_zip);
-            }
-            echo '</div>';
-        }
-        if ($invoice->user_country) {
-            echo '<div>' . get_country_name(trans('cldr'), $invoice->user_country) . '</div>';
-        }
-
-        echo '<br/>';
-
-        if ($invoice->user_phone) {
-            echo '<div>' . trans('phone_abbr') . ': ' . htmlsc($invoice->user_phone) . '</div>';
-        }
-        if ($invoice->user_fax) {
-            echo '<div>' . trans('fax_abbr') . ': ' . htmlsc($invoice->user_fax) . '</div>';
-        }
-        ?>
-    </div>
-
-
-    
+            <div id="company">
+                <b>From:  JoulestoWatts Business Solutions Private Ltd</b><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SJRI Park, Plot No 13,14,15 EPIP<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bengaluru Karnataka 560066<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; India<br>
+            </div>
     <table>
         <tr>
             <td style="padding-right:30px;width:210px;">
@@ -91,22 +58,7 @@
 ?>
             
             </td>
-<?php
-$user_field = $this->db->query('SELECT * FROM `ip_user_custom` where user_id ='.$invoice->user_id);
 
-foreach ($user_field->result() as $row)
-    {
-        if ($row->user_custom_fieldid == 6) {
-            $upan = $row->user_custom_fieldvalue;
-        }
-        if ($row->user_custom_fieldid == 7) {
-            $ugst = $row->user_custom_fieldvalue;
-        }
-        if ($row->user_custom_fieldid == 8) {
-            $usac = $row->user_custom_fieldvalue;
-        }
-    }
-?>
             <td id="invoice-details-style">                        
                 <div class="invoice-details clearfix" >
                     <table>
@@ -153,15 +105,19 @@ foreach ($user_field->result() as $row)
                         <?php endif; ?>
                         <tr>
                             <td><?php echo trans('PAN No') . ': '; ?></td>
-                            <td><?php echo $upan; ?></td>
+                            <td><?php echo "AADCJ4029L"; ?></td>
                         </tr>
                         <tr>
                             <td><?php echo trans('GSTIN No') . ': '; ?></td>
-                            <td><?php echo $ugst; ?></td>
+                            <td><?php echo "29AADCJ4029L1ZA"; ?></td>
                         </tr>
                         <tr>
                             <td><?php echo trans('SAC No') . ': '; ?></td>
-                            <td><?php echo $usac; ?></td>
+                            <td><?php echo "998513"; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo trans('LUT No') . ': '; ?></td>
+                            <td><?php echo "178/2017-18"; ?></td>
                         </tr>
                     </table>
                 </div>

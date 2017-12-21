@@ -140,13 +140,25 @@ class Mdl_Products extends Response_Model
             'po_shipping_address' => array(
                 'field' => 'po_shipping_address',
                 'label' => 'Shipping Address',
-                'rules' => 'required'
+                'rules' => ''
             ),
             // Sumex
             'po_billing_address' => array(
                 'field' => 'po_billing_address',
                 'label' => 'Billing Address',
                 'rules' => 'required'
+            ),
+            // Sumex
+            'po_pos' => array(
+                'rules' => ''
+            ),
+            // Sumex
+            'po_state_code' => array(
+                'rules' => ''
+            ),
+            // Sumex
+            'po_reverse_charge' => array(
+                'rules' => ''
             )
         );
     }
@@ -172,6 +184,11 @@ class Mdl_Products extends Response_Model
         $db_array['po_quantity'] = (empty($db_array['po_quantity']) ? null : $db_array['po_quantity']);
         $db_array['po_billing_address'] = (empty($db_array['po_billing_address']) ? null : $db_array['po_billing_address']);
         $db_array['po_shipping_address'] = (empty($db_array['po_shipping_address']) ? null : $db_array['po_shipping_address']);
+
+
+        $db_array['po_pos'] = (empty($db_array['po_pos']) ? null : $db_array['po_pos']);
+        $db_array['po_state_code'] = (empty($db_array['po_state_code']) ? null : $db_array['po_state_code']);
+        $db_array['po_reverse_charge'] = (empty($db_array['po_reverse_charge']) ? null : $db_array['po_reverse_charge']);
 
         return $db_array;
     }
