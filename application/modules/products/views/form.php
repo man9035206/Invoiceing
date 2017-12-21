@@ -275,6 +275,7 @@ if ($pe != "") {
                             </label>
 
                             <select name="po_reverse_charge" id="po_reverse_charge" class="form-control simple-select">
+                                <option value="">Select Reverse Charge</option>
                                 <option value="yes"<?php check_select($this->mdl_products->form_value('po_reverse_charge'), "yes"); ?>>Yes</option>
                                 <option value="no"<?php check_select($this->mdl_products->form_value('po_reverse_charge'), "no"); ?>>No</option>
                             </select>
