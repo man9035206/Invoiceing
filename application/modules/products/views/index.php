@@ -37,8 +37,10 @@
             </thead>
 
             <tbody>
+            <?php $i = 1; ?>
             <?php foreach ($products as $product) { ?>
                 <tr>
+                    <td><?php echo $i; $i++; ?></td>
                     <td><?php _htmlsc($product->family_name); ?></td>
                     <td><?php _htmlsc($product->product_no); ?></td>
                     <td><?php _htmlsc($product->product_name); ?></td>
