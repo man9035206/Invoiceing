@@ -18,6 +18,11 @@ class Mdl_Products extends Response_Model
     public $table = 'ip_products';
     public $primary_key = 'ip_products.product_id';
 
+    public function client()
+    {
+        "helo";
+    }
+
     public function default_select()
     {
         $this->db->select('SQL_CALC_FOUND_ROWS *', false);

@@ -18,8 +18,8 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
 
-                        <?php if ($this->mdl_products->form_value('product_id')) : ?>
-                            #<?php echo $this->mdl_products->form_value('product_id'); ?>&nbsp;
+                        <?php if ($this->mdl_products->form_value('product_no')) : ?>
+                            #<?php echo $this->mdl_products->form_value('product_no'); ?>&nbsp;
                             <?php echo $this->mdl_products->form_value('product_name', true); ?>
                         <?php else : ?>
                             <?php _trans('new_product'); ?>

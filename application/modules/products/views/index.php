@@ -23,9 +23,9 @@
             <thead>
             <tr>
                 <th><?php _trans('family'); ?></th>
-                <th><?php _trans('product_sku'); ?></th>
+                <th><?php _trans('product_no'); ?></th>
                 <th><?php _trans('product_name'); ?></th>
-                <th><?php _trans('product_description'); ?></th>
+                <th><?php _trans('client'); ?></th>
                 <th><?php _trans('product_price'); ?></th>
                 <th><?php _trans('product_unit'); ?></th>
                 <th><?php _trans('tax_rate'); ?></th>
@@ -40,9 +40,12 @@
             <?php foreach ($products as $product) { ?>
                 <tr>
                     <td><?php _htmlsc($product->family_name); ?></td>
-                    <td><?php _htmlsc($product->product_sku); ?></td>
+                    <td><?php _htmlsc($product->product_no); ?></td>
                     <td><?php _htmlsc($product->product_name); ?></td>
-                    <td><?php echo nl2br(htmlsc(po_desc($product->product_description))); ?></td>
+                    <td><?php 
+$client = $this->mdl_clients->where('client_id',$product->po_client_id)->get()->result();
+echo $client[0]->client_name;
+                    ?></td>
                     <td class="amount"><?php echo format_currency($product->product_price); ?></td>
                     <td><?php _htmlsc($product->unit_name); ?></td>
                     <td><?php echo ($product->tax_rate_id) ? htmlsc($product->tax_rate_name) : trans('none'); ?></td>
