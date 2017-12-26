@@ -76,11 +76,18 @@ class Ajax extends Admin_Controller
     }
 
     public function client_address() {
+        if ($this->input->get('b_id')) {
+            $p_id = $this->input->get('b_id');
+        } else {
+            $Q = $this->db->query('select max(product_id) as p_id from ip_products');
+            $row = $Q->row_array();
+            $p_id = $row["p_id"] + 1;            
+        }
         $data = array(
             'c_id' => $this->input->get('c_id'),
             's_id' => $this->input->get('s_id'),
             'b_id' => $this->input->get('b_id'),
-            'p_id' => $this->input->get('p_id'), 
+            'p_id' => $p_id, 
             'po_no' => $this->input->get('po_no') 
         );
         $this->layout->load_view('products/client_address', $data);
