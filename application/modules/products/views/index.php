@@ -22,6 +22,7 @@
 
             <thead>
             <tr>
+                <th>Slno</th>
                 <th><?php _trans('family'); ?></th>
                 <th><?php _trans('product_no'); ?></th>
                 <th><?php _trans('product_name'); ?></th>

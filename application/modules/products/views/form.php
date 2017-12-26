@@ -52,14 +52,8 @@
                                    value="<?php echo $this->mdl_products->form_value('empid', true); ?>">
                         </div>
 
-                        <div class="form-group">
-                            <label for="product_no">
-                                <?php _trans('product_no'); ?>
-                            </label>
 
-                            <input type="text" name="product_no" id="product_no" class="form-control"
-                                   value="<?php echo $this->mdl_products->form_value('product_no', true); ?>">
-                        </div>
+
 <?php 
 $ps = $this->mdl_products->form_value('product_start', true);
 $pe = $this->mdl_products->form_value('product_end', true);
@@ -321,9 +315,11 @@ if ($pe != "") {
             var c_id = $("#po_client_id").val();
             var b_id = "<?php echo $this->mdl_products->form_value('po_billing_address', true); ?>";
             var s_id = "<?php echo $this->mdl_products->form_value('po_shipping_address', true); ?>";
+            var p_id = "<?php echo $this->mdl_products->form_value('product_id', true); ?>";
+            var po_no = "<?php echo $this->mdl_products->form_value('product_no', true); ?>";
             $.ajax({
                 url: "<?php echo site_url('products/ajax/client_address'); ?>?c_id=" +c_id
-                + "&b_id=" + b_id + "&s_id=" + s_id
+                + "&b_id=" + b_id + "&s_id=" + s_id + "&p_id=" + p_id + "&po_no=" + po_no
             }).done(function(data) {
                 $("#c_address").html(data);
             });
@@ -331,9 +327,11 @@ if ($pe != "") {
             var c_id = $(this).val();
             var b_id = "<?php echo $this->mdl_products->form_value('po_billing_address', true); ?>";
             var s_id = "<?php echo $this->mdl_products->form_value('po_shipping_address', true); ?>";
+            var p_id = "<?php echo $this->mdl_products->form_value('product_id', true); ?>";
+            var po_no = "<?php echo $this->mdl_products->form_value('product_no', true); ?>";
             $.ajax({
                 url: "<?php echo site_url('products/ajax/client_address'); ?>?c_id=" +c_id
-                + "&b_id=" + b_id + "&s_id=" + s_id
+                + "&b_id=" + b_id + "&s_id=" + s_id + "&p_id=" + p_id + "&po_no=" + po_no
             }).done(function(data) {
                 $("#c_address").html(data);
             });

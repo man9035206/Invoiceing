@@ -56,7 +56,7 @@ class Invoices extends Admin_Controller
                 break;
         }
 
-        $this->mdl_invoices->paginate(site_url('invoices/status/' . $status), $page);
+        $this->mdl_invoices->assigned_to($this->session->userdata('user_id'))->paginate(site_url('invoices/status/' . $status), $page);
         $invoices = $this->mdl_invoices->result();
 
         $this->layout->set(

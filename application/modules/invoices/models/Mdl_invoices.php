@@ -521,6 +521,32 @@ class Mdl_Invoices extends Response_Model
         return $this;
     }
 
+
+    /**
+     * @param $user_id
+     * @return $this
+     */
+    public function assigned_to($user_id)
+    {
+        $this->load->model('user_clients/mdl_user_clients');
+        $this->load->model('clients/mdl_clients');
+
+        $user_clients = $this->mdl_user_clients->assigned_to($this->session->userdata('user_id'))->get()->result();
+
+        if (count($user_clients) == 0) {
+            $user_clients = $this->mdl_clients->get()->result();
+        }
+
+        $clents_ids = array();
+
+        foreach ($user_clients as $value) {
+            array_push($clents_ids,$value->client_id);
+        }
+
+        $this->filter_where_in('ip_invoices.client_id', $clents_ids);
+        return $this;
+    }
+    
     /**
      * @param $invoice_id
      */

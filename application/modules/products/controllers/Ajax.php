@@ -79,7 +79,9 @@ class Ajax extends Admin_Controller
         $data = array(
             'c_id' => $this->input->get('c_id'),
             's_id' => $this->input->get('s_id'),
-            'b_id' => $this->input->get('b_id') 
+            'b_id' => $this->input->get('b_id'),
+            'p_id' => $this->input->get('p_id'), 
+            'po_no' => $this->input->get('po_no') 
         );
         $this->layout->load_view('products/client_address', $data);
     }

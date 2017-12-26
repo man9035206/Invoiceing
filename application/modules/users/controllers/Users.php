@@ -38,6 +38,14 @@ class Users extends Admin_Controller
         $this->layout->render();
     }
 
+    public function j2winfo(){
+        if ($this->input->post('btn_cancel')) {
+            redirect('users');
+        }
+        $this->layout->buffer('content', 'users/j2winfo');
+        $this->layout->render();        
+    }
+
     /**
      * @param null $id
      */

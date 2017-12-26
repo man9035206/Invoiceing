@@ -1,3 +1,46 @@
+
+<?php 
+                                $cid = $c_id;
+                                if ($po_no) {
+?>
+                        <div class="form-group">
+                            <label for="product_no">
+                                <?php _trans('product_no'); ?>
+                            </label>
+
+                                <input type="text" name="product_no" id="product_no" class="form-control"
+                                   value="<?php echo $po_no; ?>">
+                        </div>
+<?php
+
+                                }elseif ($cid) {
+?>
+
+                        <div class="form-group">
+                            <label for="product_no">
+                                <?php _trans('product_no'); ?>
+                            </label>
+<?php
+
+                                $c = $this->db->query('select * from ip_client_custom where client_id = '.$cid.' and client_custom_fieldid = 12')->result();
+                                    if ($c[0]->client_custom_fieldvalue == '2') {
+?>
+
+                                <input type="text" name="product_no" id="product_no" class="form-control"
+                                   value="">
+<?php
+                                    } else {
+                                        $po_no = "J2W-".$p_id;
+?>
+                                <input type="text" name="product_no" id="product_no" class="form-control"
+                                   value="<?php echo $po_no; ?>">
+<?php
+                                    }
+                                    echo "</div>";
+                                } 
+?>
+                           
+
 <?php 
 /** For Client Address **/
 $billing_address = $this->db->get_where( 

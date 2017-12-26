@@ -213,8 +213,8 @@
             <ul class="nav navbar-nav navbar-right">
 
                 <li>
-                    <a href="http://docs.invoiceplane.com/" target="_blank"
-                       class="tip icon" title="<?php _trans('documentation'); ?>"
+                    <a href="<?php echo site_url('/users/j2winfo'); ?>" target="_blank"
+                       class="tip icon" title="JoulestoWatts Info"
                        data-placement="bottom">
                         <i class="fa fa-question-circle"></i>
                         <span class="visible-xs">&nbsp;<?php _trans('documentation'); ?></span>
