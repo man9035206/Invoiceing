@@ -100,7 +100,7 @@
                 </div>
         <?php  $saddress = $this->db->query('SELECT * FROM ip_shipping_address where id = '.$items[0]->po_billing_address);
                 foreach ($saddress->result() as $row) {
-                    echo $row->address."sadas a sda sd asd asd asd ads asd asdsgdfg dfg dfgsdz dfvd fgvfgd sfdga df a dsf asdf sadf<br>";
+                    echo $row->address."<br>";
                     if ($row->gst_no != "") {
                         echo "<b>GSTIN :</b>".$row->gst_no."<br>";
                     }
