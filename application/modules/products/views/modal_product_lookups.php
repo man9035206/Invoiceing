@@ -38,8 +38,8 @@
                     last_item_row.find('select[name=item_product_unit_id]').val(items[key].unit_id);
 
                     $('#modal-choose-items').modal('hide');
-                    $( "#btn_save_invoice" ).trigger( "click" );
                 }
+                $( "#btn_save_invoice" ).trigger( "click" );
             });
         });
 
