@@ -3,6 +3,9 @@
     <input type="hidden" name="<?php echo $this->config->item('csrf_token_name'); ?>"
            value="<?php echo $this->security->get_csrf_hash() ?>">
 
+    <input type="hidden" name="copy"
+           value="<?php echo $copy; ?>">
+
     <div id="headerbar">
         <h1 class="headerbar-title"><?php _trans('products_form'); ?></h1>
         <?php $this->layout->load_view('layout/header_buttons'); ?>

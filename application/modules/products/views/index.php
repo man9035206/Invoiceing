@@ -68,6 +68,11 @@ echo $client[0]->client_name;
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="<?php echo site_url('products/form/' . $product->product_id .'?copy=true'); ?>">
+                                        <i class="fa fa-plus-square-o fa-margin"></i>Add Employee For PO
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="<?php echo site_url('products/delete/' . $product->product_id); ?>"
                                        onclick="return confirm('<?php _trans('delete_record_warning'); ?>');">
                                         <i class="fa fa-trash-o fa-margin"></i> <?php _trans('delete'); ?>
