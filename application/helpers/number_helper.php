@@ -79,14 +79,14 @@ function standardize_amount($amount)
  * @return mixed
  */
 function numTowords($amount) {
-    $b = str_replace( ',', '', $amount );
-    if (!is_numeric($b)) {
+    $number = str_replace( ',', '', $amount );
+    if (!is_numeric($number)) {
         return "Not a number";
     } 
-
-    $number = $b;
-    $no = round($number);
-    $point = round($number - $no, 2) * 100;
+    // $no = round($number);
+    // $point = round($number - $no, 2) * 100;
+    $no = explode('.', $number)[0];
+    $point = explode('.', $number)[1];
     $hundred = null;
     $digits_1 = strlen($no);
     $digits_2 = strlen($point);
@@ -109,7 +109,7 @@ function numTowords($amount) {
         $no = floor($no / $divider);
         $i += ($divider == 10) ? 1 : 2;
         if ($number) {
-            $plural = (($counter = count($str)) && $number > 9) ? 's' : null;
+            $plural = (($counter = count($str)) && $number > 9) ? '' : null;
             $hundred = ($counter == 1 && $str[0]) ? ' and ' : null;
             $str [] = ($number < 21) ? $words[$number] .
             " " . $digits[$counter] . $plural . " " . $hundred

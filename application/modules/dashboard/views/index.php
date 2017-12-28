@@ -223,10 +223,12 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <?php echo anchor('invoices/view/' . $invoice->invoice_id, ($invoice->invoice_number ? $invoice->invoice_number : $invoice->invoice_id)); ?>
+                                    <?php //echo anchor('invoices/view/' . $invoice->invoice_id, ($invoice->invoice_number ? $invoice->invoice_number : $invoice->invoice_id)); ?>
+                                    <?php echo anchor('#', ($invoice->invoice_number ? $invoice->invoice_number : $invoice->invoice_id)); ?>
                                 </td>
                                 <td>
-                                    <?php echo anchor('clients/view/' . $invoice->client_id, htmlsc(format_client($invoice))); ?>
+                                    <?php //echo anchor('clients/view/' . $invoice->client_id, htmlsc(format_client($invoice))); ?>
+                                    <?php echo anchor('#', htmlsc(format_client($invoice))); ?>
                                 </td>
                                 <td class="amount">
                                     <?php echo format_currency($invoice->invoice_balance * $invoice->invoice_sign); ?>
