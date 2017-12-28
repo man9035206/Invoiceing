@@ -26,6 +26,7 @@ class Ajax extends Admin_Controller
 
         $this->load->model('mdl_products');
         $this->load->model('families/mdl_families');
+        $this->load->model('clients/mdl_clients');
 
         if (!empty($filter_family)) {
             $this->mdl_products->by_family($filter_family);
@@ -36,13 +37,12 @@ class Ajax extends Admin_Controller
         }
 
         if ($po_id == 0) {
-            $products = $this->mdl_products->get()->result();
+            $products = $this->mdl_products->assigned_to($this->session->userdata('user_id'))->get()->result();
         } else {
             $item_po = $this->mdl_products->where('product_id',$po_id)->get()->result();
             $products = $this->mdl_products
-            ->where('po_shipping_address',$item_po[0]->po_shipping_address)
-            ->where('po_billing_address',$item_po[0]->po_billing_address)
-            ->where('product_id<>',$po_id)
+            ->where('product_no',$item_po[0]->product_no)
+            ->where_not_in('product_id',explode(',', $po_id))
             ->get()->result();
         }
         $families = $this->mdl_families->get()->result();

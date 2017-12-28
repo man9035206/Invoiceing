@@ -1,7 +1,12 @@
 <?php
 $cv = $this->controller->view_data["custom_values"];
 if ($items) {
-    $po_id = $items[0]->product_id;
+    $po_id = array();
+    foreach ($items as $item) {
+        array_push($po_id, $item->product_id);
+    }
+    $po_id = implode(',', $po_id);
+    
 } else {
     $po_id = 0;
 }

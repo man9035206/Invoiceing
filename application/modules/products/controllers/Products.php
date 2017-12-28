@@ -79,16 +79,18 @@ class Products extends Admin_Controller
             // Get the db array
             $db_array = $this->mdl_products->db_array();
 
-        if ($this->input->post('po_billing_address') == "new") {
-            $this->db->insert('ip_shipping_address',array('address' => $this->input->post('billing_address_a'),'client_id' => $this->input->post('po_client_id'),'gst_no' => $this->input->post('billing_address_gst'), 'sac_code' => $this->input->post('billing_address_sac'), 'billing_address' => 1 )); 
-            $db_array["po_billing_address"] = $this->db->insert_id();
-        } 
-        if ($this->input->post('po_shipping_address') == "new") {
-            $this->db->insert('ip_shipping_address',array('address' => $this->input->post('shipping_address_a'),'client_id' => $this->input->post('po_client_id'),'gst_no' => $this->input->post('shipping_address_gst'), 'sac_code' => $this->input->post('shipping_address_sac') )); 
-            $db_array["po_shipping_address"] = $this->db->insert_id();
-        } 
-            $this->mdl_products->save($id, $db_array);            
-            if ($id) {
+            if ($this->input->post('po_billing_address') == "new") {
+                $this->db->insert('ip_shipping_address',array('address' => $this->input->post('billing_address_a'),'client_id' => $this->input->post('po_client_id'),'gst_no' => $this->input->post('billing_address_gst'), 'sac_code' => $this->input->post('billing_address_sac'), 'billing_address' => 1 )); 
+                $db_array["po_billing_address"] = $this->db->insert_id();
+            } 
+            if ($this->input->post('po_shipping_address') == "new") {
+                $this->db->insert('ip_shipping_address',array('address' => $this->input->post('shipping_address_a'),'client_id' => $this->input->post('po_client_id'),'gst_no' => $this->input->post('shipping_address_gst'), 'sac_code' => $this->input->post('shipping_address_sac') )); 
+                $db_array["po_shipping_address"] = $this->db->insert_id();
+            } 
+
+            $this->mdl_products->save($id, $db_array); 
+            
+            if ($id && !$this->input->post("copy")) {                
                 redirect($_SERVER['HTTP_REFERER']);
             } else {
                 $this->db->select_max('product_id');
@@ -123,8 +125,16 @@ class Products extends Admin_Controller
                 'tax_rates' => $this->mdl_tax_rates->get()->result(),
                 'clients' => $user_clients,
                 'po_desc' => $this->mdl_products->po_desc(),
+                'copy' => $this->input->get("copy")
             )
         );
+
+        if ($this->input->get("copy")) {
+            unset($this->mdl_products->form_values["product_id"]);
+            unset($this->mdl_products->form_values["empid"]);
+            unset($this->mdl_products->form_values["product_name"]);
+            unset($this->mdl_products->form_values["product_price"]);
+        }
 
         $this->layout->buffer('content', 'products/form');
         $this->layout->render();

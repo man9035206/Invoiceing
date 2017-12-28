@@ -185,7 +185,8 @@ class MY_Model extends CI_Model
             $db_array = $this->db_array();
         }
         $datetime = date('Y-m-d H:i:s');
-        if (!$id) {
+
+        if (!$id || $_POST['copy']) {
             if ($this->date_created_field) {
                 if (is_array($db_array)) {
                     $db_array[$this->date_created_field] = $datetime;
@@ -207,9 +208,8 @@ class MY_Model extends CI_Model
                     $db_array->{$this->date_modified_field} = $datetime;
                 }
             }
-
             $this->db->insert($this->table, $db_array);
-
+            
             return $this->db->insert_id();
         } else {
             if ($this->date_modified_field) {

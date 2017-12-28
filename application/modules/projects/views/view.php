@@ -100,4 +100,3 @@
     </div>
 
 </div>
-<?php var_dump($task); ?>

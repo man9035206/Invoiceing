@@ -16,112 +16,159 @@
         <?php echo invoice_logo_pdf(); ?>
     </div>
 
+<table>
+  <tr>
+    <td valign="top"><b>From:</b></td>
+    <td colspan="2" valign="top">
             <div id="company">
-                <b>From:  JoulestoWatts Business Solutions Private Ltd</b><br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SJRI Park, Plot No 13,14,15 EPIP<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bengaluru Karnataka 560066<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; India<br>
+                <b>JoulestoWatts Business Solutions Private Ltd</b><br>
+                SJRI Park, Plot No 13,14,15 EPIP<br>
+                Bengaluru Karnataka 560066<br>
+                India<br>
             </div>
+
+    </td>
+    <td rowspan="2" id="invoice-details-style">                        
+        <div class="invoice-details clearfix" >
+            <table>
+                <tr>
+                    <td><b><?php echo 'Invoice number' . ':'; ?></b></td>
+                    <td><?php echo trans($invoice->invoice_number); ?></td>
+                </tr>
+                <tr>
+                    <td><b><?php echo 'Invoice date' . ':'; ?></b></td>
+                    <td><?php echo date_from_mysql($invoice->invoice_date_created, true); ?></td>
+                </tr>
+                <tr>
+                    <td><b><?php echo 'Due_date' . ': '; ?></b></td>
+                    <td><?php echo date_from_mysql($invoice->invoice_date_due, true); ?></td>
+                </tr>
+                <?php if ($payment_method): ?>
+                    <tr>
+                        <td><b><?php echo 'Purchase Order No' . ': '; ?></b></td>
+                        <td><?php echo $items[0]->product_no; ?></td>
+                    </tr>
+                <?php endif; ?>
+
+                <tr>
+                    <td><b><?php echo 'Purchase Order Date' . ':'; ?></b></td>
+                    <td><?php echo date_from_mysql($items[0]->product_start)." to ".date_from_mysql($items[0]->product_end); ?></td>
+                </tr>
+                <tr>
+                    <td><b><?php echo 'Payment Terms' . ': '; ?></b></td>
+                    <td>
+                    <?php
+                    if ($custom_fields['client']['Payment Terms (In days)']) {
+                        echo $custom_fields['client']['Payment Terms (In days)']." days"; 
+                    } else {
+                        echo get_setting('invoices_due_after')." days";
+                    }
+                     ?>                                 
+                     </td>
+                </tr>
+                <?php if ($payment_method): ?>
+                    <tr>
+                        <td><b><?php echo 'Mode of Payment' . ': '; ?></b></td>
+                        <td><?php _htmlsc($payment_method->payment_method_name); ?></td>
+                    </tr>
+                <?php endif; ?>
+                <tr>
+                    <td><b><?php echo 'PAN No' . ': '; ?></b></td>
+                    <td><?php echo "AADCJ4029L"; ?></td>
+                </tr>
+                <tr>
+                    <td><b><?php echo 'GSTIN No' . ': '; ?></b></td>
+                    <td><?php echo "29AADCJ4029L1ZA"; ?></td>
+                </tr>
+                <tr>
+                    <td><b><?php echo 'HSN/SAC CODE' . ': '; ?></b></td>
+                    <td><?php echo "998513"; ?></td>
+                </tr>
+                <?php if ($items[0]->po_pos): ?>
+                    <tr>
+                        <td><b><?php echo 'Place of Supply' . ': '; ?></b></td>
+                        <td><?php _htmlsc($items[0]->po_pos); ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if ($items[0]->po_state_code): ?>
+                    <tr>
+                        <td><b><?php echo 'State Code' . ': '; ?></b></td>
+                        <td><?php _htmlsc($items[0]->po_state_code); ?></td>
+                    </tr>
+                <?php endif; ?>
+                <tr>
+                    <td><b><?php echo 'LUT No' . ': '; ?></b></td>
+                    <td><?php echo "178/2017-18"; ?></td>
+                </tr>
+                <?php if ($items[0]->po_reverse_charge): ?>
+                    <tr>
+                        <td><b><?php echo 'Reverse Charge' . ': '; ?></b></td>
+                        <td><?php _htmlsc($items[0]->po_reverse_charge); ?></td>
+                    </tr>
+                <?php endif; ?>
+            </table>
+        </div>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><b style="font-size:8px;">To :</b> </td>
+    <td valign="top" style="padding-right:10px; width:210px;">
+        <?php   if($items[0]->po_billing_address) { ?>
+                <div>
+                <b style="font-size:8px;">    <?php echo $invoice->client_name; ?></b>
+                </div>
+        <?php  $saddress = $this->db->query('SELECT * FROM ip_shipping_address where id = '.$items[0]->po_billing_address);
+                foreach ($saddress->result() as $row) {
+                    echo $row->address."<br>";
+                    if ($row->gst_no != "") {
+                        echo "<b>GSTIN :</b>".$row->gst_no."<br>";
+                    }
+                    if ($row->sac_code != "") {
+                        echo "<b>HSN/SAC Code :</b>".$row->sac_code;
+                    }
+                }
+            }
+        ?>
+    </td>
+    <td valign="top" style="padding-right:10px; width:210px;">
+        <?php   if($items[0]->po_shipping_address) { ?>
+                <div>
+                <b style="font-size:8px;">Ship To : <?php echo $invoice->client_name;  ?></b>
+                </div>
+        <?php   $saddress = $this->db->query('SELECT * FROM ip_shipping_address where id = '.$items[0]->po_shipping_address);
+                        foreach ($saddress->result() as $row) {
+                            echo $row->address."<br>";
+                            if ($row->gst_no != "") {
+                                echo "<b>GSTIN :</b>".$row->gst_no."<br>";
+                            }
+                            if ($row->sac_code != "") {
+                                echo "<b>HSN/SAC Code :</b>".$row->sac_code;
+                            }
+                        }
+                    }
+        ?>
+    </td>
+  </tr>
+</table> 
+
     <table>
         <tr>
+
+
             <td style="padding-right:30px;width:210px;">
-                <div>
-                <b>To :     <?php echo $invoice->client_name; ?></b>
-                </div>
-<?php  $saddress = $this->db->query('SELECT * FROM ip_shipping_address where id = '.$items[0]->po_billing_address);
-                foreach ($saddress->result() as $row) {
-                    echo $row->address."<br>";
-                    if ($row->gst_no != "") {
-                        echo "<b>GSTIN :</b>".$row->gst_no."<br>";
-                    }
-                    if ($row->sac_code != "") {
-                        echo "<b>HSN/SAC Code :</b>".$row->sac_code;
-                    }
-                }
-?>
+
             </td>
 
+
+
             <td style="padding-right:30px; width:250px;">
-                <div>
-                <b>Ship To :     <?php echo $invoice->client_name;  ?></b>
-                </div>
-<?php   $saddress = $this->db->query('SELECT * FROM ip_shipping_address where id = '.$items[0]->po_shipping_address);
-                foreach ($saddress->result() as $row) {
-                    echo $row->address."<br>";
-                    if ($row->gst_no != "") {
-                        echo "<b>GSTIN :</b>".$row->gst_no."<br>";
-                    }
-                    if ($row->sac_code != "") {
-                        echo "<b>HSN/SAC Code :</b>".$row->sac_code;
-                    }
-                }
-?>
+
             
             </td>
 
-            <td id="invoice-details-style">                        
-                <div class="invoice-details clearfix" >
-                    <table>
-                        <tr>
-                            <td><?php echo trans('Invoice_number') . ':'; ?></td>
-                            <td><?php echo trans($invoice->invoice_number); ?></td>
-                        </tr>
-                        <tr>
-                            <td><?php echo trans('Invoice_date') . ':'; ?></td>
-                            <td><?php echo date_from_mysql($invoice->invoice_date_created, true); ?></td>
-                        </tr>
-                        <tr>
-                            <td><?php echo trans('Due_date') . ': '; ?></td>
-                            <td><?php echo date_from_mysql($invoice->invoice_date_due, true); ?></td>
-                        </tr>
-                        <?php if ($payment_method): ?>
-                            <tr>
-                                <td><?php echo trans('Purchase Order No') . ': '; ?></td>
-                                <td><?php echo $items[0]->product_no; ?></td>
-                            </tr>
-                        <?php endif; ?>
 
-                        <tr>
-                            <td><?php echo trans('Purchase Order Date') . ':'; ?></td>
-                            <td><?php echo date_from_mysql($items[0]->product_start)." to ".date_from_mysql($items[0]->product_end); ?></td>
-                        </tr>
-                        <tr>
-                            <td><?php echo trans('Payment Terms') . ': '; ?></td>
-                            <td>
-                            <?php
-                            if ($custom_fields['client']['Payment Terms (In days)']) {
-                                echo $custom_fields['client']['Payment Terms (In days)']." days"; 
-                            } else {
-                                echo get_setting('invoices_due_after')." days";
-                            }
-                             ?>                                 
-                             </td>
-                        </tr>
-                        <?php if ($payment_method): ?>
-                            <tr>
-                                <td><?php echo trans('Mode of Payment') . ': '; ?></td>
-                                <td><?php _htmlsc($payment_method->payment_method_name); ?></td>
-                            </tr>
-                        <?php endif; ?>
-                        <tr>
-                            <td><?php echo trans('PAN No') . ': '; ?></td>
-                            <td><?php echo "AADCJ4029L"; ?></td>
-                        </tr>
-                        <tr>
-                            <td><?php echo trans('GSTIN No') . ': '; ?></td>
-                            <td><?php echo "29AADCJ4029L1ZA"; ?></td>
-                        </tr>
-                        <tr>
-                            <td><?php echo trans('SAC No') . ': '; ?></td>
-                            <td><?php echo "998513"; ?></td>
-                        </tr>
-                        <tr>
-                            <td><?php echo trans('LUT No') . ': '; ?></td>
-                            <td><?php echo "178/2017-18"; ?></td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
+
+            
         </tr>
     </table>
         
@@ -172,8 +219,7 @@
                 }
                 echo "<br><br>".nl2br(htmlsc(po_desc($item->item_description))); 
                 ?>
-
-
+                <br><br>
                 </td>
                 <td class="text-right">
                     <?php echo $item->item_quantity; ?>
@@ -195,6 +241,42 @@
             <td colspan="2" class="empty-cell"></td>
             <td class="empty-cell"></td>
             <td class="text-right empty-cell">
+                
+            </td>
+            <td class="text-right"></td>
+        </tr>
+
+        <tr>
+            <td class="empty-cell"></td>
+            <td colspan="2" class="empty-cell"></td>
+            <td class="empty-cell"></td>
+            <td class="text-right empty-cell">
+            </td>
+            <td class="text-right"></td>
+        </tr>
+        <tr>
+            <td class="empty-cell"></td>
+            <td colspan="2" class="empty-cell"></td>
+            <td class="empty-cell"></td>
+            <td class="text-right empty-cell">
+                
+            </td>
+            <td class="text-right"></td>
+        </tr>
+
+        <tr>
+            <td class="empty-cell"></td>
+            <td colspan="2" class="empty-cell"></td>
+            <td class="empty-cell"></td>
+            <td class="text-right empty-cell">
+            </td>
+            <td class="text-right"></td>
+        </tr>   
+        <tr>
+            <td class="empty-cell"></td>
+            <td colspan="2" class="empty-cell"></td>
+            <td class="empty-cell"></td>
+            <td class="text-right empty-cell">
                 <?php _trans('subtotal'); ?>
             </td>
             <td class="text-right"><?php echo format_currency($invoice->invoice_item_subtotal); ?></td>
@@ -206,7 +288,7 @@
             <td colspan="2" class="empty-cell"></td>
             <td class="empty-cell"></td>
             <td class="text-right empty-cell">
-                    <?php _trans('item_tax'); ?>
+                    <?php echo $item->item_tax_rate_name; ?>
                 </td>
                 <td class="text-right">
                     <?php echo format_currency($invoice->invoice_item_tax_total); ?>
