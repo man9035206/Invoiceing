@@ -27,6 +27,70 @@ class Users extends Admin_Controller
     /**
      * @param int $page
      */
+    public function update()
+    {
+          $c_name = $this->input->post('c_name');
+          $c_company = $this->input->post('c_company');
+          $c_email = $this->input->post('c_email');
+          $c_address = $this->input->post('c_address');
+
+          $c_gstin = $this->input->post('c_gstin');
+          $c_pan = $this->input->post('c_pan');
+          $c_sac = $this->input->post('c_sac');
+          $c_lut = $this->input->post('c_lut');
+
+          $data = array(
+               'setting_value'=>$c_name
+          );
+         $this->db->where('setting_key', 'j2w_contact_name');
+         $this->db->update('ip_settings',$data);
+
+         $data1 = array(
+               'setting_value'=>$c_company
+          );
+         $this->db->where('setting_key', 'j2w_company_name');
+         $this->db->update('ip_settings',$data1);
+
+         $data2 = array(
+               'setting_value'=>$c_email
+          );
+         $this->db->where('setting_key', 'j2w_email');
+         $this->db->update('ip_settings',$data2);
+
+         $data3 = array(
+               'setting_value'=>$c_address
+          );
+         $this->db->where('setting_key', 'j2w_address');
+         $this->db->update('ip_settings',$data3);
+
+         $data4 = array(
+               'setting_value'=>$c_gstin
+          );
+         $this->db->where('setting_key', 'j2w_GSTIN');
+         $this->db->update('ip_settings',$data4);
+
+         $data5 = array(
+               'setting_value'=>$c_pan
+          );
+         $this->db->where('setting_key', 'j2w_PAN');
+         $this->db->update('ip_settings',$data5);
+
+         $data6 = array(
+               'setting_value'=>$c_sac
+          );
+         $this->db->where('setting_key', 'j2w_SAC_Code');
+         $this->db->update('ip_settings',$data6);
+
+         $data7 = array(
+               'setting_value'=>$c_lut
+          );
+         $this->db->where('setting_key', 'j2w_LUT_number');
+         $this->db->update('ip_settings',$data7);
+
+
+         redirect('/users/j2winfo');
+    }
+
     public function index($page = 0)
     {
         $this->mdl_users->paginate(site_url('users/index'), $page);
@@ -38,10 +102,12 @@ class Users extends Admin_Controller
         $this->layout->render();
     }
 
-    public function j2winfo(){
+    public function j2winfo()
+    {
         if ($this->input->post('btn_cancel')) {
             redirect('users');
         }
+
         $this->layout->buffer('content', 'users/j2winfo');
         $this->layout->render();        
     }
