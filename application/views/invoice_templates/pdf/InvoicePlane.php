@@ -120,17 +120,20 @@
                         <td><?php _htmlsc($items[0]->po_state_code); ?></td>
                     </tr>
                 <?php endif; ?>
-                <tr>
-                    <td><b><?php echo 'LUT No' . ': '; ?></b></td>
-                    <td><?php $this->db->select("setting_value");
-                              $this->db->from("ip_settings");
-                              $this->db->or_where('setting_key', 'j2w_LUT_number');
-                              $query = $this->db->get(); 
-                              foreach ($query->result() as $row) {
-                                echo $row->setting_value;
-                            } ?>
-                    </td>
-                </tr>
+
+                <?php if ($invoice->invoice_item_tax_total == 0) { ?>
+                        <tr>
+                            <td><b><?php echo 'LUT No' . ': '; ?></b></td>
+                            <td><?php $this->db->select("setting_value");
+                                      $this->db->from("ip_settings");
+                                      $this->db->or_where('setting_key', 'j2w_LUT_number');
+                                      $query = $this->db->get(); 
+                                      foreach ($query->result() as $row) {
+                                        echo $row->setting_value;
+                                    } ?>
+                            </td>
+                        </tr>
+                <?php } ?>
                 <?php if ($items[0]->po_reverse_charge): ?>
                     <tr>
                         <td><b><?php echo 'Reverse Charge' . ': '; ?></b></td>
@@ -210,9 +213,6 @@
 </header>
 
 <main>
-    <?php if($invoice->client_surname) {?>
-<div style="text-align:center">Kind Attention <strong><?php echo $invoice->client_surname; ?></strong></div>
-    <?php } ?>
     <table class="item-table">
         <thead>
         <tr>
@@ -313,7 +313,7 @@
             <td class="text-right"><?php echo format_currency($invoice->invoice_item_subtotal); ?></td>
         </tr>
 
-        <?php if ($invoice->invoice_item_tax_total > 0) { ?>
+        <?php if ($invoice->invoice_item_tax_total) { ?>
             <tr>
             <td class="empty-cell"></td>
             <td colspan="2" class="empty-cell"></td>
