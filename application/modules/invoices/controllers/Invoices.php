@@ -141,6 +141,7 @@ class Invoices extends Admin_Controller
         $this->load->model('custom_values/mdl_custom_values');
         $this->load->model('custom_fields/mdl_invoice_custom');
         $this->load->model('custom_fields/mdl_custom_fields');
+        $this->load->model('ip_settings/mdl_products');
 
         $this->db->reset_query();
 

@@ -74,15 +74,39 @@
                 <?php endif; ?>
                 <tr>
                     <td><b><?php echo 'PAN No' . ': '; ?></b></td>
-                    <td><?php echo "AADCJ4029L"; ?></td>
+                    <td>
+                        <?php   $this->db->select("setting_value");
+                                $this->db->from("ip_settings");
+                                $this->db->or_where('setting_key', 'j2w_PAN');
+                                $query = $this->db->get(); 
+                                foreach ($query->result() as $row) {
+                                    echo $row->setting_value;
+                                } 
+                        ?>
+                    </td>
                 </tr>
                 <tr>
                     <td><b><?php echo 'GSTIN No' . ': '; ?></b></td>
-                    <td><?php echo "29AADCJ4029L1ZA"; ?></td>
+                    <td><?php $this->db->select("setting_value");
+                              $this->db->from("ip_settings");
+                              $this->db->or_where('setting_key', 'j2w_GSTIN');
+                              $query = $this->db->get(); 
+                              foreach ($query->result() as $row) {
+                                echo $row->setting_value;
+                            } 
+                        ?>
+                    </td>
                 </tr>
                 <tr>
                     <td><b><?php echo 'HSN/SAC CODE' . ': '; ?></b></td>
-                    <td><?php echo "998513"; ?></td>
+                    <td><?php $this->db->select("setting_value");
+                              $this->db->from("ip_settings");
+                              $this->db->or_where('setting_key', 'j2w_SAC_Code');
+                              $query = $this->db->get(); 
+                              foreach ($query->result() as $row) {
+                                echo $row->setting_value;
+                            } ?>
+                    </td>
                 </tr>
                 <?php if ($items[0]->po_pos): ?>
                     <tr>
@@ -98,7 +122,14 @@
                 <?php endif; ?>
                 <tr>
                     <td><b><?php echo 'LUT No' . ': '; ?></b></td>
-                    <td><?php echo "178/2017-18"; ?></td>
+                    <td><?php $this->db->select("setting_value");
+                              $this->db->from("ip_settings");
+                              $this->db->or_where('setting_key', 'j2w_LUT_number');
+                              $query = $this->db->get(); 
+                              foreach ($query->result() as $row) {
+                                echo $row->setting_value;
+                            } ?>
+                    </td>
                 </tr>
                 <?php if ($items[0]->po_reverse_charge): ?>
                     <tr>
@@ -358,7 +389,13 @@ All disputes subject to Bangalore Jurisdiction.
                         <b>Bank Name</b>
               </td>
               <td colspan="2" class="footer" style="border-right:1px solid #003366;">
-                  SBI Bank
+              <?php $this->db->select("setting_value");
+                        $this->db->from("ip_settings");
+                        $this->db->or_where('setting_key', 'Bank_Name');
+                        $query = $this->db->get(); 
+                        foreach ($query->result() as $row) {
+                            echo $row->setting_value;
+                        } ?>
               </td>
               <td class="footer" colspan="2"></td>
         </tr>
@@ -367,7 +404,13 @@ All disputes subject to Bangalore Jurisdiction.
                         <b>Bank A/c No.</b>
               </td>
               <td colspan="2" class="footer" style="border-right:1px solid #003366;">
-                  35509831439
+              <?php $this->db->select("setting_value");
+                        $this->db->from("ip_settings");
+                        $this->db->or_where('setting_key', 'Bank_A/c_No');
+                        $query = $this->db->get(); 
+                        foreach ($query->result() as $row) {
+                            echo $row->setting_value;
+                        } ?>
               </td>
               <td class="footer" colspan="2"></td>
         </tr>
@@ -376,7 +419,13 @@ All disputes subject to Bangalore Jurisdiction.
                         <b>Branch</b>
               </td>
               <td colspan="2" class="footer" style="border-right:1px solid #003366;">
-                  SME Mahadevapura (03028)
+              <?php $this->db->select("setting_value");
+                        $this->db->from("ip_settings");
+                        $this->db->or_where('setting_key', 'Bank_Branch');
+                        $query = $this->db->get(); 
+                        foreach ($query->result() as $row) {
+                            echo $row->setting_value;
+                        } ?>
               </td>
               <td class="footer" colspan="2"></td>
         </tr>
@@ -385,7 +434,13 @@ All disputes subject to Bangalore Jurisdiction.
                         <b>IFSC Code</b>
               </td>
               <td colspan="2" class="footer" style="border-right:1px solid #003366;">
-                  SBIN0003028
+              <?php $this->db->select("setting_value");
+                        $this->db->from("ip_settings");
+                        $this->db->or_where('setting_key', 'IFSC_Code');
+                        $query = $this->db->get(); 
+                        foreach ($query->result() as $row) {
+                            echo $row->setting_value;
+                        } ?>
               </td>
               <td colspan="2" class="footer"></td>
         </tr>
@@ -394,8 +449,13 @@ All disputes subject to Bangalore Jurisdiction.
                         <b>MICR Code</b>
               </td>
               <td colspan="2" class="footer" style="border-right:1px solid #003366;">
-                  560002019
-              </td>
+              <?php $this->db->select("setting_value");
+                        $this->db->from("ip_settings");
+                        $this->db->or_where('setting_key', 'MICR_Code');
+                        $query = $this->db->get(); 
+                        foreach ($query->result() as $row) {
+                            echo $row->setting_value;
+                        } ?>
               <td colspan="2" class="footer" style="text-align:center;"> <b>AUTHORISED SIGNATORY</b> </td>
         </tr>
         </tbody>
