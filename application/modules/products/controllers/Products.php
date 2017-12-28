@@ -87,8 +87,8 @@ class Products extends Admin_Controller
                 $this->db->insert('ip_shipping_address',array('address' => $this->input->post('shipping_address_a'),'client_id' => $this->input->post('po_client_id'),'gst_no' => $this->input->post('shipping_address_gst'), 'sac_code' => $this->input->post('shipping_address_sac') )); 
                 $db_array["po_shipping_address"] = $this->db->insert_id();
             } 
-
             $this->mdl_products->save($id, $db_array); 
+            $this->consolidate_po($db_array);
             
             if ($id && !$this->input->post("copy")) {                
                 redirect($_SERVER['HTTP_REFERER']);
@@ -138,6 +138,14 @@ class Products extends Admin_Controller
 
         $this->layout->buffer('content', 'products/form');
         $this->layout->render();
+    }
+
+    public function consolidate_po($db_array){
+        unset($db_array['empid']);
+        unset($db_array['product_name']);
+        unset($db_array['product_price']);
+        $this->db->where('product_no', $this->input->post('product_no'));
+        $this->db->update('ip_products', $db_array);
     }
 
     /**
