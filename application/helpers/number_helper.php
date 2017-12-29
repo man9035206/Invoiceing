@@ -138,11 +138,14 @@ function numTowords($amount) {
              ;
         } else $str_1[] = null;
     }
-    $str_1 = array_reverse($str_1);
-    $points = implode('', $str_1);
+    if ($str_1 != null) {
+        $str_1 = array_reverse($str_1);
+        $points = str_replace(' ','',implode('', $str_1));
+    } else {
+        $points = '';
+    }
 
-
-    if ($points == "") {
+    if ($points == '') {
         if($result != "") {
             $word = $result . "Rupees  ";
         } else {
