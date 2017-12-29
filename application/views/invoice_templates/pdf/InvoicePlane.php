@@ -340,7 +340,7 @@
             <?php } else { ?>
             <tr>
             <td class="empty-cell"></td>
-            <td colspan="2" class="empty-cell"><?php echo $item->item_tax_rate_name; ?></td>
+            <td colspan="2" class="empty-cell" align="right"><?php echo $item->item_tax_rate_name; ?></td>
             <td class="empty-cell"></td>
             <td class="text-right empty-cell"></td>
                 <td class="text-right">
