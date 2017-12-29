@@ -340,11 +340,9 @@
             <?php } else { ?>
             <tr>
             <td class="empty-cell"></td>
-            <td colspan="2" class="empty-cell"></td>
+            <td colspan="2" class="empty-cell"><?php echo $item->item_tax_rate_name; ?></td>
             <td class="empty-cell"></td>
-            <td class="text-right empty-cell">
-                    <?php echo $item->item_tax_rate_name; ?>
-                </td>
+            <td class="text-right empty-cell"></td>
                 <td class="text-right">
                     <?php echo format_currency($invoice->invoice_item_tax_total); ?>
                 </td>
