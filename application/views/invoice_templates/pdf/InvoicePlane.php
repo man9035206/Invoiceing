@@ -260,7 +260,8 @@
                     <?php echo format_currency($item->item_price); ?>
                 </td>
                 <td class="text-right">
-                    <?php echo format_currency($item->item_total); ?>
+                    <?php  echo format_currency($item->item_quantity * $item->item_price); ?>
+                    <?php // echo format_currency($item->item_total); ?>
                 </td>
             </tr>
         <?php } ?>
@@ -306,15 +307,37 @@
         </tr>   
         <tr>
             <td class="empty-cell"></td>
-            <td colspan="2" class="empty-cell"></td>
-            <td class="empty-cell"></td>
-            <td class="text-right empty-cell">
+            <td colspan="2" class="empty-cell" align="right">
                 <?php _trans('subtotal'); ?>
             </td>
+            <td class="empty-cell"></td>
+            <td class="text-right empty-cell"></td>
             <td class="text-right"><?php echo format_currency($invoice->invoice_item_subtotal); ?></td>
         </tr>
 
         <?php if ($invoice->invoice_item_tax_total) { ?>
+            <?php if($item->tax_rate_id == 5) { ?>
+
+            <tr>
+            <td class="empty-cell"></td>
+            <td colspan="2" class="empty-cell" align="right">CGST @ 9%</td>
+            <td class="empty-cell"></td>
+            <td class="text-right empty-cell"></td>
+            <td class="text-right">
+                <?php echo format_currency(($invoice->invoice_item_tax_total)/2); ?>
+            </td>
+            </tr>
+            <tr>
+            <td class="empty-cell"></td>
+            <td colspan="2" class="empty-cell" align="right">SGST @ 9%</td>
+            <td class="empty-cell"></td>
+            <td class="text-right empty-cell"></td>
+            <td class="text-right">
+                <?php echo format_currency(($invoice->invoice_item_tax_total)/2); ?>
+            </td>
+            </tr>
+
+            <?php } else { ?>
             <tr>
             <td class="empty-cell"></td>
             <td colspan="2" class="empty-cell"></td>
@@ -326,18 +349,8 @@
                     <?php echo format_currency($invoice->invoice_item_tax_total); ?>
                 </td>
             </tr>
-        <?php } ?>
-
-        <?php foreach ($invoice_tax_rates as $invoice_tax_rate) : ?>
-            <tr>
-                <td colspan="5" class="text-right">
-                    <?php echo htmlsc($invoice_tax_rate->invoice_tax_rate_name) . ' (' . format_amount($invoice_tax_rate->invoice_tax_rate_percent) . '%)'; ?>
-                </td>
-                <td class="text-right">
-                    <?php echo format_currency($invoice_tax_rate->invoice_tax_rate_amount); ?>
-                </td>
-            </tr>
-        <?php endforeach ?>
+        <?php }
+        } ?>
 
         <tr>
             <td colspan="5" class="text-right ta-cell">
