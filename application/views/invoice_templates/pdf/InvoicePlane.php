@@ -31,6 +31,7 @@
     <td rowspan="2" id="invoice-details-style">                        
         <div class="invoice-details clearfix" >
             <table>
+                <tr><th colspan="2" style="border-bottom:1px solid #173366;"> Original for Recipient</th></tr>
                 <tr>
                     <td><b><?php echo 'Invoice number' . ':'; ?></b></td>
                     <td><?php echo trans($invoice->invoice_number); ?></td>
