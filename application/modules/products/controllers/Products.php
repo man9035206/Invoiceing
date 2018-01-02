@@ -134,6 +134,7 @@ class Products extends Admin_Controller
             unset($this->mdl_products->form_values["empid"]);
             unset($this->mdl_products->form_values["product_name"]);
             unset($this->mdl_products->form_values["product_price"]);
+            unset($this->mdl_products->form_values["product_description"]);
         }
 
         $this->layout->buffer('content', 'products/form');
@@ -144,6 +145,7 @@ class Products extends Admin_Controller
         unset($db_array['empid']);
         unset($db_array['product_name']);
         unset($db_array['product_price']);
+        unset($db_array['product_description']);
         $this->db->where('product_no', $this->input->post('product_no'));
         $this->db->update('ip_products', $db_array);
     }
