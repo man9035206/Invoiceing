@@ -254,7 +254,7 @@
                 <br><br>
                 </td>
                 <td class="text-right">
-                    <?php echo $item->item_quantity; ?>
+                    <?php echo number_format($item->item_quantity,2); ?>
                 </td>
                 <td class="text-right">
                     <?php echo format_currency($item->item_price); ?>
