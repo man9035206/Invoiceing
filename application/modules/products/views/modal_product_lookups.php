@@ -30,7 +30,6 @@
                     var last_item_row = $('#item_table tbody:last');
 
                     last_item_row.find('input[name=item_name]').val(items[key].product_name);
-                    last_item_row.find('textarea[name=item_description]').val(items[key].product_description);
                     last_item_row.find('input[name=item_price]').val(items[key].product_price);
                     last_item_row.find('input[name=item_quantity]').val('1');
                     last_item_row.find('select[name=item_tax_rate_id]').val(items[key].tax_rate_id);
