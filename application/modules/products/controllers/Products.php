@@ -30,10 +30,15 @@ class Products extends Admin_Controller
      */
     public function index($page = 0)
     {
+        $this->load->model('clients/mdl_clients');
+        $keyword = $this->input->get('product_search');
 
-
-        $this->mdl_products->assigned_to($this->session->userdata('user_id'))->paginate(site_url('products/index'), $page);
-        $products = $this->mdl_products->result();
+        if (isset($keyword)) {
+            $products = $this->mdl_products->search($keyword);
+        } else {
+            $this->mdl_products->assigned_to($this->session->userdata('user_id'))->paginate(site_url('products/index'), $page);
+            $products = $this->mdl_products->result();
+        }
 
         $this->layout->set('products', $products);
         $this->layout->buffer('content', 'products/index');

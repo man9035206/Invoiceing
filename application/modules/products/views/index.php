@@ -1,5 +1,13 @@
 <div id="headerbar">
-    <h1 class="headerbar-title"><?php _trans('products'); ?></h1>
+    <!-- <h1 class="headerbar-title"><?php _trans('products'); ?></h1> -->
+    <form class="navbar-form" action="<?php echo site_url('products/index'); ?>" method="get">
+    <div class="col-xs-10 col-md-4">
+        <div class="headerbar-item">
+            <input type="text" name="product_search" class="form-control" placeholder="Search"/>
+            <button class="btn btn-primary">Submit</button>
+        </div>  
+    </div>
+</form> 
 
     <div class="headerbar-item pull-right">
         <a class="btn btn-sm btn-primary" href="<?php echo site_url('products/form'); ?>">

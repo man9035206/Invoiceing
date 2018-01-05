@@ -20,6 +20,15 @@ class Mdl_Products extends Response_Model
 
     public $client =  "helo";
 
+
+    public function search($keyword)
+    {
+          $this->db->like('product_id',$keyword);
+          $this->db->or_like('product_name',$keyword);
+          $query = $this->db->get('ip_products');
+          return $query->result();
+    }
+
     public function default_select()
     {
         $this->db->select('SQL_CALC_FOUND_ROWS *', false);
