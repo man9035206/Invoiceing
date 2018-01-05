@@ -312,19 +312,12 @@
 
             <tr>
                     <td class="td-textarea">
-                            <select name="item_description" id="item_description" class="form-control simple-select"
-                            <?php if ($invoice->is_read_only == 1) {
+                    <div class="input-group">
+                        <span class="input-group-addon">Description</span>
+                        <textarea name="item_description" id="item_description" class="form-control" <?php if ($invoice->is_read_only == 1) {
                                 echo 'disabled="disabled"';
-                            } ?>>
-                                <option value="0">Select Description</option>
-
-                                    <?php foreach ($po_desc as $key => $desc) { ?>
-                                        <option value="<?php echo $key; ?>"
-                                            <?php check_select($item->product_description, $key); ?>>
-                                            <?php echo $desc; ?>
-                                        </option>
-                                    <?php } ?>
-                            </select>
+                            } ?>><?php _htmlsc($item->item_description); ?></textarea>
+                    </div>
                     </td>
 
                 <td class="td-amount">

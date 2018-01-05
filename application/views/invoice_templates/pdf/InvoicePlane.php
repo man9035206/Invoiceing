@@ -249,7 +249,10 @@
                 if($item->worked_days) {
                     echo "<br>Charged Working Days  – ".$item->worked_days;                    
                 }
-                echo "<br><br>".nl2br(htmlsc(po_desc($item->item_description))); 
+                if ($item->item_description) {
+                    echo "<br>".nl2br(htmlsc(($item->item_description))); 
+                }
+                echo "<br><br>".nl2br(htmlsc(po_desc($item->product_description))); 
                 ?>
                 <br><br>
                 </td>

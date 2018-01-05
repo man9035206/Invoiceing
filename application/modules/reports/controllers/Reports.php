@@ -123,10 +123,22 @@ class Reports extends Admin_Controller
                 $column ++;
             }
 
+            foreach(range('A','W') as $columnID) {
+                $phpExcel->getActiveSheet()->getColumnDimension($columnID)
+                    ->setAutoSize(true);
+            }
+
             $phpExcel->getActiveSheet()->getStyle("A1:W1")->getFont()->setBold(true)
                                 ->setName('Verdana')
-                                ->setSize(10)
-                                ->getColor()->setRGB('6F6F6F');
+                                ->setSize(12)
+                                ->getColor()->setRGB('ffffff');
+                                
+            $phpExcel->getActiveSheet()->getStyle("A1:W1")->getFill()->applyFromArray(array(
+                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                'startcolor' => array(
+                     'rgb' => "3801FC"
+                )
+            ));
 
 
 
@@ -137,8 +149,12 @@ class Reports extends Admin_Controller
             $this->load->model("invoices/mdl_invoices");
             $po_desc = $this->mdl_products->po_desc();
             $stat = $this->mdl_invoices->statuses();
+            $phpExcel->getActiveSheet()->getRowDimension("1")->setRowHeight(25);
+            
 
             foreach ($invoices as $row) {
+                $phpExcel->getActiveSheet()->getRowDimension($excel_row)->setRowHeight(25);
+
                 $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $row->invoice_number);
 
                 $invoice_date_created= strtotime($row->invoice_date_created);
@@ -208,12 +224,14 @@ class Reports extends Admin_Controller
                 $excel_row ++;
                 
             }
+            $phpExcel->getActiveSheet()->getStyle('A1')->getAlignment()->setIndent(1);
+            $phpExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
 
 
 
             $object_writer = PHPExcel_IOFactory::createWriter($phpExcel,'Excel5');
             header('Content-Type: application/vnd.ms-excel');
-            header('Content-Disposition: attachment;filename="EmpData.xls"');
+            header('Content-Disposition: attachment;filename="AllInvoice_'. date("dMy") .'.xls"');
             $object_writer->save('php://output');
         }
 
