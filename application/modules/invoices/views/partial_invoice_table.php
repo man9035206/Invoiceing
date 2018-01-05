@@ -61,7 +61,7 @@
                 </td>
 
                 <td>
-                    <a href="<?php echo site_url('clients/view/' . $invoice->client_id); ?>"
+                    <a href="#"
                        title="<?php _trans('view_client'); ?>">
                         <?php _htmlsc(format_client($invoice)); ?>
                     </a>
@@ -96,13 +96,13 @@
                                     </a>
                                 </li>                                
                             <?php } ?>
-                            <?php if ( $su_type == 4) { ?>
                             <li>
                                 <a href="<?php echo site_url('invoices/generate_pdf/' . $invoice->invoice_id); ?>"
                                    target="_blank">
                                     <i class="fa fa-print fa-margin"></i> <?php _trans('download_pdf'); ?>
                                 </a>
                             </li>
+                            <?php if ( $su_type == 4) { ?>
                             <li>
                                 <a href="<?php echo site_url('mailer/invoice/' . $invoice->invoice_id); ?>">
                                     <i class="fa fa-send fa-margin"></i> <?php _trans('send_email'); ?>

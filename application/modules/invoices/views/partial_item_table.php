@@ -173,6 +173,20 @@
                                value="<?php _htmlsc($item->empid); ?>"
                             <?php  echo 'disabled="disabled"';?>>
                     </div>
+                    
+                     <select name="po_description" id="po_description" class="form-control simple-select"
+                            <?php if ($invoice->is_read_only == 1) {
+                                echo 'disabled="disabled"';
+                            } ?>>
+                                <option value="0">Select Description</option>
+
+                                    <?php foreach ($po_desc as $key => $desc) { ?>
+                                        <option value="<?php echo $key; ?>"
+                                            <?php check_select($item->product_description, $key); ?>>
+                                            <?php echo $desc; ?>
+                                        </option>
+                                    <?php } ?>
+                            </select>
                 </td>
                 
                 <td class="td-amount td-quantity">
@@ -313,7 +327,7 @@
             <tr>
                     <td class="td-textarea">
                     <div class="input-group">
-                        <span class="input-group-addon">Description</span>
+                        <span class="input-group-addon">Note</span>
                         <textarea name="item_description" id="item_description" class="form-control" <?php if ($invoice->is_read_only == 1) {
                                 echo 'disabled="disabled"';
                             } ?>><?php _htmlsc($item->item_description); ?></textarea>
