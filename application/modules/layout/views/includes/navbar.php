@@ -191,6 +191,7 @@
                         <i class="visible-md-inline fa fa-bar-chart"></i>
                     </a>
                     <ul class="dropdown-menu">
+                        <li><?php echo anchor('reports/all_invoice', "All Invoice"); ?></li>
                         <li><?php echo anchor('reports/invoice_aging', trans('invoice_aging')); ?></li>
                         <li><?php echo anchor('reports/payment_history', trans('payment_history')); ?></li>
                         <li><?php echo anchor('reports/sales_by_client', trans('sales_by_client')); ?></li>
