@@ -182,8 +182,7 @@
                         <li><?php echo anchor('projects/index', trans('projects')); ?></li>
                     </ul>
                 </li>
-
-                <?php if ($this->session->userdata('user_type') != 6) { ?>
+                <?php if ($this->session->userdata('user_type') == 6 || $this->session->userdata('user_type') == 1) { ?>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-caret-down"></i> &nbsp;
@@ -192,10 +191,13 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><?php echo anchor('reports/all_invoice', "All Invoice"); ?></li>
+
+                    <?php if($this->session->userdata('user_type') == 1) { ?>
                         <li><?php echo anchor('reports/invoice_aging', trans('invoice_aging')); ?></li>
                         <li><?php echo anchor('reports/payment_history', trans('payment_history')); ?></li>
                         <li><?php echo anchor('reports/sales_by_client', trans('sales_by_client')); ?></li>
                         <li><?php echo anchor('reports/sales_by_year', trans('sales_by_date')); ?></li>
+                    <?php } ?>
                     </ul>
                 </li>
                 <?php } ?>

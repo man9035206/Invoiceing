@@ -70,6 +70,10 @@
                         <?php } ?>
                     </select>
                 </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Bottom Padding</span>
+                    <input type="text" name="item_padding_bottom" class="input-sm form-control amount" value="">
+                </div>
             </td>
             <td class="td-icon text-right td-vert-middle"></td>
         </tr>
@@ -300,6 +304,10 @@
                             <?php } ?>
                         </select>
                     </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Bottom Padding</span>
+                    <input type="text" name="item_padding_bottom" class="input-sm form-control amount" value="<?php _htmlsc($item->item_padding_bottom); ?>">
+                </div>
                 </td>
                 <td class="td-icon text-right td-vert-middle">
                     <?php if ($invoice->is_read_only != 1): ?>

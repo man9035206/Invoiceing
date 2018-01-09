@@ -484,7 +484,6 @@ class Ajax extends Admin_Controller
         $item->item_product_id = $po[0]->product_id;      
         $item->item_date_added = 1;     
         $item->item_name = $po[0]->product_name;       
-        $item->item_description = $po[0]->product_description;      
         $item->item_price = $po[0]->product_price;           
         $item->item_quantity = $po[0]->po_quantity;   
         $item->item_order = 1;
