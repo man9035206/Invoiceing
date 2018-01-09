@@ -21,12 +21,17 @@ class Mdl_Products extends Response_Model
     public $client =  "helo";
 
 
-    public function search($keyword)
-    {
-          $this->db->like('product_id',$keyword);
-          $this->db->or_like('product_name',$keyword);
-          $query = $this->db->get('ip_products');
-          return $query->result();
+    public function search($client_keyword)
+    {         
+        $user_id = $this->session->userdata('user_id');
+        
+        $this->db->from('ip_products');
+        $this->db->join('ip_clients', 'ip_clients.client_id = ip_products.po_client_id');
+        $this->db->join('ip_user_clients','ip_clients.client_id = ip_user_clients.client_id');
+        $this->db->like('ip_clients.client_name', $client_keyword);
+        $this->db->where('ip_user_clients.user_id', $user_id);
+        $result = $this->db->get();
+        return $result->result(); 
     }
 
     public function default_select()
@@ -250,4 +255,16 @@ class Mdl_Products extends Response_Model
         return $this;
     }
 
+    public function client_assigned_to($user_id, $client_keyword)
+    {
+        $this->load->model('user_clients/mdl_user_clients');
+        $this->load->model('clients/mdl_clients');
+
+        $this->db->from('ip_clients');
+        $this->db->join('ip_user_clients', 'ip_clients.client_id = ip_user_clients.client_id');
+        $this->db->like('client_name',$keyword);
+        $result = $this->db->get();
+        return $result->result(); 
+        
+    }
 }

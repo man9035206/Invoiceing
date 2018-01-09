@@ -31,14 +31,28 @@ class Products extends Admin_Controller
     public function index($page = 0)
     {
         $this->load->model('clients/mdl_clients');
-        $keyword = $this->input->get('product_search');
+        $this->load->model('products/mdl_products');
 
-        if (isset($keyword)) {
-            $products = $this->mdl_products->search($keyword);
-        } else {
-            $this->mdl_products->assigned_to($this->session->userdata('user_id'))->paginate(site_url('products/index'), $page);
+        $product_keyword = $this->input->get('product_search');
+        $client_keyword = $this->input->get('client_search');
+
+        if (!empty($client_keyword)) {
+
+           $products = $this->mdl_products->search($client_keyword);
+
+        } elseif (!empty($product_keyword)) {
+
+            $this->mdl_products->assigned_to($this->session->userdata('user_id'))
+            ->like('product_no',$product_keyword)            
+            ->or_like('product_name',$product_keyword)
+            ->paginate(site_url('products/index'), $page);
             $products = $this->mdl_products->result();
-        }
+
+        } else {
+
+           $this->mdl_products->assigned_to($this->session->userdata('user_id'))->paginate(site_url('products/index'), $page);
+            $products = $this->mdl_products->result();
+       } 
 
         $this->layout->set('products', $products);
         $this->layout->buffer('content', 'products/index');
@@ -92,8 +106,8 @@ class Products extends Admin_Controller
                 $this->db->insert('ip_shipping_address',array('address' => $this->input->post('shipping_address_a'),'client_id' => $this->input->post('po_client_id'),'gst_no' => $this->input->post('shipping_address_gst'), 'sac_code' => $this->input->post('shipping_address_sac') )); 
                 $db_array["po_shipping_address"] = $this->db->insert_id();
             } 
+
             $this->mdl_products->save($id, $db_array); 
-            $this->consolidate_po($db_array);
             
             if ($id && !$this->input->post("copy")) {                
                 redirect($_SERVER['HTTP_REFERER']);
@@ -139,20 +153,10 @@ class Products extends Admin_Controller
             unset($this->mdl_products->form_values["empid"]);
             unset($this->mdl_products->form_values["product_name"]);
             unset($this->mdl_products->form_values["product_price"]);
-            unset($this->mdl_products->form_values["product_description"]);
         }
 
         $this->layout->buffer('content', 'products/form');
         $this->layout->render();
-    }
-
-    public function consolidate_po($db_array){
-        unset($db_array['empid']);
-        unset($db_array['product_name']);
-        unset($db_array['product_price']);
-        unset($db_array['product_description']);
-        $this->db->where('product_no', $this->input->post('product_no'));
-        $this->db->update('ip_products', $db_array);
     }
 
     /**
