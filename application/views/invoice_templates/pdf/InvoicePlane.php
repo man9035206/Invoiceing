@@ -221,9 +221,6 @@
             <th colspan="2" class="item-desc"><?php _trans('description'); ?></th>
             <th class="item-amount text-right"><?php _trans('qty'); ?></th>
             <th class="item-price text-right"><?php _trans('price'); ?></th>
-            <?php if ($show_item_discounts) : ?>
-                <th class="item-discount text-right"><?php _trans('discount'); ?></th>
-            <?php endif; ?>
             <th class="item-total text-right"><?php _trans('total'); ?></th>
         </tr>
         </thead>
@@ -234,7 +231,7 @@
         foreach ($items as $item) { ?>
             <tr class= "items-list">
                 <td><?php echo $item->empid; ?></td>
-                <td colspan="2" style="width: 300px; padding-bottom:<?php echo $item->item_padding_bottom; ?>px;">
+                <td colspan="2" style="width: 300px; height: 100px; padding-bottom:<?php echo $item->item_padding_bottom; ?>px;">
 
                 <b><u>Consultant Name :</u> <?php _htmlsc($item->item_name); ?></b><br>
 
