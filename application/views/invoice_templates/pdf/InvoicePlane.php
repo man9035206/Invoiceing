@@ -234,7 +234,7 @@
         foreach ($items as $item) { ?>
             <tr class= "items-list">
                 <td><?php echo $item->empid; ?></td>
-                <td colspan="2" style="width: 300px;">
+                <td colspan="2" style="width: 300px; padding-bottom:<?php echo $item->item_padding_bottom; ?>px;">
 
                 <b><u>Consultant Name :</u> <?php _htmlsc($item->item_name); ?></b><br>
 

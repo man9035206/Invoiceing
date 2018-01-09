@@ -70,6 +70,10 @@
                         <?php } ?>
                     </select>
                 </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Bottom Padding</span>
+                    <input type="text" name="item_padding_bottom" class="input-sm form-control amount" value="">
+                </div>
             </td>
             <td class="td-icon text-right td-vert-middle"></td>
         </tr>
@@ -174,19 +178,6 @@
                             <?php  echo 'disabled="disabled"';?>>
                     </div>
                     
-                     <select name="po_description" id="po_description" class="form-control simple-select"
-                            <?php if ($invoice->is_read_only == 1) {
-                                echo 'disabled="disabled"';
-                            } ?>>
-                                <option value="0">Select Description</option>
-
-                                    <?php foreach ($po_desc as $key => $desc) { ?>
-                                        <option value="<?php echo $key; ?>"
-                                            <?php check_select($item->product_description, $key); ?>>
-                                            <?php echo $desc; ?>
-                                        </option>
-                                    <?php } ?>
-                            </select>
                 </td>
                 
                 <td class="td-amount td-quantity">
@@ -313,6 +304,10 @@
                             <?php } ?>
                         </select>
                     </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Bottom Padding</span>
+                    <input type="text" name="item_padding_bottom" class="input-sm form-control amount" value="<?php _htmlsc($item->item_padding_bottom); ?>">
+                </div>
                 </td>
                 <td class="td-icon text-right td-vert-middle">
                     <?php if ($invoice->is_read_only != 1): ?>

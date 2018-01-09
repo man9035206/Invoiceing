@@ -1,3 +1,34 @@
+<script>
+    $(function () {
+        // Display the create invoice modal
+        $('#create-invoice').modal('show');
+
+        // Enable select2 for all selects
+        $('.simple-select').select2();
+
+        <?php $this->layout->load_view('clients/script_select2_client_id.js'); ?>
+
+        // Toggle on/off permissive search on clients names
+        $('span#toggle_permissive_search_clients').click(function () {
+            if ($('input#input_permissive_search_clients').val() == ('1')) {
+                $.get("<?php echo site_url('clients/ajax/save_preference_permissive_search_clients'); ?>", {
+                    permissive_search_clients: '0'
+                });
+                $('input#input_permissive_search_clients').val('0');
+                $('span#toggle_permissive_search_clients i').removeClass('fa-toggle-on');
+                $('span#toggle_permissive_search_clients i').addClass('fa-toggle-off');
+            } else {
+                $.get("<?php echo site_url('clients/ajax/save_preference_permissive_search_clients'); ?>", {
+                    permissive_search_clients: '1'
+                });
+                $('input#input_permissive_search_clients').val('1');
+                $('span#toggle_permissive_search_clients i').removeClass('fa-toggle-off');
+                $('span#toggle_permissive_search_clients i').addClass('fa-toggle-on');
+            }
+        });
+    });
+
+</script>
 <div id="headerbar">
     <h1 class="headerbar-title">All Invoice</h1>
 </div>
@@ -19,6 +50,24 @@
                 <div class="panel-body">
                     <form method="get" action="<?php echo site_url($this->uri->uri_string()); ?>"
                         <?php echo get_setting('reports_in_new_tab', false) ? 'target="_blank"' : ''; ?>>
+
+
+                        <div class="form-group has-feedback">
+                            <label for="create_invoice_client_id"><?php _trans('client'); ?></label>
+                            <div class="input-group">
+                                <select name="client_id" id="create_invoice_client_id" class="client-id-select form-control"
+                                        autofocus="autofocus">
+                                        <option value="all"> All Clients </option>
+                                    <?php if (!empty($client)) : ?>
+                                        <option value="<?php echo $client->client_id; ?>"><?php _htmlsc(format_client($client)); ?></option>
+                                    <?php endif; ?>
+                                </select>
+                                <span id="toggle_permissive_search_clients" class="input-group-addon"
+                                      title="<?php _trans('enable_permissive_search_clients'); ?>" style="cursor:pointer;">
+                                    <i class="fa fa-toggle-<?php echo get_setting('enable_permissive_search_clients') ? 'on' : 'off' ?> fa-fw"></i>
+                                </span>
+                            </div>
+                        </div>
 
                         <input type="hidden" name="<?php echo $this->config->item('csrf_token_name'); ?>"
                                value="<?php echo $this->security->get_csrf_hash() ?>">
