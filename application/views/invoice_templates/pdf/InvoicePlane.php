@@ -221,9 +221,6 @@
             <th colspan="2" class="item-desc"><?php _trans('description'); ?></th>
             <th class="item-amount text-right"><?php _trans('qty'); ?></th>
             <th class="item-price text-right"><?php _trans('price'); ?></th>
-            <?php if ($show_item_discounts) : ?>
-                <th class="item-discount text-right"><?php _trans('discount'); ?></th>
-            <?php endif; ?>
             <th class="item-total text-right"><?php _trans('total'); ?></th>
         </tr>
         </thead>
