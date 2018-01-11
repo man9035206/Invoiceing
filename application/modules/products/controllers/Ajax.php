@@ -19,14 +19,18 @@ class Ajax extends Admin_Controller
 
     public function modal_product_lookups()
     {
+        $user_id = $this->session->userdata('user_id');
+
         $filter_product = $this->input->get('filter_product');
+        $filter_client = $this->input->get('filter_client');
         $filter_family = $this->input->get('filter_family');
         $reset_table = $this->input->get('reset_table');
         $po_id = $this->input->get('po_id');
 
-        $this->load->model('mdl_products');
+        $this->load->model('products/mdl_products');
         $this->load->model('families/mdl_families');
         $this->load->model('clients/mdl_clients');
+        $this->load->model('user_clients/mdl_user_clients');
 
         if (!empty($filter_family)) {
             $this->mdl_products->by_family($filter_family);
@@ -36,8 +40,33 @@ class Ajax extends Admin_Controller
             $this->mdl_products->by_product($filter_product);
         }
 
+        if (!empty($filter_client)) {
+            $this->mdl_products->search($filter_client);
+        }
+
         if ($po_id == 0) {
-            $products = $this->mdl_products->assigned_to($this->session->userdata('user_id'))->get()->result();
+            // $products = $this->mdl_products->assigned_to($this->session->userdata('user_id'))
+            // ->get()->result();
+            if(empty($filter_client)) {
+
+            $this->db->from('ip_products');
+            $this->db->join('ip_clients', 'ip_clients.client_id = ip_products.po_client_id');
+            $this->db->join('ip_user_clients','ip_clients.client_id = ip_user_clients.client_id');
+            $this->db->or_like('ip_products.product_no', $filter_product);
+            $this->db->where('ip_user_clients.user_id', $user_id);
+            $products = $this->db->get()->result();
+
+        } elseif (!empty($filter_client)) {
+            $user_id = $this->session->userdata('user_id');
+        
+            $this->db->from('ip_products');
+            $this->db->join('ip_clients', 'ip_clients.client_id = ip_products.po_client_id');
+            $this->db->join('ip_user_clients','ip_clients.client_id = ip_user_clients.client_id');
+            $this->db->like('ip_clients.client_name', $filter_client);
+            $this->db->where('ip_user_clients.user_id', $user_id);
+            $products = $this->db->get()->result();
+        }
+
         } else {
             $item_po = $this->mdl_products->where('product_id',$po_id)->get()->result();
             $products = $this->mdl_products
@@ -53,6 +82,7 @@ class Ajax extends Admin_Controller
             'filter_product' => $filter_product,
             'filter_family' => $filter_family,
         );
+
 
         if ($filter_product || $filter_family || $reset_table) {
             $this->layout->load_view('products/partial_product_table_modal', $data);

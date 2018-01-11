@@ -66,7 +66,12 @@
         });
 
         // Filter on search button click
-        $('#filter-button').click(function () {
+        $('#filter-button').click(function () { 
+            products_filter();
+        });
+
+        // Filter client on search button click
+        $('#filter-client').click(function () { 
             products_filter();
         });
 
@@ -76,18 +81,23 @@
         });
 
         // Filter products
-        function products_filter() {
+        function products_filter() { 
             var filter_family = $('#filter_family').val();
             var filter_product = $('#filter_product').val();
+            var filter_client = $('#filter_client').val(); 
             var product_table = $('#product-lookup-table');
 
-            product_table.html('<h2 class="text-center"><i class="fa fa-spin fa-spinner"></i></h2>');
+        product_table.html('<h2 class="text-center"><i class="fa fa-spin fa-spinner"></i></h2>');
 
             var lookup_url = "<?php echo site_url('products/ajax/modal_product_lookups'); ?>/";
             lookup_url += Math.floor(Math.random() * 1000) + '/?';
 
             if (filter_family) {
                 lookup_url += "&filter_family=" + filter_family;
+            }
+
+            if (filter_client) {
+                lookup_url += "&filter_client=" + filter_client;
             }
 
             if (filter_product) {
@@ -125,12 +135,16 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="filter_product" id="filter_product"
-                           placeholder="<?php _trans('product_name'); ?>"
-                           value="<?php echo $filter_product ?>">
+                    <input type="text" class="form-control" name="filter_product" id="filter_product" placeholder="<?php _trans('product_name'); ?>" value="<?php echo $filter_product ?>">
                 </div>
                 <button type="button" id="filter-button"
                         class="btn btn-default"><?php _trans('search_product'); ?></button>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" name="filter_client" id="filter_client" placeholder="Client Search" value="">
+                </div>
+                <button type="button" id="filter-client"
+                        class="btn btn-default">Client Search</button>
                 <button type="button" id="product-reset-button" class="btn btn-default">
                     <?php _trans('reset'); ?>
                 </button>
@@ -143,6 +157,7 @@
             </div>
 
         </div>
+
         <div class="modal-footer">
             <div class="btn-group">
                 <button class="select-items-confirm btn btn-success" type="button">
@@ -155,6 +170,7 @@
                 </button>
             </div>
         </div>
+
     </form>
 
 </div>
