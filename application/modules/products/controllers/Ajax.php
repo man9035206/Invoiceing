@@ -54,6 +54,7 @@ class Ajax extends Admin_Controller
             $this->db->join('ip_user_clients','ip_clients.client_id = ip_user_clients.client_id');
             $this->db->or_like('ip_products.product_no', $filter_product);
             $this->db->where('ip_user_clients.user_id', $user_id);
+            $this->db->order_by('ip_products.product_name');
             $products = $this->db->get()->result();
 
         } elseif (!empty($filter_client)) {
@@ -64,6 +65,7 @@ class Ajax extends Admin_Controller
             $this->db->join('ip_user_clients','ip_clients.client_id = ip_user_clients.client_id');
             $this->db->like('ip_clients.client_name', $filter_client);
             $this->db->where('ip_user_clients.user_id', $user_id);
+            $this->db->order_by('ip_products.product_name');
             $products = $this->db->get()->result();
         }
 
@@ -72,6 +74,7 @@ class Ajax extends Admin_Controller
             $products = $this->mdl_products
             ->where('product_no',$item_po[0]->product_no)
             ->where_not_in('product_id',explode(',', $po_id))
+            ->order_by('product_name')
             ->get()->result();
         }
         $families = $this->mdl_families->get()->result();
