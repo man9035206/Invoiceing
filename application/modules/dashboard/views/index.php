@@ -21,7 +21,7 @@
                         <i class="fa fa-file fa-margin"></i>
                         <span class="hidden-xs"><?php _trans('create_quote'); ?></span>
                     </a>
-                    <a href="/index.php/products/form" class="create-po btn btn-default">
+                    <a href="<?php echo site_url('products/form'); ?>" class="create-po btn btn-default">
                         <i class="fa fa-file fa-margin"></i>
                         <span class="hidden-xs"><?php _trans('create_product'); ?></span>
                     </a>

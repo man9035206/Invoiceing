@@ -339,5 +339,15 @@ if ($pe != "") {
                 $("#c_address").html(data);
             });
         });
+
+        $("#product_end").change(function() {
+            var startDate = document.getElementById("product_start").value;
+            var endDate = document.getElementById("product_end").value;
+
+        if (endDate <= startDate) { 
+            alert("End date should be greater than Start date");
+            document.getElementById("product_end").value = "";
+           }
+        });
     });
 </script>

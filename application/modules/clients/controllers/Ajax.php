@@ -19,8 +19,12 @@ class Ajax extends Admin_Controller
 
     public function name_query()
     {
+        $user_id = $this->session->userdata('user_id');
+
         // Load the model & helper
         $this->load->model('clients/mdl_clients');
+        $this->load->model('products/mdl_products');
+        $this->load->model('user_clients/mdl_user_clients');
 
         $response = array();
 
@@ -39,14 +43,22 @@ class Ajax extends Admin_Controller
         // Search for clients
         $escapedQuery = $this->db->escape_str($query);
         $escapedQuery = str_replace("%", "", $escapedQuery);
-        $clients = $this->mdl_clients
-            ->where('client_active', 1)
-            ->having('client_name LIKE \'' . $moreClientsQuery . $escapedQuery . '%\'')
-            ->or_having('client_surname LIKE \'' . $moreClientsQuery . $escapedQuery . '%\'')
-            ->or_having('client_fullname LIKE \'' . $moreClientsQuery . $escapedQuery . '%\'')
-            ->order_by('client_name')
-            ->get()
-            ->result();
+        
+        $this->db->from('ip_clients');
+        $this->db->join('ip_user_clients','ip_clients.client_id = ip_user_clients.client_id');
+        $this->db->having('ip_clients.client_name LIKE \'' . $moreClientsQuery . $escapedQuery . '%\'');
+        $this->db->or_having('ip_clients.client_surname LIKE \'' . $moreClientsQuery . $escapedQuery . '%\'');
+        $this->db->where('ip_user_clients.user_id', $user_id);
+        $clients = $this->db->get()->result();
+
+        // $clients = $this->mdl_clients
+        //     ->where('client_active', 1)
+        //     ->having('client_name LIKE \'' . $moreClientsQuery . $escapedQuery . '%\'')
+        //     ->or_having('client_surname LIKE \'' . $moreClientsQuery . $escapedQuery . '%\'')
+        //     ->or_having('client_fullname LIKE \'' . $moreClientsQuery . $escapedQuery . '%\'')
+        //     ->order_by('client_name')
+        //     ->get()
+        //     ->result();
 
         foreach ($clients as $client) {
             $response[] = array(
