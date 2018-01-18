@@ -219,7 +219,9 @@ class Reports extends Admin_Controller
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(15, $excel_row, $row->product_price);
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(16, $excel_row, number_format($row->item_quantity,2));
 
-                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(17, $excel_row, $row->invoice_item_subtotal);
+                    $totalExm = $row->product_price * $row->item_quantity;
+                    // $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(17, $excel_row, $row->invoice_item_subtotal);
+                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(17, $excel_row,$totalExm);
 
                             $igst = '-';
                             $cgst = '-';
@@ -245,7 +247,12 @@ class Reports extends Admin_Controller
 
 
 
-                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(21, $excel_row, $row->invoice_total);
+                    // $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(21, $excel_row, $row->invoice_total);
+                    
+                    $invoice_total = $row->invoice_item_tax_total + $totalExm;
+                    
+                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(21, $excel_row, $invoice_total);
+                    
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(22, $excel_row, $stat[$row->invoice_status_id]["label"]);
                     $excel_row ++;
                     
