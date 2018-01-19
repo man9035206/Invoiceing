@@ -340,24 +340,6 @@ if ($pe != "") {
             });
         });
 
-        $("#product_end").change(function() {
-            var startDate = document.getElementById("product_start").value;
-            var endDate = document.getElementById("product_end").value;
-
-        if (endDate <= startDate) { 
-            alert("End date should be greater than Start date");
-            document.getElementById("product_end").value = "";
-           }
-        });
-
     });
-
-    // function valueChanged()
-    // {
-    //     if($('#disable_shipping_address').is(":checked"))   
-    //         $(".shipping_address").hide();
-    //     else
-    //         $(".shipping_address").show();
-    // }
     
 </script>
