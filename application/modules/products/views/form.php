@@ -349,5 +349,15 @@ if ($pe != "") {
             document.getElementById("product_end").value = "";
            }
         });
+
     });
+
+    // function valueChanged()
+    // {
+    //     if($('#disable_shipping_address').is(":checked"))   
+    //         $(".shipping_address").hide();
+    //     else
+    //         $(".shipping_address").show();
+    // }
+    
 </script>
