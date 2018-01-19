@@ -38,10 +38,9 @@
                                     }
                                     echo "</div>";
                                 } 
-?>
-                           
+?>                    
 
-<?php 
+<?php
 /** For Client Address **/
 $billing_address = $this->db->get_where( 
                 'ip_shipping_address', array(
@@ -55,9 +54,8 @@ $shipping_address = $this->db->get_where(
                 'billing_address' => 0
             ))->result();
 
-                    if($billing_address) { 
+             if($billing_address) { 
                     ?>
-
                             <label for="po_billing_address">
                                 Billing Address
                             </label>
@@ -77,19 +75,28 @@ $shipping_address = $this->db->get_where(
 
                                         echo "<div class='col-xs-11'><p>".$row->address."</p><p><b>GST No :</b>".$row->gst_no." <b>HSN/SAC Code :</b>".$row->sac_code."</p></div></div>";
                                     }
-                                ?>
+                                ?>              
                     <?php
                         }
                     ?>
 
+
+
+                 <div class="shipping_address"> 
                     <?php 
                     if($shipping_address) {
                         ?>
+
 
                             <label for="po_shipping_address">
                                 Shipping Address
                             </label>
                                 <?php
+
+                            echo "<div class='po_shipping_address'><div class='col-xs-1'>
+                               <input type='radio' name='po_shipping_address' value='' checked></div>";
+                            echo "<div class='col-xs-11'><p>No Shipping address</p></div></div>";
+
                                 foreach ($shipping_address as $row)
                                     {
                                      
@@ -105,10 +112,13 @@ $shipping_address = $this->db->get_where(
                                            
                                         echo "<div class='col-xs-11'><p>".$row->address."</p><p><b>GST No :</b>".$row->gst_no.", <b>HSN/SAC Code :</b>".$row->sac_code."</p></div></div>";
                                     }
+
                                 ?>
                     <?php
                         }
                     ?>
+                </div>    
+
 
                 <?php if($c_id) { ?>
                     <div class="col-md-6">
@@ -123,7 +133,7 @@ $shipping_address = $this->db->get_where(
                                 <label>HSN/SAC Code:</label><br><input value="" type="text" name="billing_address_sac">
                             </div>                        
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 shipping_address">
                             <strong> 
                                 <input type='radio' name='po_shipping_address' value="new">
                                 New Shipping Address
