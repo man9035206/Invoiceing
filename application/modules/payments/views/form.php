@@ -128,6 +128,19 @@
 
         <div class="form-group">
             <div class="col-xs-12 col-sm-2 text-right text-left-xs">
+                <label for="payment_tds_amount" class="control-label">
+                    TDS Amount
+                </label>
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+               <input type="number" name="payment_tds_amount" id="payment_tds_amount" class="form-control"
+                       value="<?php echo format_amount($this->mdl_payments->form_value('payment_tds_amount')); ?>"> 
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-2 text-right text-left-xs">
                 <label for="payment_tds" class="control-label">
                     TDS
                 </label>
