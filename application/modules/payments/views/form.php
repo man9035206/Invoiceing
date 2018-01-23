@@ -80,7 +80,7 @@
 
         <div class="form-group">
             <div class="col-xs-12 col-sm-2 text-right text-left-xs">
-                <label for="payment_amount" class="control-label"><?php _trans('amount'); ?></label>
+                <label for="payment_amount" class="control-label"><?php echo "Net Payment"; ?></label>
             </div>
             <div class="col-xs-12 col-sm-6">
                 <input type="number" name="payment_amount" id="payment_amount" class="form-control"
