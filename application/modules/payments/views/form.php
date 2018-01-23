@@ -83,7 +83,7 @@
                 <label for="payment_amount" class="control-label"><?php _trans('amount'); ?></label>
             </div>
             <div class="col-xs-12 col-sm-6">
-                <input type="text" name="payment_amount" id="payment_amount" class="form-control"
+                <input type="number" name="payment_amount" id="payment_amount" class="form-control"
                        value="<?php echo format_amount($this->mdl_payments->form_value('payment_amount')); ?>">
             </div>
         </div>
@@ -124,7 +124,42 @@
                 <textarea name="payment_note"
                           class="form-control"><?php echo $this->mdl_payments->form_value('payment_note', true); ?></textarea>
             </div>
+        </div>
 
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-2 text-right text-left-xs">
+                <label for="payment_tds" class="control-label">
+                    TDS
+                </label>
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+               <select id="payment_tds" name="payment_tds" class="form-control simple-select">
+                    <option value="">Select</option>
+                    <option value="0">0</option>
+                    <option value="0.5">0.5</option>
+                    <option value="1">1</option>
+                    <option value="1.5">1.5</option>
+                    <option value="2">2</option>
+                    <option value="2.5">2.5</option>
+                    <option value="3">3</option>
+                    <option value="3.5">3.5</option>
+                    <option value="4">4</option>
+                    <option value="4.5">4.5</option>
+                    <option value="5">5</option>
+
+                    <option value="5.5">5.5</option>
+                    <option value="6">6</option>
+                    <option value="6.5">6.5</option>
+                    <option value="7">7</option>
+                    <option value="7.5">7.5</option>
+                    <option value="8">8</option>
+                    <option value="8.5">8.5</option>
+                    <option value="9">9</option>
+                    <option value="9.5">9.5</option>
+                    <option value="10">10</option>
+               </select>
+            </div>
         </div>
 
         <?php

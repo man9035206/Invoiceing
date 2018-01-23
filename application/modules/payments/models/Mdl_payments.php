@@ -112,6 +112,10 @@ class Mdl_Payments extends Response_Model
         return true;
     }
 
+    // public function insert_data($db_array, $id) {
+
+    //     $this->db->insert('ip_payments', $db_array);
+    // }
     /**
      * @param null $id
      * @param null $db_array
@@ -119,11 +123,13 @@ class Mdl_Payments extends Response_Model
      */
     public function save($id = null, $db_array = null)
     {
+
         $db_array = ($db_array) ? $db_array : $this->db_array();
         $this->load->model('invoices/mdl_invoice_amounts');
 
         // Save the payment
-        $id = parent::save($id, $db_array);
+        // $id = parent::save($id, $db_array);
+        $this->db->insert('ip_payments', $db_array);
 
         // Recalculate invoice amounts
         $this->mdl_invoice_amounts->calculate($db_array['invoice_id']);

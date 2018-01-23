@@ -56,7 +56,19 @@ class Payments extends Admin_Controller
         }
 
         if ($this->mdl_payments->run_validation()) {
-            $id = $this->mdl_payments->save($id);
+
+            $db_array = array (
+                'invoice_id' => $this->input->post('invoice_id'),
+                'payment_date' => date_to_mysql($this->input->post('payment_date')),
+                'payment_amount' => $this->input->post('payment_amount'),
+                'payment_method_id' => $this->input->post('payment_method_id'),
+                'payment_note' => $this->input->post('payment_note'),
+                'payment_tds' => $this->input->post('payment_tds')
+           );
+            
+            // $this->mdl_payments->insert_data($db_array, $id);
+            
+            $id = $this->mdl_payments->save($id, $db_array);
 
             $this->load->model('custom_fields/mdl_payment_custom');
 
@@ -115,7 +127,7 @@ class Payments extends Admin_Controller
             }
         }
 
-        $fields = $this->mdl_payment_custom->get_by_payid($id);
+        // $fields = $this->mdl_payment_custom->get_by_payid($id);
 
         foreach ($custom_fields as $cfield) {
             foreach ($fields as $fvalue) {
