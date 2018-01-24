@@ -200,7 +200,7 @@
             </div>
 
             <div class="col-xs-12 col-sm-6">
-               <input type="number" name="payment_tds_amount" id="payment_tds_amount" class="form-control"
+               <input type="number" name="payment_tds_amount" id="payment_tds_amount" class="form-control" step=".01"
                        value="<?php echo format_amount($this->mdl_payments->form_value('payment_tds_amount')); ?>"> 
             </div>
         </div>
@@ -211,7 +211,7 @@
             </div>
             <div class="col-xs-12 col-sm-6">
                 <input type="number" name="payment_amount" id="payment_amount" class="form-control"
-                       value="<?php echo format_amount($this->mdl_payments->form_value('payment_amount')); ?>">
+                       value="<?php echo format_amount($this->mdl_payments->form_value('payment_amount')); ?>" step=".01">
             </div>
         </div>
 
