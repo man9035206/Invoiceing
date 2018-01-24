@@ -229,11 +229,19 @@
         <?php
         $i = 1;
         foreach ($items as $item) { ?>
+        <?php
+            if($i == count($items)){ 
+                $bb = "border-bottom:none";
+            } else {
+                $bb = "";
+            }
+        ?>
             <tr class= "items-list">
-                <td><?php echo $item->empid; ?></td>
-                <td colspan="2" style="width: 300px; padding-bottom:<?php echo $item->item_padding_bottom; ?>px;">
+                <td style="<?php echo $bb; ?>">
+                    <?php echo $item->empid; ?></td>
+                <td colspan="2" style="width: 300px; padding-bottom:<?php echo $item->item_padding_bottom; ?>px; <?php echo $bb; ?>">
 
-                <b><u>Consultant Name :</u> <?php _htmlsc($item->item_name); ?></b><br>
+                <b><u>Consultant Name</u> : <?php _htmlsc($item->item_name); ?></b><br>
 
                 <?php 
                 if ($item->invoice_end) {
@@ -249,22 +257,24 @@
                 if ($item->item_description) {
                     echo "<br>".nl2br(htmlsc(($item->item_description))); 
                 }
-                echo "<br><br>".nl2br(htmlsc(po_desc($item->product_description))); 
+                echo "<br><br>".nl2br(htmlsc(po_desc($item->product_description)))."<br>"; 
                 ?>
                 <br><br>
                 </td>
-                <td class="text-right">
+                <td class="text-right" style="<?php echo $bb; ?>">
                     <?php echo number_format($item->item_quantity,2); ?>
                 </td>
-                <td class="text-right">
+                <td class="text-right" style="<?php echo $bb; ?>">
                     <?php echo format_currency($item->item_price); ?>
                 </td>
-                <td class="text-right">
+                <td class="text-right" style="<?php echo $bb; ?>">
                     <?php  echo format_currency($item->item_quantity * $item->item_price); ?>
                     <?php // echo format_currency($item->item_total); ?>
                 </td>
             </tr>
-        <?php } ?>
+        <?php 
+        $i++;
+        } ?>
 
         </tbody>
         <tbody class="invoice-sums">
