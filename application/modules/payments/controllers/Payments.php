@@ -46,6 +46,19 @@ class Payments extends Admin_Controller
         $this->layout->render();
     }
 
+    public function getInvoiceAmount() {
+
+        // die(print_r($this->input->post()));
+        $invoice_id = $this->input->post('invoice_id');
+        $amount_tds = $this->input->post('amount_tds');
+
+        $this->load->model('invoices/mdl_invoice_amounts');
+
+        $invoice_amount = $this->db->select('*')->from('ip_invoice_amounts')->where('invoice_id',$invoice_id)->get()->result();
+
+        // return json_encode($invoice_amount);
+        echo json_encode($invoice_amount);
+    }
     /**
      * @param null $id
      */
@@ -149,6 +162,9 @@ class Payments extends Admin_Controller
             $amounts['invoice' . $open_invoice->invoice_id] = format_amount($open_invoice->invoice_balance);
             $invoice_payment_methods['invoice' . $open_invoice->invoice_id] = $open_invoice->payment_method;
         }
+
+        // $this->session->userdata('user_id');
+        // die($this->input->post('invoice_id'));
 
         $this->layout->set(
             array(

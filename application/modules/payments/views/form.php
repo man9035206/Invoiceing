@@ -20,6 +20,34 @@
         });
 
     });
+
+    $(document).ready(function(){
+        $("#payment_tds").change(function(){
+            var amount_tds = $('#payment_tds').val();
+            var invoice_id = $('#invoice_id').val();
+            // alert(invoice_id);
+
+           $.ajax({
+                url: "payments/getInvoiceAmount",
+                method: "post",
+                dataType: 'json',
+                data: {"amount_tds": amount_tds, "invoice_id":invoice_id},
+                success: function(response) {
+                    //Do Something
+                    // alert(response[0].invoice_id);
+                    
+                    var tds_amount = (amount_tds / 100) * response[0].invoice_item_subtotal;
+                    var net_payment = response[0].invoice_total - tds_amount;
+
+                    $('#payment_tds_amount').val(tds_amount);
+                    $('#payment_amount').val(net_payment);
+                },
+                error: function(xhr) {
+                    //Do Something to handle error
+                }
+            });
+        });
+    });
 </script>
 
 <form method="post" class="form-horizontal">
@@ -78,7 +106,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+       <!--  <div class="form-group">
             <div class="col-xs-12 col-sm-2 text-right text-left-xs">
                 <label for="payment_amount" class="control-label"><?php echo "Net Payment"; ?></label>
             </div>
@@ -86,7 +114,7 @@
                 <input type="number" name="payment_amount" id="payment_amount" class="form-control"
                        value="<?php echo format_amount($this->mdl_payments->form_value('payment_amount')); ?>">
             </div>
-        </div>
+        </div> -->
 
         <div class="form-group">
             <div class="col-xs-12 col-sm-2 text-right text-left-xs">
@@ -126,19 +154,7 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-xs-12 col-sm-2 text-right text-left-xs">
-                <label for="payment_tds_amount" class="control-label">
-                    TDS Amount
-                </label>
-            </div>
-
-            <div class="col-xs-12 col-sm-6">
-               <input type="number" name="payment_tds_amount" id="payment_tds_amount" class="form-control"
-                       value="<?php echo format_amount($this->mdl_payments->form_value('payment_tds_amount')); ?>"> 
-            </div>
-        </div>
-
+        
         <div class="form-group">
             <div class="col-xs-12 col-sm-2 text-right text-left-xs">
                 <label for="payment_tds" class="control-label">
@@ -174,6 +190,31 @@
                </select>
             </div>
         </div>
+
+
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-2 text-right text-left-xs">
+                <label for="payment_tds_amount" class="control-label">
+                    TDS Amount
+                </label>
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+               <input type="number" name="payment_tds_amount" id="payment_tds_amount" class="form-control"
+                       value="<?php echo format_amount($this->mdl_payments->form_value('payment_tds_amount')); ?>"> 
+            </div>
+        </div>
+
+         <div class="form-group">
+            <div class="col-xs-12 col-sm-2 text-right text-left-xs">
+                <label for="payment_amount" class="control-label"><?php echo "Net Payment"; ?></label>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <input type="number" name="payment_amount" id="payment_amount" class="form-control"
+                       value="<?php echo format_amount($this->mdl_payments->form_value('payment_amount')); ?>">
+            </div>
+        </div>
+
 
         <?php
         $cv = $this->controller->view_data["custom_values"];
