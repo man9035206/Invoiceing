@@ -73,7 +73,7 @@ class Ajax extends Admin_Controller
             $item_po = $this->mdl_products->where('product_id',$po_id)->get()->result();
             $products = $this->mdl_products
             ->where('product_no',$item_po[0]->product_no)
-            ->where_not_in('product_id',explode(',', $po_id))
+            // ->where_not_in('product_id',explode(',', $po_id))
             ->order_by('product_name')
             ->get()->result();
         }

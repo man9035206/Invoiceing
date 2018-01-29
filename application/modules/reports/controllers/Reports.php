@@ -110,12 +110,13 @@ class Reports extends Admin_Controller
             ->where('user_id',$this->session->userdata('user_id'))
             ->get();
 
-            $this->db->select('items.* , client_name, invoices.*, products.*, amounts.*');
+            $this->db->select('items.* , client_name, invoices.*, products.*, amounts.*, payments.*');
             $this->db->from('ip_invoice_items AS items');// I use aliasing make joins easier
             $this->db->join('ip_invoices AS invoices', 'items.invoice_id = invoices.invoice_id', 'LEFT');
             $this->db->join('ip_clients AS clients', 'invoices.client_id = clients.client_id', 'LEFT');
             $this->db->join('ip_products AS products', 'products.product_id = items.item_product_id', 'LEFT');
             $this->db->join('ip_invoice_amounts AS amounts', 'items.invoice_id = amounts.invoice_id', 'LEFT');
+            $this->db->join('ip_payments AS payments', 'items.invoice_id = payments.invoice_id', 'LEFT');
 
             if ($this->input->get('client_id')) {
                 if ($this->input->get('client_id') != "all") {
@@ -141,7 +142,7 @@ class Reports extends Admin_Controller
                 $this->load->library("excel");
                 $phpExcel = new PHPExcel();
                 $phpExcel->setActiveSheetIndex(0);
-                $table_columns = array("INV NO ", "INV DATE", "DUE DATE", "CLIENT", "FROM DATE", "TO DATE", "MONTH", "EMP ID", "EMP NAME", "INV DESC", "PO Type", "PO Number", "PO Start Date", "PO End Date", "PO Rate as per client", "PO monthly Rate(Billable Amount)", "Billable Days/Hours/Months", "INV AMT", "CGST@9%", "SGST@9%", "IGST@18%", "NET AMT", "Invoice Status");
+                $table_columns = array("INV NO ", "INV DATE", "DUE DATE", "CLIENT", "FROM DATE", "TO DATE", "MONTH", "EMP ID", "EMP NAME", "INV DESC", "PO Type", "PO Number", "PO Start Date", "PO End Date", "PO Rate as per client", "PO monthly Rate(Billable Amount)", "Billable Days/Hours/Months", "INV AMT", "CGST@9%", "SGST@9%", "IGST@18%", "NET AMT", "Invoice Status","TDS %","TDS","Net Amount", "Payment Date");
                 $column = 0;
 
                 foreach ($table_columns as $field) {
@@ -149,20 +150,20 @@ class Reports extends Admin_Controller
                     $column ++;
                 }
 
-                foreach(range('A','W') as $columnID) {
+                foreach(range('A','Z') as $columnID) {
                     $phpExcel->getActiveSheet()->getColumnDimension($columnID)
                         ->setAutoSize(true);
                 }
 
-                $phpExcel->getActiveSheet()->getStyle("A1:W1")->getFont()->setBold(true)
+                $phpExcel->getActiveSheet()->getStyle("A1:AA1")->getFont()->setBold(true)
                                     ->setName('Verdana')
                                     ->setSize(12)
                                     ->getColor()->setRGB('ffffff');
                                     
-                $phpExcel->getActiveSheet()->getStyle("A1:W1")->getFill()->applyFromArray(array(
+                $phpExcel->getActiveSheet()->getStyle("A1:AA1")->getFill()->applyFromArray(array(
                     'type' => PHPExcel_Style_Fill::FILL_SOLID,
                     'startcolor' => array(
-                         'rgb' => "3801FC"
+                         'rgb' => "003366"
                     )
                 ));
 
@@ -176,7 +177,6 @@ class Reports extends Admin_Controller
                 $po_desc = $this->mdl_products->po_desc();
                 $stat = $this->mdl_invoices->statuses();
                 $phpExcel->getActiveSheet()->getRowDimension("1")->setRowHeight(25);
-                
 
                 foreach ($invoices as $row) {
                     $phpExcel->getActiveSheet()->getRowDimension($excel_row)->setRowHeight(25);
@@ -192,18 +192,32 @@ class Reports extends Admin_Controller
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $row->client_name);
 
                     $invoice_start= strtotime($row->invoice_start);
-                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, date('d/m/Y', $invoice_start));
+                    if ($invoice_start == null) {
+                        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, '-');
+                    } else {
+                        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, date('d/m/Y', $invoice_start));
+                    }
 
                     $invoice_end= strtotime($row->invoice_end);
-                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, date('d/m/Y', $invoice_end));
+                    if ($invoice_end == null) {
+                        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, '-');
+                        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, '-');
+                    } else {
+                        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, date('d/m/Y', $invoice_end));
+                        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, date('M-y', $invoice_end));
+                    }
 
-                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, date('m/y', $invoice_end));
 
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, $row->empid);
 
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row, $row->product_name);
 
-                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row, $po_desc[$row->item_description]);
+                    if ($row->item_inv_desc == null) {
+                        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row, $po_desc[$row->product_description]);
+                    } else {
+                        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row, $po_desc[$row->item_inv_desc]);
+
+                    }
 
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row, $this->mdl_units->get_name($row->unit_id,1));
 
@@ -216,29 +230,31 @@ class Reports extends Admin_Controller
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(13, $excel_row, date('d/m/Y', $product_end));
 
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(14, $excel_row, $row->product_price);
-                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(15, $excel_row, $row->product_price);
+
+                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(15, $excel_row, $row->item_price);
+
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(16, $excel_row, number_format($row->item_quantity,2));
 
-                    $totalExm = $row->product_price * $row->item_quantity;
+                    $totalExm = $row->item_price * $row->item_quantity;
                     // $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(17, $excel_row, $row->invoice_item_subtotal);
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(17, $excel_row,$totalExm);
 
-                            $igst = '-';
-                            $cgst = '-';
-                            $sgst = '-';
+                            $igst = 0;
+                            $cgst = 0;
+                            $sgst = 0;
 
                     if($row->item_tax_rate_id == "1"){
-                            $igst = $row->invoice_item_tax_total;
+                            $igst = ($totalExm * 18)/100;
 
                     } elseif ($row->item_tax_rate_id == "2") {
                         # code...
                     } elseif ($row->item_tax_rate_id == "3") {
-                            $cgst = $row->invoice_item_tax_total;
+                            $cgst = ($totalExm * 9)/100;
                     }  elseif ($row->item_tax_rate_id == "4") {
-                            $sgst = $row->invoice_item_tax_total;
+                            $sgst = ($totalExm * 9)/100;
                     }  elseif ($row->item_tax_rate_id == "5") {
-                            $cgst = $row->invoice_item_tax_total/2;
-                            $sgst = $row->invoice_item_tax_total/2;
+                            $cgst = ($totalExm * 9)/100;
+                            $sgst = ($totalExm * 9)/100;
                     } 
 
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(18, $excel_row, $cgst);
@@ -249,11 +265,16 @@ class Reports extends Admin_Controller
 
                     // $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(21, $excel_row, $row->invoice_total);
                     
-                    $invoice_total = $row->invoice_item_tax_total + $totalExm;
+                    $invoice_total = $totalExm + $igst + $cgst + $sgst;
                     
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(21, $excel_row, $invoice_total);
                     
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(22, $excel_row, $stat[$row->invoice_status_id]["label"]);
+
+                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(23, $excel_row, $row->payment_tds);
+                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(24, $excel_row, $row->payment_tds_amount);
+                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(25, $excel_row, $row->payment_amount);
+                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(26, $excel_row, $row->payment_date);
                     $excel_row ++;
                     
                 }

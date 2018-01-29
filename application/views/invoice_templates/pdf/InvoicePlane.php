@@ -257,7 +257,11 @@
                 if ($item->item_description) {
                     echo "<br>".nl2br(htmlsc(($item->item_description))); 
                 }
-                echo "<br><br>".nl2br(htmlsc(po_desc($item->product_description)))."<br>"; 
+                if ($item->item_inv_desc == null) {
+                    echo "<br><br>".nl2br(htmlsc(po_desc($item->product_description)))."<br>";
+                } else {
+                    echo "<br><br>".nl2br(htmlsc(po_desc($item->item_inv_desc)))."<br>";
+                } 
                 ?>
                 <br><br>
                 </td>

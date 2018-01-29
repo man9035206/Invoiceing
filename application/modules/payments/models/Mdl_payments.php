@@ -133,7 +133,6 @@ class Mdl_Payments extends Response_Model
 
         // Recalculate invoice amounts
         $this->mdl_invoice_amounts->calculate($db_array['invoice_id']);
-
         // Set proper status for the invoice
         $invoice = $this->db->where('invoice_id', $db_array['invoice_id'])->get('ip_invoice_amounts')->row();
 
@@ -142,14 +141,17 @@ class Mdl_Payments extends Response_Model
             return false;
         }
 
-        $paid = (float)$invoice->invoice_paid;
+        $paid = (float)$invoice->invoice_paid + (float)$db_array['payment_tds_amount'];
         $total = (float)$invoice->invoice_total;
 
         if ($paid >= $total) {
             $this->db->where('invoice_id', $db_array['invoice_id']);
             $this->db->set('invoice_status_id', 4);
             $this->db->update('ip_invoices');
-        }
+            $this->db->where('invoice_id', $db_array['invoice_id']);
+            $this->db->set('is_read_only', 1);
+            $this->db->update('ip_invoices');
+        } 
 
         // Recalculate invoice amounts
         $this->mdl_invoice_amounts->calculate($db_array['invoice_id']);

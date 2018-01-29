@@ -40,6 +40,9 @@ class Ajax extends Admin_Controller
                     $item->item_price = ($item->item_quantity ? standardize_amount($item->item_price) : floatval(0));
                     $item->item_discount_amount = ($item->item_discount_amount) ? standardize_amount($item->item_discount_amount) : null;
                     $item->item_product_id = ($item->item_product_id ? $item->item_product_id : null);
+
+                    $item->item_inv_desc = ($item->item_inv_desc ? $item->item_inv_desc : null);
+                    
                     if (property_exists($item, 'item_date')) {
                         $item->item_date = ($item->item_date ? date_to_mysql($item->item_date) : null);
                     }
@@ -483,7 +486,8 @@ class Ajax extends Admin_Controller
         $item->item_tax_rate_id = $po[0]->tax_rate_id;      
         $item->item_product_id = $po[0]->product_id;      
         $item->item_date_added = 1;     
-        $item->item_name = $po[0]->product_name;       
+        $item->item_name = $po[0]->product_name;
+        $item->item_inv_desc = $po[0]->product_description;       
         $item->item_price = $po[0]->product_price;           
         $item->item_quantity = $po[0]->po_quantity;   
         $item->item_order = 1;

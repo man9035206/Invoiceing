@@ -177,6 +177,40 @@
                                value="<?php _htmlsc($item->empid); ?>"
                             <?php  echo 'disabled="disabled"';?>>
                     </div>
+
+                <?php if ($item->item_inv_desc) { ?>
+
+                    <div class="input-group">
+                        <span class="input-group-addon">PO Desc</span>
+                        <select name="item_inv_desc" id="item_inv_desc" class="form-control simple-select">
+                            <option value="0">Select Description</option>
+
+                                <?php foreach ($po_desc as $key => $desc) { ?>
+                                    <option value="<?php echo $key; ?>"
+                                        <?php check_select($item->item_inv_desc, $key); ?>>
+                                        <?php echo $desc; ?>
+                                    </option>
+                                <?php } ?>
+                        </select>
+                    </div>
+
+                <?php } else { ?>
+
+                    <div class="input-group">
+                        <span class="input-group-addon">PO Desc</span>
+                        <select name="item_inv_desc" id="item_inv_desc" class="form-control simple-select">
+                            <option value="0">Select Description</option>
+
+                                <?php foreach ($po_desc as $key => $desc) { ?>
+                                    <option value="<?php echo $key; ?>"
+                                        <?php check_select($item->product_description, $key); ?>>
+                                        <?php echo $desc; ?>
+                                    </option>
+                                <?php } ?>
+                        </select>
+                    </div>
+
+                <?php }?>
                     
                 </td>
                 
