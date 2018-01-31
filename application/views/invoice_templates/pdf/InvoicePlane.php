@@ -6,6 +6,7 @@
     <link rel="stylesheet"
           href="<?php echo base_url(); ?>assets/<?php echo get_setting('system_theme', 'invoiceplane'); ?>/css/templates.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/core/css/custom-pdf.css">
+
 </head>
 <body>
 <div id="content">
@@ -233,7 +234,7 @@
             if($i == count($items)){ 
                 $bb = "border-bottom:none";
             } else {
-                $bb = "";
+                $bb = "border-bottom:none";
             }
         ?>
             <tr class= "items-list">
