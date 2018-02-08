@@ -673,5 +673,6 @@ $lang = array(
 
     // Types
     'true'                                         => 'True',
-    'false'                                        => 'False'
+    'false'                                        => 'False',
+    'partial_paid'                                 => 'Partial Paid'
 );
