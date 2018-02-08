@@ -44,6 +44,11 @@ class Mdl_Invoices extends Response_Model
                 'label' => trans('paid'),
                 'class' => 'paid',
                 'href' => 'invoices/status/paid'
+            ),
+            '5' => array(
+                'label' => trans('partial_paid'),
+                'class' => 'partial_paid',
+                'href' => 'invoices/status/partial_paid'
             )
         );
     }

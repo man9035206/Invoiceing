@@ -46,17 +46,25 @@ class Payments extends Admin_Controller
         $this->layout->render();
     }
 
-    public function getInvoiceAmount() {
+    public function getInvoiceAmount() 
+    {
 
-        // die(print_r($this->input->post()));
         $invoice_id = $this->input->post('invoice_id');
         $amount_tds = $this->input->post('amount_tds');
 
+        $this->load->model('invoices/mdl_invoices');
         $this->load->model('invoices/mdl_invoice_amounts');
 
-        $invoice_amount = $this->db->select('*')->from('ip_invoice_amounts')->where('invoice_id',$invoice_id)->get()->result();
+        $this->db->from('ip_invoice_amounts');
+        $this->db->where('invoice_id',$invoice_id);
+        $this->db->where('invoice_balance >', 0);
+        $this->db->or_where('invoice_balance <', 0);
+        $invoice_amount = $this->db->get()->result();
+                
+        $this->db->from('ip_payments');
+        $this->db->where('invoice_id',$invoice_id);
+        $payment_exist = $this->db->get()->result();
 
-        // return json_encode($invoice_amount);
         echo json_encode($invoice_amount);
     }
     /**
@@ -127,6 +135,7 @@ class Payments extends Admin_Controller
         $this->load->model('custom_values/mdl_custom_values');
 
         $open_invoices = $this->mdl_invoices
+            ->where('invoice_status_id !=', 4)
             ->where('ip_invoice_amounts.invoice_balance >', 0)
             ->or_where('ip_invoice_amounts.invoice_balance <', 0)
             ->get()->result();

@@ -117,7 +117,7 @@ class Mdl_Invoice_Amounts extends CI_Model
                     $this->db->update('ip_invoices');
                 }
             }
-        }
+        } 
     }
 
     /**

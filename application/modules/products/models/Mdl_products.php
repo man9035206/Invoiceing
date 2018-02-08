@@ -220,7 +220,8 @@ class Mdl_Products extends Response_Model
             '2' => 'Permanent Employee',
             '3' => 'Conversion Fee',
             '4' => 'Shift Allowances',
-            '5' => 'Expense Reimbursement'
+            '5' => 'Expense Reimbursement',
+            '6' => 'Other Allowances'
         );
     }
 

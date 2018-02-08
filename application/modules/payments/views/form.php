@@ -25,7 +25,6 @@
         $("#payment_tds").change(function(){
             var amount_tds = $('#payment_tds').val();
             var invoice_id = $('#invoice_id').val();
-            // alert(invoice_id);
 
            $.ajax({
                 url: "payments/getInvoiceAmount",
@@ -33,14 +32,25 @@
                 dataType: 'json',
                 data: {"amount_tds": amount_tds, "invoice_id":invoice_id},
                 success: function(response) {
-                    //Do Something
-                    // alert(response[0].invoice_id);
-                    
-                    var tds_amount = (amount_tds / 100) * response[0].invoice_item_subtotal;
-                    var net_payment = response[0].invoice_total - tds_amount;
+                //Do Something
 
+                 var tds_amount = (amount_tds / 100) * response[0].invoice_item_subtotal;
+                 var invoice_total = response[0].invoice_total;
+                 var invoice_balance = response[0].invoice_balance;
+                 var net_payment = invoice_balance - tds_amount;
+                 var invoice_paid = response[0].invoice_paid;
+                 
+                 if(invoice_paid != 0.00)
+                 {
+                    $('#payment_tds').val('0');
+                    $('#payment_tds_amount').val('0');
+                    $('#payment_amount').val(invoice_balance);
+                 } 
+                    else if (invoice_paid == 0.00)
+                 {
                     $('#payment_tds_amount').val(tds_amount);
                     $('#payment_amount').val(net_payment);
+                 }                     
                 },
                 error: function(xhr) {
                     //Do Something to handle error
@@ -68,13 +78,43 @@
 
         <?php $this->layout->load_view('layout/alerts'); ?>
 
+        
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-2 text-right text-left-xs">
+                <label for="payment_method_id" class="control-label">
+                    <?php _trans('payment_method'); ?>
+                </label>
+            </div>
+            <div class="col-xs-12 col-sm-6 payment-method-wrapper">
+
+                <?php
+                // Add a hidden input field if a payment method was set to pass the disabled attribute
+                if ($this->mdl_payments->form_value('payment_method_id')) { ?>
+                    <input type="hidden" name="payment_method_id" class="hidden"
+                           value="<?php echo $this->mdl_payments->form_value('payment_method_id'); ?>">
+                <?php } ?>
+
+                <select id="payment_method_id" name="payment_method_id" class="form-control simple-select"
+                    <?php echo($this->mdl_payments->form_value('payment_method_id') ? 'disabled="disabled"' : ''); ?>>
+
+                    <?php foreach ($payment_methods as $payment_method) { ?>
+                        <option value="<?php echo $payment_method->payment_method_id; ?>"
+                                <?php if ($this->mdl_payments->form_value('payment_method_id') == $payment_method->payment_method_id) { ?>selected="selected"<?php } ?>>
+                            <?php echo $payment_method->payment_method_name; ?>
+                        </option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="col-xs-12 col-sm-2 text-right text-left-xs">
                 <label for="invoice_id" class="control-label"><?php _trans('invoice'); ?></label>
             </div>
             <div class="col-xs-12 col-sm-6">
                 <select name="invoice_id" id="invoice_id" class="form-control simple-select">
-                    <?php if (!$payment_id) { ?>
+                    <?php if (!$payment_id) { ?>                         
+                            <option value="">Select Client</option> 
                         <?php foreach ($open_invoices as $invoice) { ?>
                             <option value="<?php echo $invoice->invoice_id; ?>"
                                 <?php check_select($this->mdl_payments->form_value('invoice_id'), $invoice->invoice_id); ?>>
@@ -116,33 +156,7 @@
             </div>
         </div> -->
 
-        <div class="form-group">
-            <div class="col-xs-12 col-sm-2 text-right text-left-xs">
-                <label for="payment_method_id" class="control-label">
-                    <?php _trans('payment_method'); ?>
-                </label>
-            </div>
-            <div class="col-xs-12 col-sm-6 payment-method-wrapper">
-
-                <?php
-                // Add a hidden input field if a payment method was set to pass the disabled attribute
-                if ($this->mdl_payments->form_value('payment_method_id')) { ?>
-                    <input type="hidden" name="payment_method_id" class="hidden"
-                           value="<?php echo $this->mdl_payments->form_value('payment_method_id'); ?>">
-                <?php } ?>
-
-                <select id="payment_method_id" name="payment_method_id" class="form-control simple-select"
-                    <?php echo($this->mdl_payments->form_value('payment_method_id') ? 'disabled="disabled"' : ''); ?>>
-
-                    <?php foreach ($payment_methods as $payment_method) { ?>
-                        <option value="<?php echo $payment_method->payment_method_id; ?>"
-                                <?php if ($this->mdl_payments->form_value('payment_method_id') == $payment_method->payment_method_id) { ?>selected="selected"<?php } ?>>
-                            <?php echo $payment_method->payment_method_name; ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </div>
-        </div>
+        
 
         <div class="form-group">
             <div class="col-xs-12 col-sm-2 text-right text-left-xs">
@@ -200,7 +214,7 @@
             </div>
 
             <div class="col-xs-12 col-sm-6">
-               <input type="number" name="payment_tds_amount" id="payment_tds_amount" class="form-control" step=".01"
+               <input type="number" name="payment_tds_amount" id="payment_tds_amount" class="form-control" step=".0001"
                        value="<?php echo format_amount($this->mdl_payments->form_value('payment_tds_amount')); ?>"> 
             </div>
         </div>
@@ -211,7 +225,7 @@
             </div>
             <div class="col-xs-12 col-sm-6">
                 <input type="number" name="payment_amount" id="payment_amount" class="form-control"
-                       value="<?php echo format_amount($this->mdl_payments->form_value('payment_amount')); ?>" step=".01">
+                       value="<?php echo format_amount($this->mdl_payments->form_value('payment_amount')); ?>" step=".0001">
             </div>
         </div>
 

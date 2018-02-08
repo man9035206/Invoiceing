@@ -151,7 +151,14 @@ class Mdl_Payments extends Response_Model
             $this->db->where('invoice_id', $db_array['invoice_id']);
             $this->db->set('is_read_only', 1);
             $this->db->update('ip_invoices');
-        } 
+        } elseif ($db_array['payment_tds_amount'] + $db_array['payment_tds_amount'] != $total ) {
+            $this->db->where('invoice_id', $db_array['invoice_id']);
+            $this->db->set('invoice_status_id', 5);
+            $this->db->update('ip_invoices');
+            $this->db->where('invoice_id', $db_array['invoice_id']);
+            $this->db->set('is_read_only', 1);
+            $this->db->update('ip_invoices');
+        }
 
         // Recalculate invoice amounts
         $this->mdl_invoice_amounts->calculate($db_array['invoice_id']);
