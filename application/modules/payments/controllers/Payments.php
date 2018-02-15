@@ -58,7 +58,7 @@ class Payments extends Admin_Controller
         $this->db->from('ip_invoice_amounts');
         $this->db->where('invoice_id',$invoice_id);
         $this->db->where('invoice_balance >', 0);
-        $this->db->or_where('invoice_balance <', 0);
+        // $this->db->where('invoice_balance <', 0);
         $invoice_amount = $this->db->get()->result();
                 
         $this->db->from('ip_payments');

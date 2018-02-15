@@ -33,8 +33,12 @@
                 data: {"amount_tds": amount_tds, "invoice_id":invoice_id},
                 success: function(response) {
                 //Do Something
+                // alert(amount_tds);
+                // alert(response[0].invoice_item_subtotal);
+                // alert(response[0].invoice_paid);
 
                  var tds_amount = (amount_tds / 100) * response[0].invoice_item_subtotal;
+                 // alert(tds_amount);
                  var invoice_total = response[0].invoice_total;
                  var invoice_balance = response[0].invoice_balance;
                  var net_payment = invoice_balance - tds_amount;
