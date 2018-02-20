@@ -67,7 +67,7 @@
             <?php } ?>
         <?php } elseif ($this->session->userdata('user_type') == 5) { ?>
             <ul class="nav navbar-nav">                
-                        <li><?php echo anchor('invoices/index', trans('view_invoices')); ?></li>
+                        <!-- <li><?php echo anchor('invoices/index', trans('view_invoices')); ?></li> -->
                         <li><?php echo anchor('payments/form', trans('enter_payment')); ?></li>
                         <li><?php echo anchor('payments/index', trans('view_payments')); ?></li>
             </ul>
