@@ -58,7 +58,6 @@ class Payments extends Admin_Controller
         $this->db->from('ip_invoice_amounts');
         $this->db->where('invoice_id',$invoice_id);
         $this->db->where('invoice_balance >', 0);
-        // $this->db->where('invoice_balance <', 0);
         $invoice_amount = $this->db->get()->result();
                 
         $this->db->from('ip_payments');
@@ -72,20 +71,41 @@ class Payments extends Admin_Controller
      */
     public function form($id = null)
     {
+        $this->load->model('invoices/mdl_invoices');
         if ($this->input->post('btn_cancel')) {
             redirect('payments');
         }
 
+        $invoice_id = $this->input->post('invoice_id');
+        $payment_amount = $this->input->post('payment_amount');
+        // die($payment_amount);
+
+        $invoice_details = $this->db->from('ip_invoice_amounts')->where('invoice_id', $invoice_id)->get()->result();
+        // die($invoice_details[0]->invoice_total);
+
+        if($invoice_details[0]->invoice_total < $payment_amount)
+        {
+            $credit_notes_amount = $payment_amount - $invoice_details[0]->invoice_total;
+            $payment_amount = $invoice_details[0]->invoice_total;
+        } else {
+            $credit_notes_amount = 0;
+            $payment_amount = $payment_amount;
+        }
+
+        // die($payment_amount);
+        
         if ($this->mdl_payments->run_validation()) {
 
             $db_array = array (
                 'invoice_id' => $this->input->post('invoice_id'),
                 'payment_date' => date_to_mysql($this->input->post('payment_date')),
-                'payment_amount' => $this->input->post('payment_amount'),
+                // 'payment_amount' => $this->input->post('payment_amount'),
+                'payment_amount' => $payment_amount,
                 'payment_method_id' => $this->input->post('payment_method_id'),
                 'payment_note' => $this->input->post('payment_note'),
                 'payment_tds' => $this->input->post('payment_tds'),
-                'payment_tds_amount' => $this->input->post('payment_tds_amount')
+                'payment_tds_amount' => $this->input->post('payment_tds_amount'),
+                'credit_notes_amount' => $credit_notes_amount
            );
             
             // $this->mdl_payments->insert_data($db_array, $id);
@@ -134,11 +154,24 @@ class Payments extends Admin_Controller
         $this->load->model('custom_fields/mdl_custom_fields');
         $this->load->model('custom_values/mdl_custom_values');
 
-        $open_invoices = $this->mdl_invoices
-            ->where('invoice_status_id !=', 4)
-            ->where('ip_invoice_amounts.invoice_balance >', 0)
-            ->or_where('ip_invoice_amounts.invoice_balance <', 0)
-            ->get()->result();
+        // $open_invoices = $this->mdl_invoices
+        //     ->where('invoice_status_id !=', 4)
+        //     ->where('ip_invoice_amounts.invoice_balance >', 0)
+        //     ->or_where('ip_invoice_amounts.invoice_balance <', 0)
+        //     ->get()->result();
+        
+        $user_id = $this->session->userdata('user_id');
+        $this->db->from('ip_invoices');
+        $this->db->join('ip_invoice_amounts','ip_invoices.invoice_id = ip_invoice_amounts.invoice_id');
+        $this->db->join('ip_clients', 'ip_clients.client_id = ip_invoices.client_id');
+        $this->db->join('ip_user_clients','ip_clients.client_id = ip_user_clients.client_id');
+        $this->db->where('ip_user_clients.user_id', $user_id);   
+        $this->db->where('ip_invoices.invoice_status_id !=', 4);
+        $this->db->where('ip_invoice_amounts.invoice_balance >', 0);
+        $this->db->or_where('ip_invoice_amounts.invoice_balance <', 0);
+        $open_invoices = $this->db->get()->result();
+        // die(print_r($open_invoices));
+
 
         $custom_fields = $this->mdl_custom_fields->by_table('ip_payment_custom')->get()->result();
         $custom_values = [];
@@ -150,7 +183,6 @@ class Payments extends Admin_Controller
             }
         }
 
-        // $fields = $this->mdl_payment_custom->get_by_payid($id);
 
         foreach ($custom_fields as $cfield) {
             foreach ($fields as $fvalue) {
@@ -172,8 +204,6 @@ class Payments extends Admin_Controller
             $invoice_payment_methods['invoice' . $open_invoice->invoice_id] = $open_invoice->payment_method;
         }
 
-        // $this->session->userdata('user_id');
-        // die($this->input->post('invoice_id'));
 
         $this->layout->set(
             array(
