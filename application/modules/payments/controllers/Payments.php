@@ -77,20 +77,19 @@ class Payments extends Admin_Controller
         }
 
         $invoice_id = $this->input->post('invoice_id');
-        $payment_amount = $this->input->post('payment_amount');
+        // $payment_amount = $this->input->post('payment_amount');
         // die($payment_amount);
 
-        $invoice_details = $this->db->from('ip_invoice_amounts')->where('invoice_id', $invoice_id)->get()->result();
-        // die($invoice_details[0]->invoice_total);
+        // $invoice_details = $this->db->from('ip_invoice_amounts')->where('invoice_id', $invoice_id)->get()->result();
 
-        if($invoice_details[0]->invoice_total < $payment_amount)
-        {
-            $credit_notes_amount = $payment_amount - $invoice_details[0]->invoice_total;
-            $payment_amount = $invoice_details[0]->invoice_total;
-        } else {
-            $credit_notes_amount = 0;
-            $payment_amount = $payment_amount;
-        }
+        // if($invoice_details[0]->invoice_total < $payment_amount)
+        // {
+        //     $credit_notes_amount = $payment_amount - $invoice_details[0]->invoice_total;
+        //     $payment_amount = $invoice_details[0]->invoice_total;
+        // } else {
+        //     $credit_notes_amount = 0;
+        //     $payment_amount = $payment_amount;
+        // }
 
         // die($payment_amount);
         
@@ -99,8 +98,8 @@ class Payments extends Admin_Controller
             $db_array = array (
                 'invoice_id' => $this->input->post('invoice_id'),
                 'payment_date' => date_to_mysql($this->input->post('payment_date')),
-                // 'payment_amount' => $this->input->post('payment_amount'),
-                'payment_amount' => $payment_amount,
+                'payment_amount' => $this->input->post('payment_amount'),
+                // 'payment_amount' => $payment_amount,
                 'payment_method_id' => $this->input->post('payment_method_id'),
                 'payment_note' => $this->input->post('payment_note'),
                 'payment_tds' => $this->input->post('payment_tds'),
