@@ -155,6 +155,7 @@ class Payments extends Admin_Controller
 
         $open_invoices = $this->mdl_invoices
             ->where('invoice_status_id !=', 4)
+            ->where('invoice_status_id !=', 5)
             ->where('ip_invoice_amounts.invoice_balance >', 0)
             ->or_where('ip_invoice_amounts.invoice_balance <', 0)
             ->get()->result();
