@@ -37,11 +37,11 @@
                 // alert(response[0].invoice_item_subtotal);
                 // alert(response[0].invoice_paid);
 
-                 var tds_amount = (amount_tds / 100) * response[0].invoice_item_subtotal;
+                 var tds_amount = Math.round(((amount_tds / 100) * response[0].invoice_item_subtotal)*100)/100;
                  // alert(tds_amount);
                  var invoice_total = response[0].invoice_total;
                  var invoice_balance = response[0].invoice_balance;
-                 var net_payment = invoice_balance - tds_amount;
+                 var net_payment = Math.round((invoice_balance - tds_amount)*100)/100;
                  var invoice_paid = response[0].invoice_paid;
                  
                  if(invoice_paid != 0.00)
