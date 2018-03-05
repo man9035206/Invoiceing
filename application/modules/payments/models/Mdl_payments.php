@@ -65,7 +65,8 @@ class Mdl_Payments extends Response_Model
             'payment_amount' => array(
                 'field' => 'payment_amount',
                 'label' => trans('payment'),
-                'rules' => 'required|callback_validate_payment_amount'
+                'rules' => 'required'
+                // 'rules' => 'required|callback_validate_payment_amount'
             ),
             'payment_method_id' => array(
                 'field' => 'payment_method_id',
