@@ -151,12 +151,34 @@ class Payments extends Admin_Controller
         $this->load->model('custom_fields/mdl_custom_fields');
         $this->load->model('custom_values/mdl_custom_values');
 
-        $open_invoices = $this->mdl_invoices
+        $this->load->model('invoices/mdl_invoice_amounts');
+        $this->load->model('user_clients/mdl_user_clients');
+        $this->load->model('clients/mdl_clients');
+
+        
+        $user_id = $this->session->userdata('user_id');
+        $user_type = $this->session->userdata('user_type');
+
+        if($user_type == 1) {
+
+            $open_invoices = $this->mdl_invoices
             ->where('invoice_status_id !=', 4)
             ->where('ip_invoice_amounts.invoice_balance >', 0)
             ->or_where('ip_invoice_amounts.invoice_balance <', 0)
             ->get()->result();
+        
+        } else {
 
+            $this->db->from('ip_invoices');
+            $this->db->join('ip_invoice_amounts','ip_invoices.invoice_id = ip_invoice_amounts.invoice_id');
+            $this->db->join('ip_clients', 'ip_clients.client_id = ip_invoices.client_id');
+            $this->db->join('ip_user_clients','ip_clients.client_id = ip_user_clients.client_id');
+            $this->db->where('ip_user_clients.user_id', $user_id);   
+            $this->db->where('ip_invoices.invoice_status_id !=', 4);
+            $this->db->where('ip_invoice_amounts.invoice_balance >', 0);
+            $this->db->or_where('ip_invoice_amounts.invoice_balance <', 0);
+            $open_invoices = $this->db->get()->result(); 
+        }
 
         $custom_fields = $this->mdl_custom_fields->by_table('ip_payment_custom')->get()->result();
         $custom_values = [];
