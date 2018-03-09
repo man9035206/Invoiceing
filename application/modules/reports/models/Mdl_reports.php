@@ -135,7 +135,7 @@ class Mdl_Reports extends CI_Model
 
         $this->db->select('
         (
-            SELECT SUM(invoice_balance) FROM ip_invoice_amounts 
+            SELECT SUM(payment_amount) FROM ip_payments 
                 WHERE invoice_id IN
                 (
                     SELECT invoice_id FROM ip_invoices
@@ -147,7 +147,7 @@ class Mdl_Reports extends CI_Model
 
         $this->db->select('
         (
-            SELECT SUM(invoice_balance) FROM ip_invoice_amounts 
+            SELECT SUM(payment_amount) FROM ip_payments 
                 WHERE invoice_id IN
                 (
                     SELECT invoice_id FROM ip_invoices
@@ -159,7 +159,7 @@ class Mdl_Reports extends CI_Model
 
         $this->db->select('
         (
-            SELECT SUM(invoice_balance) FROM ip_invoice_amounts 
+            SELECT SUM(payment_amount) FROM ip_payments 
                 WHERE invoice_id IN
                 (
                     SELECT invoice_id FROM ip_invoices
@@ -170,7 +170,7 @@ class Mdl_Reports extends CI_Model
 
         $this->db->select('
         (
-            SELECT SUM(invoice_balance) FROM ip_invoice_amounts 
+            SELECT SUM(payment_amount) FROM ip_payments 
                 WHERE invoice_id IN
                 (
                     SELECT invoice_id FROM ip_invoices

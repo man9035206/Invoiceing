@@ -102,9 +102,10 @@ class Payments extends Admin_Controller
                 'payment_note' => $this->input->post('payment_note'),
                 'payment_tds' => $this->input->post('payment_tds'),
                 'payment_tds_amount' => $this->input->post('payment_tds_amount'),
-                'credit_notes_amount' => $credit_notes_amount,
-                'bank_name' => $this->input->post('bank_name'),
-                'check_amount' => $this->input->post('check_amount')
+                'credit_notes_amount' => $credit_notes_amount
+                // ,
+                // 'bank_name' => $this->input->post('bank_name'),
+                // 'check_amount' => $this->input->post('check_amount')
            );
             
             // $this->mdl_payments->insert_data($db_array, $id);

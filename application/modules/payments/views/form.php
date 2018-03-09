@@ -77,39 +77,41 @@
     //     });
     // });
 
-    // $(document).ready(function(){
-    //     $('#btn-submit').mouseover(function(){
-    //        var invoice_id = $('#invoice_id').val();
-    //        var amount_tds = $('#payment_tds').val();
+    $(document).ready(function(){
+        var showAlert = true; // True by default.
+        $('#btn-submit').mouseover(function(){
+           var invoice_id = $('#invoice_id').val();
+           var amount_tds = $('#payment_tds').val();
 
-    //        // alert(invoice_id.concat(amount_tds));
+           // alert(invoice_id.concat(amount_tds));
            
-    //        $.ajax({
-    //             url: "payments/getInvoiceAmount",
-    //             method: "post",
-    //             dataType: 'json',
-    //             data: {"amount_tds": amount_tds, "invoice_id":invoice_id},
-    //             success: function(response) {
-    //                 // alert('Raju');
+           $.ajax({
+                url: "payments/getInvoiceAmount",
+                method: "post",
+                dataType: 'json',
+                data: {"amount_tds": amount_tds, "invoice_id":invoice_id},
+                success: function(response) {
+                    // alert('Raju');
           
-    //              var tds_amount = Math.round(((amount_tds / 100) * response[0].invoice_item_subtotal)*100)/100;
-    //              // alert(tds_amount);
-    //              var invoice_total = response[0].invoice_total;
-    //              var invoice_balance = response[0].invoice_balance;
-    //              var net_payment = Math.round((invoice_balance - tds_amount)*100)/100;
-    //              var invoice_paid = response[0].invoice_paid;
+                 var tds_amount = Math.round(((amount_tds / 100) * response[0].invoice_item_subtotal)*100)/100;
+                 // alert(tds_amount);
+                 var invoice_total = response[0].invoice_total;
+                 var invoice_balance = response[0].invoice_balance;
+                 var net_payment = Math.round((invoice_balance - tds_amount)*100)/100;
+                 var invoice_paid = response[0].invoice_paid;
                  
-    //             if(net_payment != $('#payment_amount').val())
-    //              {
-    //              //    // $('#payment_tds').val('0');
-    //              //    // $('#payment_tds_amount').val('0');
-    //              //    // $('#payment_amount').val(invoice_balance);
-    //                 alert('Net Amount is not matching with payable amount');
-    //              }                     
-    //             }
-    //         });
-    //      });
-    //  });
+                if(net_payment != $('#payment_amount').val())
+                 {
+                    if (showAlert)
+                      {
+                          alert('You are paying partial amount, not full amount');
+                          showAlert = false; // don't show no more.
+                      }
+                 }                     
+                }
+            });
+         });
+     });
 </script>
 
 <form method="post" class="form-horizontal">
