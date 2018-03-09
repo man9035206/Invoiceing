@@ -190,7 +190,7 @@
                         <i class="visible-md-inline fa fa-bar-chart"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><?php echo anchor('reports/all_invoice', "All Invoice"); ?></li>
+                        <li><?php echo anchor('/reports/all_invoice', "All Invoice"); ?></li>
 
                     <?php if($this->session->userdata('user_type') == 1) { ?>
                         <li><?php echo anchor('reports/invoice_aging', trans('invoice_aging')); ?></li>

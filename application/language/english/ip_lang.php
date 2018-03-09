@@ -33,6 +33,7 @@ $lang = array(
     'automatic_email_on_recur'                     => 'Automatically Email recurring invoices',
     'balance'                                      => 'Balance',
     'back'                                         => 'Back',
+    'bank_name'                                    => 'Bank Name', 
     'base_invoice'                                 => 'Base Invoice',
     'bcc'                                          => 'BCC',
     'bcc_mails_to_admin'                           => 'Send all outgoing emails as BCC to the admin account',

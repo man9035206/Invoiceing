@@ -48,7 +48,6 @@ class Payments extends Admin_Controller
 
     public function getInvoiceAmount() 
     {
-
         $invoice_id = $this->input->post('invoice_id');
         $amount_tds = $this->input->post('amount_tds');
 
@@ -66,6 +65,7 @@ class Payments extends Admin_Controller
 
         echo json_encode($invoice_amount);
     }
+
     /**
      * @param null $id
      */
@@ -102,7 +102,9 @@ class Payments extends Admin_Controller
                 'payment_note' => $this->input->post('payment_note'),
                 'payment_tds' => $this->input->post('payment_tds'),
                 'payment_tds_amount' => $this->input->post('payment_tds_amount'),
-                'credit_notes_amount' => $credit_notes_amount
+                'credit_notes_amount' => $credit_notes_amount,
+                'bank_name' => $this->input->post('bank_name'),
+                'check_amount' => $this->input->post('check_amount')
            );
             
             // $this->mdl_payments->insert_data($db_array, $id);
@@ -159,7 +161,7 @@ class Payments extends Admin_Controller
         $user_id = $this->session->userdata('user_id');
         $user_type = $this->session->userdata('user_type');
 
-        if($user_type == 1) {
+        if($user_type == 1 || $user_type == 5) {
 
             $open_invoices = $this->mdl_invoices
             ->where('invoice_status_id !=', 4)

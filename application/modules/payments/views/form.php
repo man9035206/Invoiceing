@@ -62,6 +62,54 @@
             });
         });
     });
+
+    // $(document).ready(function(){
+    //     if($('#payment_method_id').val() == 2) {
+    //         $('#select_check').hide()
+    //     }
+        
+    //     $('#payment_method_id').change(function(){
+    //        if($('#payment_method_id').val() == 3) {
+    //         $('#select_check').show()
+    //        } else {
+    //         $('#select_check').hide()
+    //        }
+    //     });
+    // });
+
+    // $(document).ready(function(){
+    //     $('#btn-submit').mouseover(function(){
+    //        var invoice_id = $('#invoice_id').val();
+    //        var amount_tds = $('#payment_tds').val();
+
+    //        // alert(invoice_id.concat(amount_tds));
+           
+    //        $.ajax({
+    //             url: "payments/getInvoiceAmount",
+    //             method: "post",
+    //             dataType: 'json',
+    //             data: {"amount_tds": amount_tds, "invoice_id":invoice_id},
+    //             success: function(response) {
+    //                 // alert('Raju');
+          
+    //              var tds_amount = Math.round(((amount_tds / 100) * response[0].invoice_item_subtotal)*100)/100;
+    //              // alert(tds_amount);
+    //              var invoice_total = response[0].invoice_total;
+    //              var invoice_balance = response[0].invoice_balance;
+    //              var net_payment = Math.round((invoice_balance - tds_amount)*100)/100;
+    //              var invoice_paid = response[0].invoice_paid;
+                 
+    //             if(net_payment != $('#payment_amount').val())
+    //              {
+    //              //    // $('#payment_tds').val('0');
+    //              //    // $('#payment_tds_amount').val('0');
+    //              //    // $('#payment_amount').val(invoice_balance);
+    //                 alert('Net Amount is not matching with payable amount');
+    //              }                     
+    //             }
+    //         });
+    //      });
+    //  });
 </script>
 
 <form method="post" class="form-horizontal">
@@ -111,6 +159,38 @@
             </div>
         </div>
 
+
+        <!-- <div id="select_check">
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-2 text-right text-left-xs">
+                    <label for="bank_name" class="control-label">
+                        Bank Name
+                    </label>
+                </div>
+
+                <div class="col-xs-12 col-sm-6">
+                   <select id="bank_name" name="bank_name" class="form-control simple-select">
+                        <option value="">Select Bank Name</option>
+                        <option value="sbi_bank">SBI Bank</option>
+                        <option value="icici_bank">ICICI Bank</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-2 text-right text-left-xs">
+                    <label for="check_amount" class="control-label">
+                        Check Amount
+                    </label>
+                </div>
+
+                <div class="col-xs-12 col-sm-6">
+                   <input type="number" name="check_amount" id="check_amount" class="form-control">
+                </div>
+            </div>
+        </div> -->
+        
+
         <div class="form-group">
             <div class="col-xs-12 col-sm-2 text-right text-left-xs">
                 <label for="invoice_id" class="control-label"><?php _trans('invoice'); ?></label>
@@ -150,27 +230,15 @@
             </div>
         </div>
 
-       <!--  <div class="form-group">
-            <div class="col-xs-12 col-sm-2 text-right text-left-xs">
-                <label for="payment_amount" class="control-label"><?php echo "Net Payment"; ?></label>
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-2 text-right text-left-xs">
+                    <label for="payment_note" class="control-label"><?php _trans('note'); ?></label>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <textarea name="payment_note"
+                              class="form-control"><?php echo $this->mdl_payments->form_value('payment_note', true); ?></textarea>
+                </div>
             </div>
-            <div class="col-xs-12 col-sm-6">
-                <input type="number" name="payment_amount" id="payment_amount" class="form-control"
-                       value="<?php echo format_amount($this->mdl_payments->form_value('payment_amount')); ?>">
-            </div>
-        </div> -->
-
-        
-
-        <div class="form-group">
-            <div class="col-xs-12 col-sm-2 text-right text-left-xs">
-                <label for="payment_note" class="control-label"><?php _trans('note'); ?></label>
-            </div>
-            <div class="col-xs-12 col-sm-6">
-                <textarea name="payment_note"
-                          class="form-control"><?php echo $this->mdl_payments->form_value('payment_note', true); ?></textarea>
-            </div>
-        </div>
 
         
         <div class="form-group">

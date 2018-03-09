@@ -184,10 +184,10 @@ class Reports extends Admin_Controller
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $row->invoice_number);
 
                     $invoice_date_created= strtotime($row->invoice_date_created);
-                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, date('d/m/Y', $invoice_date_created));
+                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, date('m/d/Y', $invoice_date_created));
 
                     $invoice_date_due= strtotime($row->invoice_date_due);
-                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, date('d/m/Y', $invoice_date_due));
+                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, date('m/d/Y', $invoice_date_due));
 
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $row->client_name);
 
@@ -195,7 +195,7 @@ class Reports extends Admin_Controller
                     if ($invoice_start == null) {
                         $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, '-');
                     } else {
-                        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, date('d/m/Y', $invoice_start));
+                        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, date('m/d/Y', $invoice_start));
                     }
 
                     $invoice_end= strtotime($row->invoice_end);
@@ -203,7 +203,7 @@ class Reports extends Admin_Controller
                         $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, '-');
                         $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, '-');
                     } else {
-                        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, date('d/m/Y', $invoice_end));
+                        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, date('m/d/Y', $invoice_end));
                         $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, date('M-y', $invoice_end));
                     }
 
@@ -224,10 +224,10 @@ class Reports extends Admin_Controller
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row, $row->product_no);
 
                     $product_start= strtotime($row->product_start);
-                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(12, $excel_row, date('d/m/Y', $product_start));
+                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(12, $excel_row, date('m/d/Y', $product_start));
 
                     $product_end= strtotime($row->product_end);
-                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(13, $excel_row, date('d/m/Y', $product_end));
+                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(13, $excel_row, date('m/d/Y', $product_end));
 
                     $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(14, $excel_row, $row->product_price);
 
