@@ -173,7 +173,7 @@ $view_folder = '';
 // $routing['controller'] = '';
 
 // The controller function you wish to be called.
-// $routing['function']	= '';
+// $routing['function'] = '';
 
 
 /*

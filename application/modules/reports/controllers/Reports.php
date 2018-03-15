@@ -111,7 +111,7 @@ class Reports extends Admin_Controller
             ->get();
 
             $this->db->select('items.* , client_name, invoices.*, products.*, amounts.*, payments.*');
-            $this->db->from('ip_invoice_items AS items');// I use aliasing make joins easier
+            $this->db->from('ip_invoice_items AS items');//I use aliasing make joins easier
             $this->db->join('ip_invoices AS invoices', 'items.invoice_id = invoices.invoice_id', 'LEFT');
             $this->db->join('ip_clients AS clients', 'invoices.client_id = clients.client_id', 'LEFT');
             $this->db->join('ip_products AS products', 'products.product_id = items.item_product_id', 'LEFT');
